@@ -1,0 +1,99 @@
+---
+name: fabric
+description: 知识管理总编排器——管辖 Obsidian vault 内全部内容操作，从捕获到织网的全流程路由与调度。Use when the user wants to manage notes（捕获/消化/归位/提炼/写文章/整理想法/织网），or says "保存这个"、"消化这篇"、"整理知识库"、"写文章"。
+disable-model-invocation: true
+---
+
+# Fabric
+
+知识管理总编排器。接收用户操作意图 → 路由判断阶段 → 按 CODE 流程驱动原子 skill → 嵌入织网检测。
+
+## Leading Words
+
+| 术语 | 定义 |
+|------|------|
+| **生命周期分层** | 笔记从捕获到归档的完整旅程：收集箱→领域/项目→归档 |
+| **嵌入检测（Embedded Detection）** | 归位/提炼完成后自动检子标签笔记数，触发织网提示 |
+| **写作管道路由** | 输出阶段根据复杂度走 fragments→beats→shape→edit 的部分或全管道 |
+| **挂靠（Attached）** | 项目管理是独立于阶段管道的原子技能组，挂靠 Fabric 下 |
+
+## 阶段序列
+
+```
+捕获 → 分类 → 归位(检≥3建MOC) → 提炼(检≥5融合hub) → 输出(写作管道路由) → 织网(手动全量)
+```
+
+## 步骤
+
+### 1. 捕获——引用 capture
+
+用户提供 URL/灵感/剪藏 → 加载 `capture` skill。捕获不加判断，不求全。
+
+- 完成标准：笔记已创建在 `00_收集箱/`，`状态: 待整理`
+- 如果用户在对话中已提供内容 → 直接捕获
+- 如果是灵感速记 → `类型: 速记`
+
+### 2. 分类——引用 classify
+
+加载 `classify` skill。判断笔记归属领域/项目。对照 9 领域表，不确 定的标 `待归类/`。
+
+- 完成标准：归属方向已向用户确认
+
+### 3. 归位——引用 organize
+
+加载 `organize` skill。物理移动+更新标签，`状态: 已消化`。
+
+完成后**嵌入织网检测**：查询该笔记关联子标签下笔记数 ≥3 → 提示建子主题 MOC（`类型: 索引`）。
+
+- 完成标准：文件已移入领域/项目目录，frontmatter 已更新
+
+### 4. 提炼——引用 distill
+
+加载 `distill` skill。四层渐进式总结——加粗→高亮→执行摘要。
+
+完成后**嵌入融合检测**：查询子标签 ≥5 → 提示融合为整合 hub 笔记（`状态: 可输出`）。
+
+- 完成标准：执行摘要已补充，提炼层次已应用
+
+### 5. 输出——引用 express
+
+加载 `express` skill。检测写作意图，路由到写作体系：
+
+| 用户意图 | 路由 |
+|---------|------|
+| 碎片/灵感 | `writing-fragments` |
+| 有原料缺结构 | `writing-fragments` → `writing-beats` |
+| 完整文章 | `fragments` → `beats` → `shape` → `edit-article` |
+| 精炼已有文章 | `edit-article` |
+
+- 完成标准：用户确认写作管道，第一个写作 skill 已加载
+- 不承担开启新项目的职能
+
+### 6. 织网——引用 connect（手动触发）
+
+用户主动要求全量扫描时加载 `connect` skill。L1-L4 递进检查。
+
+- 完成标准：扫描完成，MOC/hub/双链建议已输出
+
+## 项目管理——挂靠触发
+
+项目管理的 5 个原子 skill 独立于阶段管道，按需手动触发：
+
+| 用户说 | 加载 |
+|--------|------|
+| "新建项目" | `project-init` → `project-plan` |
+| "更新里程碑"、"回顾进度" | `project-review` |
+| "加个外部链接" | `project-links` |
+| "归档项目" | `project-archive` |
+
+## 内部引用
+
+| 阶段 | 引用的原子 skill | 嵌入检测 |
+|------|-----------------|---------|
+| 捕获 | `capture` | — |
+| 分类 | `classify` | — |
+| 归位 | `organize` | 检≥3 建子主题 MOC |
+| 提炼 | `distill` | 检≥5 融合 hub |
+| 输出 | `express` → 写作体系 4 个 skill | — |
+| 织网 | `connect` | — |
+| 项目管理 | `project-init/plan/review/links/archive` | — |
