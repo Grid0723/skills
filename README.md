@@ -1,15 +1,15 @@
 # skills
 
-双脊椎 Agent Skill 体系——40 个原子技能，按 8 个功能域分组。
+双脊椎 Agent Skill 体系——40 个原子技能 + 16 个 reference 文件，按 8 个功能域分组。未经部署——设计编制完成，待执行 [[部署手册]]。
 
 ## 全局共享 primitive
 
 被两条脊椎和所有项目引用的底层技能。
 
-- **[writing-great-skills](./shared/writing-great-skills/SKILL.md)** — 编写 Skill 的元规范：**从随机系统中拧出确定性**——四轴领域模型（调用/信息层级/引导/裁剪）+ 本体系专属约定。写任何 Skill 之前必读。
-- **[grilling](./shared/grilling/SKILL.md)** — 一对一接力式面试：**每次一个问题，把模糊想法具体化**。能探索不提问——代码/文档能回答的不重复问用户。产出是共识。
+- **[writing-great-skills](./shared/writing-great-skills/SKILL.md)** — 编写 Skill 的元规范：**从随机系统中拧出确定性**——四轴领域模型 + 本体系专属约定。写任何 Skill 之前必读。含 GLOSSARY.md 术语表。
+- **[grilling](./shared/grilling/SKILL.md)** — 一对一接力式面试：**每次一个问题，把模糊想法具体化**。能探索不提问。含 references/examples.md（4 个完整交互场景）。
 - **[tdd](./shared/tdd/SKILL.md)** — 红绿循环测试标准：**接缝驱动**——先写失败测试、最小实现、重构清理。含常见反模式定义 + references/mocking.md + references/tests.md。
-- **[doc-architecture](./shared/doc-architecture/SKILL.md)** — 项目文档的**标准 8 目录骨架**——每目录撰写规范、Grid 阶段产出映射、含 10 个空白模板文件。
+- **[doc-architecture](./shared/doc-architecture/SKILL.md)** — 项目文档的**标准 8 目录骨架**——每目录撰写规范、Grid 阶段产出映射、含 10 个空白模板 + 2 个项目实例化配置。
 
 ## Git 工程工具
 
@@ -25,10 +25,10 @@
 软件开发生命周期编排器的内核——包含总编排器和被它引用的原子步骤。
 
 - **[grid](./engineering/grid/SKILL.md)** — **总编排器**：路由→拷问→PRD→拆Issue→编码→超大任务规划。判断任务类型，推荐阶段序列和项目技能。
-- **[to-prd](./engineering/to-prd/SKILL.md)** — 将对话综合为 PRD：**不采访用户，纯综合已有讨论**。接缝优先——每个 seam 对应一个可独立验证点。审批后写入 `docs/01-Requirements/`。
-- **[to-issues](./engineering/to-issues/SKILL.md)** — PRD 拆为垂直切片：**Tracer bullet——每个切片贯穿所有层，可独立演示**。写入 `开发计划.md`，每个 Task 有明确验证点。
-- **[code-review](./engineering/code-review/SKILL.md)** — 双轴并行审查：**Standards（加载项目审查 skill）+ Spec（独立上下文），报告不合并**。两个 sub-agent 各自有独立上下文，审查互不污染。
-- **[wayfinder](./engineering/wayfinder/SKILL.md)** — DevOps 类大型重构的战争迷雾规划：**每 session 一个 ticket，解决后视野扩大**。Plan, don't do——只规划路在哪，不负责走完全程。
+- **[to-prd](./engineering/to-prd/SKILL.md)** — 将对话综合为 PRD：**不采访用户，纯综合已有讨论**。接缝优先。审批后写入。含 references/prd-template.md。
+- **[to-issues](./engineering/to-issues/SKILL.md)** — PRD 拆为垂直切片：**Tracer bullet——每个切片贯穿所有层，可独立演示**。含 references/tracer-bullet-examples.md。
+- **[code-review](./engineering/code-review/SKILL.md)** — 双轴并行审查：**Standards + Spec，独立 sub-agent 上下文，报告不合并**。含 references/review-templates.md。
+- **[wayfinder](./engineering/wayfinder/SKILL.md)** — DevOps 类大型重构的战争迷雾规划：**每 session 一个 ticket，解决后视野扩大**。含 references/ticket-map-examples.md。
 
 ## Fabric 脊椎
 
