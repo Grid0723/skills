@@ -1,5 +1,9 @@
 # skills
 
+
+[![skills.sh](https://skills.sh/b/Grid0723/skills)](https://skills.sh/Grid0723/skills)
+
+
 双脊椎 Agent Skill 体系——40 个原子技能 + 16 个 reference 文件，按 8 个功能域分组。未经部署——设计编制完成，待执行 [[部署手册]]。
 
 ## 全局共享 primitive

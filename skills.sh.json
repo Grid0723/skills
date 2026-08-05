@@ -1,0 +1,94 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "全局共享原语",
+      "description": "被两条脊椎和所有项目引用的底层技能——Skill 编写元规范、接力式面试、TDD 红绿循环、文档骨架",
+      "skills": [
+        "writing-great-skills",
+        "grilling",
+        "tdd",
+        "doc-architecture"
+      ]
+    },
+    {
+      "title": "Grid 脊椎",
+      "description": "软件开发生命周期编排——路由、PRD、拆 Issue、代码审查、大型重构规划",
+      "skills": [
+        "grid",
+        "to-prd",
+        "to-issues",
+        "code-review",
+        "wayfinder"
+      ]
+    },
+    {
+      "title": "Fabric 脊椎",
+      "description": "知识管理 CODE 工作流——捕获、分类、归位、提炼、输出、织网",
+      "skills": [
+        "fabric",
+        "capture",
+        "classify",
+        "organize",
+        "distill",
+        "express",
+        "connect"
+      ]
+    },
+    {
+      "title": "Git 工程",
+      "description": "原子 Git 规范——安全护栏、提交指南、分支规划、生命周期管理",
+      "skills": [
+        "git-guardrails",
+        "git-commit-guide",
+        "git-branch-plan",
+        "git-branch-lifecycle"
+      ]
+    },
+    {
+      "title": "写作体系",
+      "description": "Matt Pocock Explore/Exploit 写作模型——碎片采集、节拍编排、逐段塑形、编辑",
+      "skills": [
+        "writing-fragments",
+        "writing-beats",
+        "writing-shape",
+        "edit-article"
+      ]
+    },
+    {
+      "title": "项目管理",
+      "description": "挂靠 Fabric 编排器的独立技能组——初始化、计划、回顾、外部链接、归档",
+      "skills": [
+        "project-init",
+        "project-plan",
+        "project-review",
+        "project-links",
+        "project-archive"
+      ]
+    },
+    {
+      "title": "TDX 项目专属",
+      "description": "TDX 数据采集项目——TdxQuant API、Loguru 日志、Prisma ORM、开发指南、测试规范",
+      "skills": [
+        "tdx-quant-docs",
+        "loguru",
+        "prisma-docs",
+        "tdx-dev-guide",
+        "tdx-test-spec"
+      ]
+    },
+    {
+      "title": "Trading Assistant 项目专属",
+      "description": "交易助手项目——NestJS 代码生成、双 Schema 同步、金融计算审计、API 契约、文档同步、测试规范",
+      "skills": [
+        "nest-generate",
+        "prisma-sync",
+        "finance-review",
+        "api-contract",
+        "doc-sync",
+        "ta-test-spec"
+      ]
+    }
+  ]
+}
