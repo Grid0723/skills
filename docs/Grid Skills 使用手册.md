@@ -3,7 +3,7 @@ Author: 张谦
 tags: [技术/AI/Skills]
 关键词: [编排器路由, 操作指南, 工作流, 使用手册, Fabric, Grid, Skill协作]
 类型: 索引
-description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric 编排器工作流、40 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
+description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric 编排器工作流、41 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
 状态: 已消化
 创建: 2026-08-06 00:30:00
 修改: 2026-08-15 20:30:54
@@ -12,16 +12,16 @@ description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric �
 # Grid Skills 使用手册
 
 > [!abstract]
-> Grid0723/skills 体系包含 **40 个原子 skill**，按双脊椎编排器（Grid + Fabric）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
+> Grid0723/skills 体系包含 **41 个原子 skill**，按双脊椎编排器（Grid + Fabric）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
 
 ## 一、总览
 
-### 40 个 Skill 分类矩阵
+### 41 个 Skill 分类矩阵
 
 | 功能域                             | 数量  | 部署层级                    | 典型 skill                                                                         |
 | ------------------------------- | --- | ----------------------- | -------------------------------------------------------------------------------- |
 | **shared** — 全局共享 primitive     | 4   | 全局 `~/.agents/skills/`  | writing-great-skills, grilling, tdd, doc-architecture                            |
-| **git** — Git 工程工具              | 4   | 全局 `~/.agents/skills/`  | git-guardrails, git-commit-guide, git-branch-plan, git-branch-lifecycle          |
+| **git** — Git 工程工具              | 5   | 全局 `~/.agents/skills/`  | git-guardrails, git-commit-guide, git-branch-plan, git-branch-lifecycle, git-push-guide |
 | **engineering** — Grid 脊椎       | 5   | 全局 `~/.agents/skills/`  | grid, to-prd, to-issues, code-review, wayfinder                                  |
 | **knowledge** — Fabric 脊椎       | 7   | Vault `.agents/skills/` | fabric, capture, classify, organize, distill, express, connect                   |
 | **writing** — 写作体系              | 4   | Vault `.agents/skills/` | writing-fragments, writing-beats, writing-shape, edit-article                    |
@@ -216,7 +216,7 @@ Fabric 在两个阶段自动嵌入织网检测：
 
 ## 四、全局 Skill 速查
 
-> 部署于 `~/.agents/skills/`，对任意 OpenCode 项目可用。共 13 个。
+> 部署于 `~/.agents/skills/`，对任意 OpenCode 项目可用。共 14 个。
 
 ### 4.1 全局共享 primitive（shared）
 
@@ -289,6 +289,14 @@ Fabric 在两个阶段自动嵌入织网检测：
 - **输入**：当前分支状态
 - **输出**：同步策略 + 合并建议
 - **协作**：被 Grid wayfinder 阶段引用
+
+#### git-push-guide
+
+- **功能**：推送原则——推前自检门、领先/落后检测、失败处理
+- **触发**：即将 push、询问推送方法、push 失败或被拒
+- **输入**：当前仓库与分支状态
+- **输出**：推前检查结论 + 推送命令或失败修复方案
+- **协作**：被 Grid 编码内循环引用；危险命令移交 git-guardrails
 
 ### 4.3 Grid 脊椎（engineering）
 
@@ -707,7 +715,7 @@ graph TB
 
 ## 相关笔记
 
-- [[部署手册]] — 40 个 skill 的部署路径与验证清单
+- [[部署手册]] — 41 个 skill 的部署路径与验证清单
 - [[双脊椎Agent Skill体系设计]] — 架构总纲与设计原则
 - [[Grid编排器设计]] — Grid 阶段序列与内循环详解
 - [[Fabric编排器设计]] — Fabric CODE 阶段与织网机制

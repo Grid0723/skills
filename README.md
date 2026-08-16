@@ -2,9 +2,9 @@
 
 [![skills.sh](https://skills.sh/b/Grid0723/skills)](https://skills.sh/Grid0723/skills)
 
-> 双脊椎 Agent Skill 体系——40 个原子技能。这不是一份技能清单，而是一套方法论的沉淀：让 AI 助手在「软件开发生命周期」与「知识管理」两条工作流上，每次都以相同的过程工作。
+> 双脊椎 Agent Skill 体系——41 个原子技能。这不是一份技能清单，而是一套方法论的沉淀：让 AI 助手在「软件开发生命周期」与「知识管理」两条工作流上，每次都以相同的过程工作。
 
-**Agent Skill** 是写给 AI Agent 的指令包：一段触发描述 + 有序步骤 + 按需展开的参考。本仓库把这种指令包系统化为 40 个 skill + 22 个 reference 文件——围绕"让指令可预测"组织。
+**Agent Skill** 是写给 AI Agent 的指令包：一段触发描述 + 有序步骤 + 按需展开的参考。本仓库把这种指令包系统化为 41 个 skill + 22 个 reference 文件——围绕"让指令可预测"组织。
 
 ## 为什么要做
 
@@ -37,17 +37,17 @@
 - **2026-08-06** v1.0.2：全量部署到运行时位置（全局 13 + 知识库 16 + 项目 11）
 - **2026-08-15** v1.0.3：docs 与 skills 逐份核验同步
 
-沉淀下来的不是 40 个文件，而是一套从"分析别人的体系"到"演化出自己的体系"的方法。
+沉淀下来的不是 41 个文件，而是一套从"分析别人的体系"到"演化出自己的体系"的方法。
 
 ## 能做什么
 
-方法落地为 40 个 skill，按 8 个功能域组织，部署在三个层次：
+方法落地为 41 个 skill，按 8 个功能域组织，部署在三个层次：
 
 ```mermaid
 graph TB
     GRID["Grid 编排器<br/>软件开发生命周期"]
     FAB["Fabric 编排器<br/>Obsidian 知识管理"]
-    SHARED["全局共享层 · 13 个<br/>shared(4) + git(4) + engineering(5)"]
+    SHARED["全局共享层 · 14 个<br/>shared(4) + git(5) + engineering(5)"]
     VAULT["知识库专属层 · 16 个<br/>knowledge(7) + writing(4) + project(5)"]
     PROJ["项目热插拔层 · 11 个<br/>TDX(5) + trading-assistant(6)"]
 
@@ -68,7 +68,7 @@ graph TB
 | 功能域 | 数量 | 职责 |
 |--------|------|------|
 | [shared](./shared/README.md) — 全局共享 primitive | 4 | Skill 元规范、一问一答拷问、红绿循环测试、8 目录文档骨架 |
-| [git](./git/README.md) — Git 工程工具 | 4 | 危险命令拦截、提交原则、分支规划、分支生命周期 |
+| [git](./git/README.md) — Git 工程工具 | 5 | 危险命令拦截、提交原则、分支规划、分支生命周期、推送原则 |
 | [engineering](./engineering/README.md) — Grid 脊椎 | 5 | 总编排器 + PRD 综合、Issue 拆分、双轴代码审查、大型重构渐进规划 |
 | [knowledge](./knowledge/README.md) — Fabric 脊椎 | 7 | 捕获 → 分类 → 归位 → 提炼 → 输出 → 织网 |
 | [writing](./writing/README.md) — 写作体系 | 4 | 碎片采集 → 节拍编排 → 逐段塑形 → 逐段重写 |
@@ -92,7 +92,7 @@ graph TB
 
 ### 加载优先级
 
-按部署层级加载：**全局 `~/.agents/skills/` > 知识库 `.agents/skills/` > 项目 `<项目>/.agents/skills/`**。全局 13 个随处可用；知识库专属 16 个只在 Obsidian 库内可用；项目专属 11 个只在对应项目目录内可用。
+按部署层级加载：**全局 `~/.agents/skills/` > 知识库 `.agents/skills/` > 项目 `<项目>/.agents/skills/`**。全局 14 个随处可用；知识库专属 16 个只在 Obsidian 库内可用；项目专属 11 个只在对应项目目录内可用。
 
 ### Grid：软件工程任务的路由
 
@@ -141,12 +141,12 @@ graph TD
 
 归位和提炼完成后会自动检测子标签下笔记数——≥3 篇提示建子主题 MOC，≥5 篇提示融合 hub 笔记，不需要手动记住阈值。
 
-### 40 个 skill 分类矩阵
+### 41 个 skill 分类矩阵
 
 | 功能域 | 数量 | 部署层级 | 代表 skill |
 |--------|------|---------|-----------|
 | shared — 全局共享 primitive | 4 | 全局 `~/.agents/skills/` | writing-great-skills, grilling, tdd, doc-architecture |
-| git — Git 工程工具 | 4 | 全局 | git-guardrails, git-commit-guide, git-branch-plan, git-branch-lifecycle |
+| git — Git 工程工具 | 5 | 全局 | git-guardrails, git-commit-guide, git-branch-plan, git-branch-lifecycle, git-push-guide |
 | engineering — Grid 脊椎 | 5 | 全局 | grid, to-prd, to-issues, code-review, wayfinder |
 | knowledge — Fabric 脊椎 | 7 | 知识库 `.agents/skills/` | fabric, capture, classify, organize, distill, express, connect |
 | writing — 写作体系 | 4 | 知识库 | writing-fragments, writing-beats, writing-shape, edit-article |
@@ -173,5 +173,5 @@ graph TD
 
 ## 文档导航
 
-- **[Grid Skills 使用手册](./docs/Grid%20Skills%20使用手册.md)** — 完整操作指南：路由决策图、40 个 skill 的触发条件速查、协作关系、故障排查
+- **[Grid Skills 使用手册](./docs/Grid%20Skills%20使用手册.md)** — 完整操作指南：路由决策图、41 个 skill 的触发条件速查、协作关系、故障排查
 - 各功能域职责速览见上方「能做什么」表格，每个域 README 含全部 skill 的一句话职责

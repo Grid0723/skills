@@ -43,7 +43,8 @@
         "git-guardrails",
         "git-commit-guide",
         "git-branch-plan",
-        "git-branch-lifecycle"
+        "git-branch-lifecycle",
+        "git-push-guide"
       ]
     },
     {
