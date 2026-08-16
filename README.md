@@ -1,87 +1,177 @@
 # skills
 
-
 [![skills.sh](https://skills.sh/b/Grid0723/skills)](https://skills.sh/Grid0723/skills)
 
+> 双脊椎 Agent Skill 体系——40 个原子技能。这不是一份技能清单，而是一套方法论的沉淀：让 AI 助手在「软件开发生命周期」与「知识管理」两条工作流上，每次都以相同的过程工作。
 
-双脊椎 Agent Skill 体系——40 个原子技能 + 16 个 reference 文件，按 8 个功能域分组。未经部署——设计编制完成，待执行 [[部署手册]]。
+**Agent Skill** 是写给 AI Agent 的指令包：一段触发描述 + 有序步骤 + 按需展开的参考。本仓库把这种指令包系统化为 40 个 skill + 22 个 reference 文件——围绕"让指令可预测"组织。
 
-## 全局共享 primitive
+## 为什么要做
 
-被两条脊椎和所有项目引用的底层技能。
+单条指令不难写，难的是让 Agent 在几十种任务上行为一致。这套体系诞生于两条长期工作流：
 
-- **[writing-great-skills](./shared/writing-great-skills/SKILL.md)** — 编写 Skill 的元规范：**从随机系统中拧出确定性**——四轴领域模型 + 本体系专属约定。写任何 Skill 之前必读。含 GLOSSARY.md 术语表。
-- **[grilling](./shared/grilling/SKILL.md)** — 一对一接力式面试：**每次一个问题，把模糊想法具体化**。能探索不提问。含 references/examples.md（4 个完整交互场景）。
-- **[tdd](./shared/tdd/SKILL.md)** — 红绿循环测试标准：**接缝驱动**——先写失败测试、最小实现、重构清理。含常见反模式定义 + references/mocking.md + references/tests.md。
-- **[doc-architecture](./shared/doc-architecture/SKILL.md)** — 项目文档的**标准 8 目录骨架**——每目录撰写规范、Grid 阶段产出映射、含 10 个空白模板 + 2 个项目实例化配置。
+- **软件开发**：数据管道（Python + PostgreSQL）、WEB 全栈（NestJS + Prisma）
+- **知识管理**：一个 Obsidian 库的剪藏、消化、织网、写作
 
-## Git 工程工具
+没有体系时，规则只有两种命运：要么散落在各处被遗忘，要么膨胀成没人能读完的单体——曾经的 `note-workflow` 171 行、`git-operations` 325 行。Agent 每次运行都可能挑着遵守不同的子集，行为不稳定，token 在重复解释规则中浪费。
 
-按 Grid 阶段分散的原子规范，项目前缀格式由各项目 AGENTS.md 声明。
+这套体系的目标只有一个：**从随机系统中拧出确定性**——每次运行采取相同的过程。这是所有设计的根源美德，定义见 [writing-great-skills](./shared/writing-great-skills/SKILL.md)。
 
-- **[git-guardrails](./git/git-guardrails/SKILL.md)** — **拦截危险的 Git 命令**，防止不可逆破坏。危险操作走审批门——先展示影响范围，确认后执行。
-- **[git-commit-guide](./git/git-commit-guide/SKILL.md)** — 通用提交原则：**一个 commit 只做一件事，小步快跑**。前缀格式（feat/fix/refactor）由各项目 AGENTS.md 声明。
-- **[git-branch-plan](./git/git-branch-plan/SKILL.md)** — 拆解任务后规划分支：**短命分支、从最新 main 拉出**——命名策略和创建命令。
-- **[git-branch-lifecycle](./git/git-branch-lifecycle/SKILL.md)** — 长周期分支管理：**定期同步、冲突预防**——合并策略选择和生命周期收尾。
+## 从哪来
 
-## Grid 脊椎
+目标确定了，方法的起点是 Matt Pocock（TypeScript 教育家、开源 agent skills 作者）公开的 36 个 skills。2026 年 7 月逐份分析后，提取了 14 条可复用设计原则——原子化拆分、共享 primitive、编排器模式、用精确术语锚定行为（Leading Word）……
 
-软件开发生命周期编排器的内核——包含总编排器和被它引用的原子步骤。
+**为什么不直接用 Matt 原版？** 四个理由：
 
-- **[grid](./engineering/grid/SKILL.md)** — **总编排器**：路由→拷问→PRD→拆Issue→编码→超大任务规划。判断任务类型，推荐阶段序列和项目技能。
-- **[to-prd](./engineering/to-prd/SKILL.md)** — 将对话综合为 PRD：**不采访用户，纯综合已有讨论**。接缝优先。审批后写入。含 references/prd-template.md。
-- **[to-issues](./engineering/to-issues/SKILL.md)** — PRD 拆为垂直切片：**Tracer bullet——每个切片贯穿所有层，可独立演示**。含 references/tracer-bullet-examples.md。
-- **[code-review](./engineering/code-review/SKILL.md)** — 双轴并行审查：**Standards + Spec，独立 sub-agent 上下文，报告不合并**。含 references/review-templates.md。
-- **[wayfinder](./engineering/wayfinder/SKILL.md)** — DevOps 类大型重构的战争迷雾规划：**每 session 一个 ticket，解决后视野扩大**。含 references/ticket-map-examples.md。
+1. **编排器**：Matt 的 7 个主流程 skill 是松散管道，靠人手动串联；这里需要一个有状态的总调度器，按阶段路由、自动加载原子 skill
+2. **中文环境**：所有 skill 用简体中文书写（Matt 原版为英文），与日常工作语言一致
+3. **知识管理脊椎**：Matt 体系没有知识管理——Fabric 脊椎（捕获→提炼→织网）是全新设计
+4. **项目热插拔**：项目专属技能按 `AGENTS.md` 声明注册，随项目装卸
 
-## Fabric 脊椎
+于是有了「双脊椎」：**Grid**（软件开发生命周期）与 **Fabric**（知识管理），各自是一个总**编排器**——有内部状态的总调度器，按阶段路由并驱动原子 skill。此外，被两条脊椎共用的底层技能沉淀为**全局共享 primitive**。
 
-知识管理 CODE 工作流——包含总编排器和被它引用的原子步骤。
+演化线：
 
-- **[fabric](./knowledge/fabric/SKILL.md)** — **总编排器**：捕获→分类→归位→提炼→输出→织网。路由判断阶段，嵌入织网检测，挂靠项目管理。
-- **[capture](./knowledge/capture/SKILL.md)** — 捕获到收集箱：**捕获不加判断、不求全**。URL/灵感 → `00_收集箱/`，`状态: 待整理`。
-- **[classify](./knowledge/classify/SKILL.md)** — 判断归属：**文件夹定位置，标签管主题**——对照 9 领域表决定物理目录，不确定的标待归类。
-- **[organize](./knowledge/organize/SKILL.md)** — 归位：**物理移动+标签更新，完成后嵌入织网检测**——子标签 ≥3 篇时提示建 MOC。
-- **[distill](./knowledge/distill/SKILL.md)** — 渐进式总结提炼：**四层递进——加粗→高亮→执行摘要**，让未来的自己在 10 秒内抓住核心价值。完成后检 ≥5 融合 hub。
-- **[express](./knowledge/express/SKILL.md)** — Fabric 输出阶段——**写作管道路由**。按复杂度判断走 fragments→beats→shape→edit 的部分或全部。
-- **[connect](./knowledge/connect/SKILL.md)** — 全量知识库扫描：**找出所有该建 MOC 或融合 hub 的地方**——L1 标签统一→L2 建 MOC→L3 补双链→L4 融合 hub。
+- **2026-07-15** v1.0.0：编制完成 40 个 skill，按 8 个功能域分组
+- **2026-07-28** v1.0.1：体系自审与瘦身——理论深化 + 项目实例化配置
+- **2026-08-06** v1.0.2：全量部署到运行时位置（全局 13 + 知识库 16 + 项目 11）
+- **2026-08-15** v1.0.3：docs 与 skills 逐份核验同步
 
-## 写作体系
+沉淀下来的不是 40 个文件，而是一套从"分析别人的体系"到"演化出自己的体系"的方法。
 
-Matt Pocock 的 Explore/Exploit 写作心智模型。
+## 能做什么
 
-- **[writing-fragments](./writing/writing-fragments/SKILL.md)** — Explore 阶段：**追问式访谈，碎片化采集原料**。最有价值的碎片是"承重"的命名隐喻。
-- **[writing-beats](./writing/writing-beats/SKILL.md)** — Exploit 阶段：**节拍编排 + Grounding 机制**——每个概念在被使用前必须已接地，维护"已接地清单"。
-- **[writing-shape](./writing/writing-shape/SKILL.md)** — Exploit 阶段：**逐段塑形——节拍→完整文章**。每个段落加衔接桥，继续 Grounding 验证。
-- **[edit-article](./writing/edit-article/SKILL.md)** — Exploit 阶段：**DAG 依赖顺序逐段重写**——按 H2 拆分，先编辑依赖最少的段落。
+方法落地为 40 个 skill，按 8 个功能域组织，部署在三个层次：
 
-## 项目管理
+```mermaid
+graph TB
+    GRID["Grid 编排器<br/>软件开发生命周期"]
+    FAB["Fabric 编排器<br/>Obsidian 知识管理"]
+    SHARED["全局共享层 · 13 个<br/>shared(4) + git(4) + engineering(5)"]
+    VAULT["知识库专属层 · 16 个<br/>knowledge(7) + writing(4) + project(5)"]
+    PROJ["项目热插拔层 · 11 个<br/>TDX(5) + trading-assistant(6)"]
 
-挂靠 Fabric 编排器的独立原子技能组。
+    GRID --> SHARED
+    FAB --> SHARED
+    FAB --> VAULT
+    GRID -.->|按 AGENTS.md 声明加载| PROJ
 
-- **[project-init](./project/project-init/SKILL.md)** — 创建新项目：**总览文档+外部链接，`项目阶段: 启动`**。阶段流转：启动→进行中→暂停→收尾→完成→归档。
-- **[project-plan](./project/project-plan/SKILL.md)** — 按功能模块分组任务：**任务用 `#项目/<名>` 标签归属**，可在任意笔记中执行。
-- **[project-review](./project/project-review/SKILL.md)** — 里程碑回顾：**基于 CHANGELOG/commit log 更新「📝 里程碑总结」**——核心变更、关键决策、所学经验。
-- **[project-links](./project/project-links/SKILL.md)** — 维护外部链接：**`file:///` 本地路径和外部 URL**，统一聚合于 `20_项目/外部链接.md`。
-- **[project-archive](./project/project-archive/SKILL.md)** — 项目收尾：**先反哺知识到 `10_领域`，再移入 `90_归档`**。先提炼再归档——归档后就很少再访问了。
+    style GRID fill:#ff9,stroke:#333
+    style FAB fill:#9f9,stroke:#333
+```
 
-## TDX 项目专属
+两条脊椎的流程线：
 
-TDX 数据采集项目的热插拔技能——Python + PostgreSQL + TdxQuant。
+- **Grid**：`路由 → 拷问 → PRD → 拆Issue → 编码内循环 → 超大任务规划`
+- **Fabric**：`捕获 → 分类 → 归位 → 提炼 → 输出 → 织网`
 
-- **[tdx-quant-docs](./tdx/tdx-quant-docs/SKILL.md)** — TdxQuant API 文档查阅：**tqcenter 60+ API 的返回值、约束、场景示例**——批量上限 99 只、日期格式 YYYYMMDD。
-- **[loguru](./tdx/loguru/SKILL.md)** — Loguru 日志库：**全局单例 logger + sink 注册**——轮转、格式化、异常捕获、结构化日志。
-- **[prisma-docs](./tdx/prisma-docs/SKILL.md)** — Prisma ORM 操作规范：**Schema-first 设计 + 安全红线**——金额 DECIMAL(36,18)、安全红线禁止自动迁移。
-- **[tdx-dev-guide](./tdx/tdx-dev-guide/SKILL.md)** — 新增获取器的 10 步流程：**Cleaner→Fetcher 流水线 + 注册制**——从 API 分析到 CLI 注册。
-- **[tdx-test-spec](./tdx/tdx-test-spec/SKILL.md)** — 集成测试规范：**CLI 验收 + dry_run 先行 + 全链路验证**。
+| 功能域 | 数量 | 职责 |
+|--------|------|------|
+| [shared](./shared/README.md) — 全局共享 primitive | 4 | Skill 元规范、一问一答拷问、红绿循环测试、8 目录文档骨架 |
+| [git](./git/README.md) — Git 工程工具 | 4 | 危险命令拦截、提交原则、分支规划、分支生命周期 |
+| [engineering](./engineering/README.md) — Grid 脊椎 | 5 | 总编排器 + PRD 综合、Issue 拆分、双轴代码审查、大型重构渐进规划 |
+| [knowledge](./knowledge/README.md) — Fabric 脊椎 | 7 | 捕获 → 分类 → 归位 → 提炼 → 输出 → 织网 |
+| [writing](./writing/README.md) — 写作体系 | 4 | 碎片采集 → 节拍编排 → 逐段塑形 → 逐段重写 |
+| [project](./project/README.md) — 项目管理 | 5 | 初始化 → 计划 → 回顾 → 链接 → 归档 |
+| [tdx](./tdx/README.md) — TDX 项目专属 | 5 | TdxQuant 文档、Loguru、Prisma 规范、10 步开发流程、集成测试 |
+| [trading-assistant](./trading-assistant/README.md) — TA 项目专属 | 6 | NestJS 生成、Schema 同步、金融审查、契约校验、文档同步、测试 |
 
-## trading-assistant 项目专属
+各域 README 内含每个 skill 的一句话职责。
 
-交易助手项目的热插拔技能——NestJS + Prisma + TypeScript 全栈。
+项目专属两域采用**热插拔注册制**：项目在 `AGENTS.md` 中声明技能列表，Grid 在路由和编码阶段扫描声明、按任务类型动态推荐加载。
 
-- **[nest-generate](./trading-assistant/nest-generate/SKILL.md)** — NestJS 代码生成：**NodeNext 模块系统 + DTO 验证栈**——金额字段以 string 传输。
-- **[prisma-sync](./trading-assistant/prisma-sync/SKILL.md)** — 双份 Schema 同步：**SSOT 设计稿 → 实现稿**——只同步 model/enum，不碰 datasource/generator。
-- **[finance-review](./trading-assistant/finance-review/SKILL.md)** — 金融计算审查：**decimal.js 审计——禁止原生浮点运算**。扫描 `+ - * /` 在变量运算上下文中的出现。
-- **[api-contract](./trading-assistant/api-contract/SKILL.md)** — OpenAPI 契约校验：**契约基准——后端 Controller + 前端 API 调用双端独立检查**。
-- **[doc-sync](./trading-assistant/doc-sync/SKILL.md)** — 文档同步：**代码变更 → 文档更新——文档驱动开发**。每类变更对应一组应同步的文档。
-- **[ta-test-spec](./trading-assistant/ta-test-spec/SKILL.md)** — 测试规范：**lint 门 + test 门 + 类型守卫**——禁 any、Mock Prisma、decimal.js 断言。
+## 如何正确使用
+
+对工具读者，以下是从安装到排障的完整路径。
+
+### 三步上手
+
+1. **安装**：`npx skills add Grid0723/skills`——全局安装对所有项目可用；在目标目录内安装则只对该项目（或本知识库）生效
+2. **触发**：skill 按 `description 自动匹配 > 编排器路由 > 用户主动调用` 的优先级加载。Grid/Fabric 编排器设置了 `disable-model-invocation: true`，模型不会自动调用它们——通过对话语义触发（"帮我实现…"、"整理知识库"）即可
+3. **开始**：现在就可以说「保存这个」或「帮我实现一个功能」——编排器接管后，全程由它路由到正确的原子 skill
+
+### 加载优先级
+
+按部署层级加载：**全局 `~/.agents/skills/` > 知识库 `.agents/skills/` > 项目 `<项目>/.agents/skills/`**。全局 13 个随处可用；知识库专属 16 个只在 Obsidian 库内可用；项目专属 11 个只在对应项目目录内可用。
+
+### Grid：软件工程任务的路由
+
+```mermaid
+graph TD
+    START["用户输入：软件开发任务"] --> ROUTE{任务类型?}
+    ROUTE -->|新功能| GRILL["grilling<br/>一问一答拷问"]
+    ROUTE -->|"Bug 修复 / 重构"| ISSUE["to-issues<br/>拆解为 Task"]
+    ROUTE -->|配置变更| CODE["编码内循环"]
+    GRILL --> PRD["to-prd<br/>综合对话生成 PRD"]
+    PRD --> ISSUE
+    ISSUE --> BRANCH["git-branch-plan<br/>创建分支"]
+    BRANCH --> CODE
+    CODE --> LOOP{还有未完成 Task?}
+    LOOP -->|有| TDD["tdd<br/>先写失败测试"]
+    TDD --> IMPL[写实现]
+    IMPL --> PASS{测试通过?}
+    PASS -->|否| IMPL
+    PASS -->|是| REVIEW["code-review<br/>代码审查"]
+    REVIEW --> LOOP
+    LOOP -->|全部完成| END["✅ 开发完成"]
+    CODE -.->|全程约束| GGRD["git-guardrails<br/>git-commit-guide"]
+```
+
+### Fabric：知识管理任务的路由
+
+```mermaid
+graph TD
+    INTENT{知识管理意图} -->|"保存/剪藏"| CAP["capture<br/>捕获到收集箱"]
+    INTENT -->|"归位/整理"| CLS["classify<br/>判断归属领域"]
+    INTENT -->|"消化/提炼"| DIS["distill<br/>渐进式总结"]
+    INTENT -->|"写文章/输出"| EXP["express<br/>写作管道路由"]
+    INTENT -->|"扫库/织网"| CON["connect<br/>全量扫描"]
+    INTENT -->|"项目相关"| PRJ["project-* 五个 skill"]
+    CAP --> CLS
+    CLS --> ORG["organize<br/>物理移动+标签"]
+    ORG --> CHK3{子标签 ≥3?}
+    CHK3 -->|是| MOC[提示建子主题 MOC]
+    EXP --> WF[writing-fragments]
+    WF --> WB[writing-beats]
+    WB --> WS[writing-shape]
+    WS --> EA[edit-article]
+    DIS --> CHK5{子标签 ≥5?}
+    CHK5 -->|是| HUB[提示融合 hub 笔记]
+```
+
+归位和提炼完成后会自动检测子标签下笔记数——≥3 篇提示建子主题 MOC，≥5 篇提示融合 hub 笔记，不需要手动记住阈值。
+
+### 40 个 skill 分类矩阵
+
+| 功能域 | 数量 | 部署层级 | 代表 skill |
+|--------|------|---------|-----------|
+| shared — 全局共享 primitive | 4 | 全局 `~/.agents/skills/` | writing-great-skills, grilling, tdd, doc-architecture |
+| git — Git 工程工具 | 4 | 全局 | git-guardrails, git-commit-guide, git-branch-plan, git-branch-lifecycle |
+| engineering — Grid 脊椎 | 5 | 全局 | grid, to-prd, to-issues, code-review, wayfinder |
+| knowledge — Fabric 脊椎 | 7 | 知识库 `.agents/skills/` | fabric, capture, classify, organize, distill, express, connect |
+| writing — 写作体系 | 4 | 知识库 | writing-fragments, writing-beats, writing-shape, edit-article |
+| project — 项目管理 | 5 | 知识库 | project-init, project-plan, project-review, project-links, project-archive |
+| tdx — TDX 项目专属 | 5 | TDX 项目 `.agents/skills/` | tdx-quant-docs, loguru, prisma-docs, tdx-dev-guide, tdx-test-spec |
+| trading-assistant — TA 项目专属 | 6 | TA 项目 `.agents/skills/` | nest-generate, prisma-sync, finance-review, api-contract, doc-sync, ta-test-spec |
+
+### 关键协作链路
+
+| 场景 | 链路 |
+|------|------|
+| 新功能开发 | grid → grilling → to-prd → to-issues → git-branch-plan → tdd → code-review → git-commit-guide |
+| 剪藏到消化 | fabric → capture → classify → organize → distill |
+| 写一篇文章 | fabric → express → writing-fragments → writing-beats → writing-shape → edit-article |
+| 项目收尾 | project-archive → 提炼可复用知识反哺知识库 → 项目移入归档 |
+| 织网检测 | organize 完成后检 ≥3 提示建 MOC；distill 完成后检 ≥5 提示融合 hub |
+
+### 常见问题速答
+
+- **skill 没被加载？** 先确认已部署（对应路径下有 `SKILL.md`）；再在对话中明确提及 skill 名或触发关键词。Grid/Fabric 需对话语义触发，不会被自动调用
+- **多个 skill 同时匹配？** 编排器优先——先加载 Grid/Fabric，再由编排器路由到原子 skill
+- **项目专属 skill 不生效？** 检查项目 `AGENTS.md` 的 `skills:` 声明，且当前工作目录必须在该项目内
+- **如何确认 skill 生效？** 观察 `@available_skills` 列表中出现该 skill；加载后 Agent 会使用 skill 定义的精确术语
+
+## 文档导航
+
+- **[Grid Skills 使用手册](./docs/Grid%20Skills%20使用手册.md)** — 完整操作指南：路由决策图、40 个 skill 的触发条件速查、协作关系、故障排查
+- 各功能域职责速览见上方「能做什么」表格，每个域 README 含全部 skill 的一句话职责
