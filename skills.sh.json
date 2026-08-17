@@ -38,13 +38,14 @@
     },
     {
       "title": "Git 工程",
-      "description": "原子 Git 规范——安全护栏、提交指南、分支规划、生命周期管理",
+      "description": "原子 Git 规范——安全护栏、提交指南、分支规划、生命周期管理、变更日志校验",
       "skills": [
         "git-guardrails",
         "git-commit-guide",
         "git-branch-plan",
         "git-branch-lifecycle",
-        "git-push-guide"
+        "git-push-guide",
+        "changelog-guide"
       ]
     },
     {

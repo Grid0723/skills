@@ -50,6 +50,19 @@ description: 通用 Git 提交原则——提交时机、信息格式、提交�
 
 选择提交前缀时，优先匹配当前项目的 AGENTS.md 声明；无声明则使用通用类型（feat/fix/refactor 等）。
 
+## 提交类型 → 版本号递增（SemVer 联动）
+
+提交类型决定下一次发布时的版本号递增（见 `changelog-guide` 校验）：
+
+| 提交类型 | SemVer 递增 |
+|---------|-------------|
+| `feat` | 次版本号 Y（新增向下兼容功能） |
+| `fix` | 修订号 Z（修复问题，不影响 API） |
+| `feat!: ` / 含 `BREAKING CHANGE` | 主版本号 X（不兼容修改） |
+| `refactor` / `docs` / `chore` / `style` / `test` | 无版本递增（除非累计显著变更） |
+
+> `!` 前缀表示破坏性变更——如 `feat!: 重命名 getPrice 为 fetchPrice`。含不兼容修改的提交**必须**在 message 中标注，否则版本号无法正确递增。
+
 ## 提交前自检
 
 在 `git commit` 之前：
@@ -57,3 +70,5 @@ description: 通用 Git 提交原则——提交时机、信息格式、提交�
 - [ ] 提交信息是否描述了"做了什么"和"为什么"？
 - [ ] 项目 lint 是否通过？
 - [ ] 是否遵守了 `git-guardrails` 的安全约束？
+- [ ] 是否含不兼容修改？若是，已用 `!` 或 `BREAKING CHANGE` 标注？
+- [ ] 功能级变更是否需要同步更新 CHANGELOG（格式校验见 `changelog-guide`）？

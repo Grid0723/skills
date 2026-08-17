@@ -77,17 +77,31 @@ docs/
 
 ### CHANGELOG.md —— 版本变更记录
 
+格式遵守 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) + [语义化版本](https://semver.org/spec/v2.0.0.html)，写入校验见 `changelog-guide`。
+
 ```markdown
 # CHANGELOG
 
-## v0.1.0 (YYYY-MM-DD)
-### 新增
+本格式基于 Keep a Changelog，并遵守语义化版本控制（SemVer）。
+
+## [Unreleased]
+
+### Added
 - xxx
-### 修复
+
+## [0.1.0] - YYYY-MM-DD
+
+### Added
 - xxx
-### 变更
+
+### Fixed
 - xxx
 ```
+
+要点：
+- 版本标题格式 `## [版本号] - YYYY-MM-DD`（ISO 8601），`v` 前缀是 git 标签惯例、非版本号本体
+- 最上方保留 `[Unreleased]` 区块——发布时整体搬入新版本标题
+- 变动类型用六种标准：`Added` / `Changed` / `Deprecated` / `Removed` / `Fixed` / `Security`
 
 ### 01-Requirements —— 需求文档
 

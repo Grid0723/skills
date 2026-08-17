@@ -3,7 +3,7 @@ Author: 张谦
 tags: [技术/AI/Skills]
 关键词: [编排器路由, 操作指南, 工作流, 使用手册, Fabric, Grid, Skill协作]
 类型: 索引
-description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric 编排器工作流、41 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
+description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric 编排器工作流、42 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
 状态: 已消化
 创建: 2026-08-06 00:30:00
 修改: 2026-08-15 20:30:54
@@ -12,16 +12,16 @@ description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric �
 # Grid Skills 使用手册
 
 > [!abstract]
-> Grid0723/skills 体系包含 **41 个原子 skill**，按双脊椎编排器（Grid + Fabric）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
+> Grid0723/skills 体系包含 **42 个原子 skill**，按双脊椎编排器（Grid + Fabric）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
 
 ## 一、总览
 
-### 41 个 Skill 分类矩阵
+### 42 个 Skill 分类矩阵
 
 | 功能域                             | 数量  | 部署层级                    | 典型 skill                                                                         |
 | ------------------------------- | --- | ----------------------- | -------------------------------------------------------------------------------- |
 | **shared** — 全局共享 primitive     | 4   | 全局 `~/.agents/skills/`  | writing-great-skills, grilling, tdd, doc-architecture                            |
-| **git** — Git 工程工具              | 5   | 全局 `~/.agents/skills/`  | git-guardrails, git-commit-guide, git-branch-plan, git-branch-lifecycle, git-push-guide |
+| **git** — Git 工程工具              | 6   | 全局 `~/.agents/skills/`  | git-guardrails, git-commit-guide, git-branch-plan, git-branch-lifecycle, git-push-guide, changelog-guide |
 | **engineering** — Grid 脊椎       | 5   | 全局 `~/.agents/skills/`  | grid, to-prd, to-issues, code-review, wayfinder                                  |
 | **knowledge** — Fabric 脊椎       | 7   | Vault `.agents/skills/` | fabric, capture, classify, organize, distill, express, connect                   |
 | **writing** — 写作体系              | 4   | Vault `.agents/skills/` | writing-fragments, writing-beats, writing-shape, edit-article                    |
@@ -292,11 +292,19 @@ Fabric 在两个阶段自动嵌入织网检测：
 
 #### git-push-guide
 
-- **功能**：推送原则——推前自检门、领先/落后检测、失败处理
-- **触发**：即将 push、询问推送方法、push 失败或被拒
+- **功能**：推送原则——推前自检门、领先/落后检测、失败处理、发布 tag 推送
+- **触发**：即将 push、询问推送方法、push 失败或被拒、发布版本打 tag
 - **输入**：当前仓库与分支状态
 - **输出**：推前检查结论 + 推送命令或失败修复方案
 - **协作**：被 Grid 编码内循环引用；危险命令移交 git-guardrails
+
+#### changelog-guide
+
+- **功能**：CHANGELOG 格式校验守卫——六种变动类型、Unreleased 区块、SemVer 版本递增、ISO 8601 日期
+- **触发**：创建或编辑 CHANGELOG 文件（全程自动背景校验）
+- **输入**：待写入的 CHANGELOG 内容
+- **输出**：格式合规校验 + 版本号递增建议（联动 git-commit-guide 提交类型）
+- **协作**：doc-architecture 提供空白模板；doc-sync 决定何时同步；git-commit-guide 映射提交类型到版本号
 
 ### 4.3 Grid 脊椎（engineering）
 
@@ -715,7 +723,7 @@ graph TB
 
 ## 相关笔记
 
-- [[部署手册]] — 41 个 skill 的部署路径与验证清单
+- [[部署手册]] — 42 个 skill 的部署路径与验证清单
 - [[双脊椎Agent Skill体系设计]] — 架构总纲与设计原则
 - [[Grid编排器设计]] — Grid 阶段序列与内循环详解
 - [[Fabric编排器设计]] — Fabric CODE 阶段与织网机制

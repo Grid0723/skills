@@ -58,6 +58,19 @@ git push -u origin <branch>           # 首次推送，建立跟踪
 | `Permission denied` | SSH key 缺失 | `ssh -T git@github.com` 测试连通性 |
 | 连接超时 | 网络/代理问题 | 检查代理；考虑走 `ssh.github.com:443` |
 
+## 发布版本 tag 推送
+
+版本发布时，SemVer 版本号本体不带 `v`（`1.2.0`），git 标签名带 `v` 前缀是惯例：
+
+```bash
+git tag v1.2.0 -m "Release version 1.2.0"   # 标签名 v1.2.0，版本号 1.2.0
+git push origin v1.2.0                       # 只推该 tag
+git push --tags                              # 推送全部本地 tag（慎用，确认无脏 tag）
+```
+
+- 发布流程：按 `git-commit-guide` 提交 → 按 `changelog-guide` 更新 CHANGELOG → 打 tag 推送
+- tag 名与 CHANGELOG 版本号必须一致（`v1.2.0` ↔ `[1.2.0]`）
+
 ## 边界条件
 
 - 用户要求 `--force` → 移交 `git-guardrails`，只走审批门

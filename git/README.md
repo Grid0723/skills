@@ -6,4 +6,5 @@ Git 工程工具——按 Grid 阶段分散的原子规范。纯参考，可自�
 - **[git-commit-guide](./git-commit-guide/SKILL.md)** — **一个 commit 只做一件事，小步快跑**。前缀格式由各项目 AGENTS.md 声明。
 - **[git-branch-plan](./git-branch-plan/SKILL.md)** — 拆 Issue 后规划分支：**短命分支、从最新 main 拉出、短横线命名**。
 - **[git-branch-lifecycle](./git-branch-lifecycle/SKILL.md)** — 长周期分支管理：**定期同步 main、冲突窗口预防、瘦分支**。
-- ** [git-push-guide](./git-push-guide/SKILL.md) ** — 推送原则：**推前自检门、领先/落后检测、失败处理**。
+- ** [git-push-guide](./git-push-guide/SKILL.md) ** — 推送原则：**推前自检门、领先/落后检测、失败处理、发布 tag 推送**。
+- **[changelog-guide](./changelog-guide/SKILL.md)** — **CHANGELOG 格式校验守卫**：六种变动类型、Unreleased 区块、SemVer 递增、ISO 8601 日期。全程自动背景校验。
