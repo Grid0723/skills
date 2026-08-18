@@ -55,11 +55,13 @@ graph TD
     ROUTE -->|Bug 修复| GRILL2[grilling<br/>精简拷问]
     ROUTE -->|重构| GRILL3[grilling<br/>精简拷问]
     ROUTE -->|配置变更| GRILL4[grilling<br/>精简拷问]
+    ROUTE -->|项目立项<br/>已有项目计划| GRILL5[grilling<br/>完整拷问·不可跳过]
     
     GRILL --> PRD[to-prd<br/>综合对话生成 PRD]
     GRILL2 --> ISSUE[to-issues<br/>拆解为 Task]
     GRILL3 --> ISSUE
     GRILL4 --> CODE[编码内循环]
+    GRILL5 --> PRD
     
     PRD --> ISSUE
     ISSUE --> BRANCH[git-branch-plan<br/>创建 feature 分支]
@@ -87,11 +89,14 @@ graph TD
 | 阶段 | 加载的 skill | 触发条件 | 产出物 |
 |------|-------------|---------|--------|
 | **路由** | — | 接收用户输入后立即执行 | 判定任务类型 + 推荐阶段序列 + 推荐项目 skill |
-| **拷问** | `grilling` | 任务模糊需要具体化 | 共识（无文件产出） |
+| **拷问** | `grilling` | 任务模糊需要具体化（已有项目计划时**不可跳过**，计划仅作输入素材） | 共识（无文件产出） |
 | **PRD** | `to-prd` | 新功能（Bug 修复/重构/配置变更跳过） | `docs/01-Requirements/PRD-xxx.md` |
 | **拆 Issue** | `to-issues` → `git-branch-plan` | PRD 完成后（配置变更跳过） | `docs/07-MVP/开发计划.md` + feature 分支 |
 | **编码内循环** | `tdd` → `code-review` → `git-commit-guide` | 逐 Task 推进 | 代码 + 测试 + `docs/05-ADR/` 审查报告 |
 | **超大任务规划** | `wayfinder` → `git-branch-lifecycle` | 仅 DevOps 级大型重构/迁移 | 共享地图 + Ticket 列表 |
+
+> [!warning] 已有项目计划 ≠ 可跳过阶段
+> Fabric 产出的 `项目计划.md`（`project-init`/`project-plan` 产物）只是**按功能模块分组的任务清单**，不是 PRD 也不是开发计划。路由时若检测到已有项目计划，类型判定为「项目立项（已有项目计划）」，阶段序列 = **拷问 → PRD → 拆 Issue → 编码**，**禁止跳过**任何阶段——项目计划仅作为拷问输入素材。
 
 ### 项目技能热插拔扫描
 

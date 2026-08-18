@@ -6,6 +6,17 @@
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-08-18
+
+### Added
+
+- **`engineering/grid`** — 路由表新增「项目立项（已有项目计划）」类型：检测到 Fabric `project-init`/`project-plan` 产物（`项目计划.md`/`总览.md`）时，判定为完整管道（拷问→PRD→拆Issue→编码），**禁止跳过**拷问/PRD/拆Issue；拷问阶段注明已有计划时仍须完整 grilling（计划仅作输入素材）
+- **`project/project-plan`** — 新增「进入开发衔接」说明：`项目计划.md` 是项目管理维度任务清单，≠ PRD/开发计划，正式编码须在代码仓库走 Grid 完整流程
+
+### Changed
+
+- **`docs/Grid Skills 使用手册.md`** — §二 路由决策 mermaid 图与阶段表补充「项目立项（已有项目计划）」分支与禁止跳过说明
+
 ## [1.0.5] - 2026-08-17
 
 ### Added
