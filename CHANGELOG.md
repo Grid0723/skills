@@ -20,6 +20,7 @@
 
 - **`README.md`** — 三层架构 mermaid 增加 Learn 编排器（知识库专属层 16→21 个）、功能域表/分类矩阵新增 learning 域、协作链路新增「陌生领域学习」链路（42→47 个 skill）
 - **`skills.sh.json`** — 新增「Learn 脊椎」分组（learn/map/dig/verify/harvest）
+- **`learning/learn`** — 入口判定加 `grilling` 分支：意图模糊（领域名/目标不明确）时先一问一答具体化领域名、学习深度、范围边界，再进入建图；边界条件同步补充
 
 ### 说明
 
