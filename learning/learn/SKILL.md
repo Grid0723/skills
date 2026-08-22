@@ -73,6 +73,7 @@ disable-model-invocation: true
 ## 边界条件
 
 - 意图模糊（领域名/目标不明确）→ 先 `grilling` 具体化，再进入建图
+- 学习途中发现值得剪藏的资料 → 提示走 fabric `capture` 顺手保存，不阻塞学习流程
 - 用户只想学单个概念 → 直接 `dig`，跳过建图
 - 用户已有领域地图 → 从深挖开始
 - 学习产出需沉淀 → 走 harvest 交接 Fabric（不承担开启新项目的职能）

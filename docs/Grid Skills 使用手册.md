@@ -1,22 +1,22 @@
 ---
 Author: 张谦
 tags: [技术/AI/Skills]
-关键词: [编排器路由, 操作指南, 工作流, 使用手册, Fabric, Grid, Skill协作]
+关键词: [编排器路由, 操作指南, 工作流, 使用手册, Fabric, Grid, Learn, Skill协作]
 类型: 索引
-description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric 编排器工作流、42 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
+description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Learn 三线编排器工作流、47 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
 状态: 已消化
 创建: 2026-08-06 00:30:00
-修改: 2026-08-15 20:30:54
+修改: 2026-08-23 02:10:00
 ---
 
 # Grid Skills 使用手册
 
 > [!abstract]
-> Grid0723/skills 体系包含 **42 个原子 skill**，按双脊椎编排器（Grid + Fabric）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
+> Grid0723/skills 体系包含 **47 个原子 skill**，按三线编排器（Grid + Fabric + Learn）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
 
 ## 一、总览
 
-### 42 个 Skill 分类矩阵
+### 47 个 Skill 分类矩阵
 
 | 功能域                             | 数量  | 部署层级                    | 典型 skill                                                                         |
 | ------------------------------- | --- | ----------------------- | -------------------------------------------------------------------------------- |
@@ -24,6 +24,7 @@ description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric �
 | **git** — Git 工程工具              | 6   | 全局 `~/.agents/skills/`  | git-guardrails, git-commit-guide, git-branch-plan, git-branch-lifecycle, git-push-guide, changelog-guide |
 | **engineering** — Grid 脊椎       | 5   | 全局 `~/.agents/skills/`  | grid, to-prd, to-issues, code-review, wayfinder                                  |
 | **knowledge** — Fabric 脊椎       | 7   | Vault `.agents/skills/` | fabric, capture, classify, organize, distill, express, connect                   |
+| **learning** — Learn 脊椎         | 5   | Vault `.agents/skills/` | learn, map, dig, verify, harvest                                                 |
 | **writing** — 写作体系              | 4   | Vault `.agents/skills/` | writing-fragments, writing-beats, writing-shape, edit-article                    |
 | **project** — 项目管理              | 5   | Vault `.agents/skills/` | project-init, project-plan, project-review, project-links, project-archive       |
 | **tdx** — TDX 项目专属              | 5   | TDX `.agents/skills/`   | tdx-quant-docs, loguru, prisma-docs, tdx-dev-guide, tdx-test-spec                |
@@ -219,11 +220,63 @@ Fabric 在两个阶段自动嵌入织网检测：
 
 ---
 
-## 四、全局 Skill 速查
+## 四、Learn 编排器——陌生领域学习线
 
-> 部署于 `~/.agents/skills/`，对任意 OpenCode 项目可用。共 14 个。
+> Learn 是陌生领域学习的总编排器。加载条件：用户想从零学一个领域（"我要学 X"、"从零学 X"、"怎么入门 X"）。它管**内容到手前**的认知获取，完成后通过 harvest 交接 Fabric（内容到手后的知识管理）。方法论见 [领域地图式学习](../../../docs/领域地图式学习.md)，设计见 [[Learn编排器设计]]。
 
-### 4.1 全局共享 primitive（shared）
+### 路由决策流程
+
+```mermaid
+graph TD
+    START["用户输入<br/>陌生领域学习意图"] --> INTENT{意图判断}
+
+    INTENT -->|"从零学/入门"| LEARN[learn 编排器]
+    INTENT -->|"深挖单个概念"| DIG[dig<br/>局部深挖]
+    INTENT -->|"验证结论"| VER[verify<br/>交叉核查]
+
+    LEARN --> CLR{领域名/目标明确?}
+    CLR -->|否| GRILL[grilling<br/>一问一答具体化]
+    GRILL --> MAP
+    CLR -->|是| MAP[map<br/>建图: 采集→提取→聚合→语义关系]
+    MAP --> DIG
+    DIG --> VER
+    VER -->|不通过| DIG
+    VER -->|通过| UPD[map<br/>更新地图]
+    UPD -->|仍有未知节点| DIG
+    UPD -->|地图收敛| HAR[harvest<br/>收获沉淀]
+    HAR -->|交接| FAB[fabric 捕获阶段]
+```
+
+### 阶段详解
+
+| 阶段 | 加载的 skill | 触发条件 | 产出物 |
+|------|-------------|---------|--------|
+| **入口判定** | `grilling`（条件） | 意图模糊：领域名/目标不明确 | 明确的领域名、学习深度、范围边界 |
+| **建图** | `map` | 领域名与目标已明确 | mermaid 领域地图（概念网络）+ 深挖队列 |
+| **深挖** | `dig` | 深挖队列非空 | 单点理解（五问解答）+ 关系命题 |
+| **验证** | `verify` | 深挖完成单个概念后 | 六项交叉核查结论；不通过打回 dig 重挖 |
+| **更新地图** | `map` | 新理解已验证 | 更新后地图（Global→Local→Global 循环） |
+| **收获** | `harvest` | 地图收敛或用户决定停止 | `00_收集箱/` 笔记，`状态: 待整理` |
+
+### 与 Fabric 的接力
+
+Learn 与 Fabric 是**流水线前后段**，不是并列关系：
+
+- Learn 产出统一写入 `00_收集箱/`（`状态: 待整理`），交接点复用现有管道，不破坏既有流程
+- 后续由 Fabric 正常接续：分类 → 归位 → 提炼 → 织网
+- 领域地图本身可沉淀为 `类型: 索引` 笔记，归属 `10_领域/<对应领域>`
+
+### 核心算法
+
+**Global → Local → Global**：粗粒度建图（高覆盖、低精度）→ 局部深挖 + 验证 → 新知识整合回地图 → 再选下一节点，循环至收敛。验证是贯穿的质量控制环节（防"漂亮≠正确"）。
+
+---
+
+## 五、全局 Skill 速查
+
+> 部署于 `~/.agents/skills/`，对任意 OpenCode 项目可用。共 15 个。
+
+### 5.1 全局共享 primitive（shared）
 
 #### writing-great-skills
 
@@ -261,7 +314,7 @@ Fabric 在两个阶段自动嵌入织网检测：
 - **协作**：为 Grid 各阶段提供产出路径规范；prisma-sync/doc-sync 依赖其目录定义
 - **特殊**：含 TDX 和 TA 项目的实例化配置
 
-### 4.2 Git 工程工具（git）
+### 5.2 Git 工程工具（git）
 
 #### git-guardrails
 
@@ -311,7 +364,7 @@ Fabric 在两个阶段自动嵌入织网检测：
 - **输出**：格式合规校验 + 版本号递增建议（联动 git-commit-guide 提交类型）
 - **协作**：doc-architecture 提供空白模板；doc-sync 决定何时同步；git-commit-guide 映射提交类型到版本号
 
-### 4.3 Grid 脊椎（engineering）
+### 5.3 Grid 脊椎（engineering）
 
 #### grid
 
@@ -360,11 +413,11 @@ Fabric 在两个阶段自动嵌入织网检测：
 
 ---
 
-## 五、Vault 专属 Skill 速查
+## 六、Vault 专属 Skill 速查
 
-> 部署于 `.agents/skills/`，仅在本 Obsidian Vault 中可用。共 16 个。
+> 部署于 `.agents/skills/`，仅在本 Obsidian Vault 中可用。共 21 个。
 
-### 5.1 Fabric 脊椎（knowledge）
+### 6.1 Fabric 脊椎（knowledge）
 
 #### fabric
 
@@ -429,7 +482,7 @@ Fabric 在两个阶段自动嵌入织网检测：
 - **输出**：L1-L4 检查报告（标签统一→建 MOC→补双链→融合 hub）
 - **协作**：被 Fabric 织网阶段加载（仅手动触发）
 
-### 5.2 写作体系（writing）
+### 6.2 写作体系（writing）
 
 #### writing-fragments
 
@@ -467,7 +520,7 @@ Fabric 在两个阶段自动嵌入织网检测：
 - **协作**：接收 writing-shape 输出，完成写作管道
 - **参考**：references/edit-examples.md
 
-### 5.3 项目管理（project）
+### 6.3 项目管理（project）
 
 #### project-init
 
@@ -513,11 +566,57 @@ Fabric 在两个阶段自动嵌入织网检测：
 - **协作**：被 Fabric 项目管理触发；先提炼再归档——归档后就很少再访问
 - **参考**：references/archive-checklist.md
 
+### 6.4 Learn 脊椎（learning）
+
+> 部署于 `.agents/skills/`，仅在本 Obsidian Vault 中可用（源码位于子仓库 `skills/learning/`，部署到 Vault 待 `npx skills add` 后生效）。共 5 个。
+
+#### learn
+
+- **功能**：陌生领域学习总编排器——建图→深挖→验证→更新地图→收获，交接 Fabric
+- **触发**：**用户想从零学一个领域**（"我要学 X"、"从零学 X"、"怎么入门 X"）
+- **输入**：陌生领域名
+- **输出**：领域地图 + 深挖循环推进 + 收获笔记交接 Fabric
+- **协作**：编排 learning 功能域（map/dig/verify/harvest）；详见 [[Learn编排器设计]]
+- **特殊**：`disable-model-invocation: true` — 仅由对话语义触发
+
+#### map
+
+- **功能**：建图（Global）——采集读物→提取概念→聚合分类→标注十类语义关系→生成 mermaid 领域地图→聚焦输出深挖队列
+- **触发**：从零学新领域、已有读物需要整理、领域地图需要更新
+- **输入**：陌生领域名或读物清单
+- **输出**：mermaid 领域地图（概念网络）+ 深挖队列
+- **协作**：被 learn 编排器建图阶段加载
+- **参考**：方法论见 `docs/领域地图式学习.md`
+
+#### dig
+
+- **功能**：深挖（Local）——按队列逐个概念定向搜集学习，五问解答（是什么/为什么存在/解决什么问题/依赖什么/与什么比较），形成关系命题
+- **触发**：用户说"深挖 X 概念"、深挖队列有未处理概念
+- **输入**：深挖队列队首概念
+- **输出**：单点理解 + 关系命题（送 verify）
+- **协作**：被 learn 深挖阶段加载；验证不通过时被 verify 打回重挖
+
+#### verify
+
+- **功能**：验证（质量控制）——六项交叉核查：权威来源、来源冲突、事实/观点/推论区分、定义一致性、关系证据、过度概括检查
+- **触发**：用户说"验证下这个结论"、深挖完成单个概念后
+- **输入**：待验证的关系命题
+- **输出**：通过/存疑/失败判定；失败附疑点清单打回 dig 重挖
+- **协作**：被 learn 验证阶段加载；是 Agent 学习流程的可靠性保障（防"漂亮≠正确"）
+
+#### harvest
+
+- **功能**：收获（交接）——把领域地图与概念理解转为可沉淀笔记，写入 `00_收集箱` 交接 Fabric
+- **触发**：用户说"把学习成果沉淀下来"、地图收敛后
+- **输入**：更新后的领域地图与已验证概念理解
+- **输出**：`00_收集箱/` 笔记（`状态: 待整理`），交接 Fabric 接续
+- **协作**：Learn → Fabric 的流水线接力点
+
 ---
 
-## 六、项目热插拔 Skill 速查
+## 七、项目热插拔 Skill 速查
 
-### 6.1 TDX 项目专属（5 个）
+### 7.1 TDX 项目专属（5 个）
 
 > 部署于 `D:\Documents\05code\TDX\.agents\skills\`。Python + PostgreSQL + TdxQuant 技术栈。
 
@@ -559,7 +658,7 @@ Fabric 在两个阶段自动嵌入织网检测：
 - **输入**：待测试的获取器或数据管道
 - **输出**：测试代码 + 验证策略（CLI→预览→写入→增量验证）
 
-### 6.2 trading-assistant 项目专属（6 个）
+### 7.2 trading-assistant 项目专属（6 个）
 
 > 部署于 `D:\Documents\05code\trading_assistant\.agents\skills\`。NestJS + Prisma + TypeScript 全栈。
 
@@ -609,13 +708,14 @@ Fabric 在两个阶段自动嵌入织网检测：
 
 ---
 
-## 七、Skill 间协作关系
+## 八、Skill 间协作关系
 
 ```mermaid
 graph TB
-    subgraph "双脊椎编排器"
+    subgraph "三线编排器"
         GRID[Grid<br/>软件工程总编排器]
         FAB[Fabric<br/>知识管理总编排器]
+        LEARN[Learn<br/>陌生领域学习编排器]
     end
 
     subgraph "全局共享层"
@@ -639,6 +739,10 @@ graph TB
         PI[project-init] --> PP[project-plan]
         PR[project-review]; PL[project-links]; PA[project-archive]
         CON[connect]
+        MAP[map] --> DIG[dig] --> VER[verify]
+        VER -->|不通过| DIG
+        MAP2[map 更新地图] --> DIG
+        HAR[harvest]
     end
 
     subgraph "项目专属层"
@@ -669,11 +773,19 @@ graph TB
     FAB -->|项目管理| PI
     FAB -->|手动触发| CON
 
+    LEARN -->|建图| MAP
+    LEARN -->|深挖| DIG
+    LEARN -->|验证| VER
+    LEARN -->|收获| HAR
+    HAR -->|交接| CAP
+
     WGS -.->|元规范| GRID
     WGS -.->|元规范| FAB
+    WGS -.->|元规范| LEARN
 
     style GRID fill:#ff9,stroke:#333
     style FAB fill:#9f9,stroke:#333
+    style LEARN fill:#9cf,stroke:#333
     style CREV fill:#fcf,stroke:#333
     style CON fill:#9cf,stroke:#333
 ```
@@ -685,13 +797,14 @@ graph TB
 | **新功能开发全链路** | 用户："帮我实现 ETF 数据获取" | grid → grilling → to-prd → to-issues → git-branch-plan → tdd → code-review → git-commit-guide |
 | **code-review 动态子加载** | 编码 Task 完成 | code-review → finance-review + api-contract（仅 TA 项目） |
 | **剪藏消化输出链路** | 用户："消化这篇微信文章" | fabric → capture → classify → organize → distill |
+| **陌生领域学习链路** | 用户："我要学 GraphRAG" | learn → map → dig → verify → 更新地图（循环）→ harvest → 交接 fabric |
 | **写作管道路由** | 用户："帮我写一篇关于…的文章" | fabric → express → writing-fragments → beats → shape → edit-article |
 | **项目收尾全链路** | 项目完成 | project-archive → fabric（反哺知识） → 归档 |
 | **织网检测链路** | organize/distill 完成后 | organize → 检≥3→connect 提示；distill → 检≥5→connect 提示 |
 
 ---
 
-## 八、故障排查
+## 九、故障排查
 
 ### Skill 未被加载
 
@@ -701,7 +814,7 @@ graph TB
 
 1. **确认 skill 已部署**：用 [[部署手册#五、验证清单|验证清单]] 检查对应路径下是否有 `SKILL.md`
 2. **检查 description 匹配**：skill 的 `description` 字段是否对应你的输入语义——尝试在对话中明确提及 skill 名或其触发关键词
-3. **检查 disable-model-invocation**：`grid` 和 `fabric` 设置了 `disable-model-invocation: true`，不会被模型自动调用——需要通过对话语义触发
+3. **检查 disable-model-invocation**：`grid`、`fabric` 和 `learn` 设置了 `disable-model-invocation: true`，不会被模型自动调用——需要通过对话语义触发
 4. **检查部署层级**：Vault 专属 skill 在 TDX/TA 项目中不可用；全局 skill 在所有项目中可用
 
 ### 多个 Skill 描述冲突
@@ -728,10 +841,11 @@ graph TB
 
 ## 相关笔记
 
-- [[部署手册]] — 42 个 skill 的部署路径与验证清单
+- [[部署手册]] — 47 个 skill 的部署路径与验证清单
 - [[双脊椎Agent Skill体系设计]] — 架构总纲与设计原则
 - [[Grid编排器设计]] — Grid 阶段序列与内循环详解
 - [[Fabric编排器设计]] — Fabric CODE 阶段与织网机制
+- [[Learn编排器设计]] — Learn 陌生领域学习编排器设计（GL→LG 核心算法）
 - [[Skill体系物理布局设计]] — 三层物理部署结构
 - [[Grid与Matt Skills对照表]] — 与 Matt Pocock 体系的逐项对照
 - [[CHANGELOG]] — 体系演化记录
