@@ -6,6 +6,12 @@
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-08-23
+
+### Changed
+
+- **`README.md`** — 叙事升级「双脊椎 → 三线编排器」：Grid/Fabric/Learn 三条工作流（含 Learn 与 Fabric 流水线接力说明）、功能域 8→9、加载层级全局 14→15/知识库 16→21、Learn 路由决策 mermaid 图、FAQ 与文档导航同步（42→47 个 skill）
+
 ## [1.0.7] - 2026-08-23
 
 ### Added
