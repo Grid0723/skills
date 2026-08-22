@@ -37,6 +37,17 @@
       ]
     },
     {
+      "title": "Learn 脊椎",
+      "description": "陌生领域学习策略——建图、深挖、验证、收获，交接 Fabric 沉淀",
+      "skills": [
+        "learn",
+        "map",
+        "dig",
+        "verify",
+        "harvest"
+      ]
+    },
+    {
       "title": "Git 工程",
       "description": "原子 Git 规范——安全护栏、提交指南、分支规划、生命周期管理、变更日志校验",
       "skills": [

@@ -6,6 +6,26 @@
 
 ## [Unreleased]
 
+## [1.0.7] - 2026-08-23
+
+### Added
+
+- **`learning/learn`** — Learn 编排器（第 43 个 skill，`disable-model-invocation: true`）：陌生领域学习总编排器——建图→深挖→验证→更新地图→收获，交接 Fabric。管理 Global→Local→Global 循环
+- **`learning/map`** — 建图（Global）：采集→提取→聚合→标注语义关系（十类）生成领域地图→聚焦输出深挖队列
+- **`learning/dig`** — 深挖（Local）：按队列逐个概念定向搜集学习，五问解答，形成关系命题
+- **`learning/verify`** — 验证（质量控制）：六项交叉核查（权威来源/冲突检测/事实观点区分/定义一致性/证据检查/过度概括检查），不通过打回 dig 重挖
+- **`learning/harvest`** — 收获（交接）：把领域地图与概念理解转为可沉淀笔记，写入 `00_收集箱` 交接 Fabric（第 47 个 skill）
+
+### Changed
+
+- **`README.md`** — 三层架构 mermaid 增加 Learn 编排器（知识库专属层 16→21 个）、功能域表/分类矩阵新增 learning 域、协作链路新增「陌生领域学习」链路（42→47 个 skill）
+- **`skills.sh.json`** — 新增「Learn 脊椎」分组（learn/map/dig/verify/harvest）
+
+### 说明
+
+- 方法论与设计文档：Vault `docs/领域地图式学习.md`、Vault `Grid/docs/Learn编排器设计.md`
+- 部署待执行：`npx skills add Grid0723/skills` 后 learn 域进入知识库 `.agents/skills/`
+
 ## [1.0.6] - 2026-08-18
 
 ### Added

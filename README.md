@@ -2,9 +2,9 @@
 
 [![skills.sh](https://skills.sh/b/Grid0723/skills)](https://skills.sh/Grid0723/skills)
 
-> 双脊椎 Agent Skill 体系——42 个原子技能。这不是一份技能清单，而是一套方法论的沉淀：让 AI 助手在「软件开发生命周期」与「知识管理」两条工作流上，每次都以相同的过程工作。
+> 双脊椎 Agent Skill 体系——47 个原子技能。这不是一份技能清单，而是一套方法论的沉淀：让 AI 助手在「软件开发生命周期」与「知识管理」两条工作流上，每次都以相同的过程工作。
 
-**Agent Skill** 是写给 AI Agent 的指令包：一段触发描述 + 有序步骤 + 按需展开的参考。本仓库把这种指令包系统化为 42 个 skill + 22 个 reference 文件——围绕"让指令可预测"组织。
+**Agent Skill** 是写给 AI Agent 的指令包：一段触发描述 + 有序步骤 + 按需展开的参考。本仓库把这种指令包系统化为 47 个 skill + 22 个 reference 文件——围绕"让指令可预测"组织。
 
 ## 为什么要做
 
@@ -37,6 +37,7 @@
 - **2026-08-06** v1.0.2：全量部署到运行时位置（全局 13 + 知识库 16 + 项目 11）
 - **2026-08-15** v1.0.3：docs 与 skills 逐份核验同步
 - **2026-08-17** v1.0.5：CHANGELOG 规范治理——新增 `changelog-guide` 校验守卫（42 个 skill）
+- **2026-08-23** v1.0.7：新增 Learn 脊椎——陌生领域学习策略编排（47 个 skill）
 
 沉淀下来的不是 42 个文件，而是一套从"分析别人的体系"到"演化出自己的体系"的方法。
 
@@ -48,23 +49,28 @@
 graph TB
     GRID["Grid 编排器<br/>软件开发生命周期"]
     FAB["Fabric 编排器<br/>Obsidian 知识管理"]
+    LEARN["Learn 编排器<br/>陌生领域学习"]
     SHARED["全局共享层 · 15 个<br/>shared(4) + git(6) + engineering(5)"]
-    VAULT["知识库专属层 · 16 个<br/>knowledge(7) + writing(4) + project(5)"]
+    VAULT["知识库专属层 · 21 个<br/>knowledge(7) + writing(4) + project(5) + learning(5)"]
     PROJ["项目热插拔层 · 11 个<br/>TDX(5) + trading-assistant(6)"]
 
     GRID --> SHARED
     FAB --> SHARED
+    LEARN -->|收获交接| FAB
     FAB --> VAULT
+    LEARN --> VAULT
     GRID -.->|按 AGENTS.md 声明加载| PROJ
 
     style GRID fill:#ff9,stroke:#333
     style FAB fill:#9f9,stroke:#333
+    style LEARN fill:#9cf,stroke:#333
 ```
 
-两条脊椎的流程线：
+三条工作流的流程线：
 
 - **Grid**：`路由 → 拷问 → PRD → 拆Issue → 编码内循环 → 超大任务规划`
 - **Fabric**：`捕获 → 分类 → 归位 → 提炼 → 输出 → 织网`
+- **Learn**：`建图 → 深挖 → 验证 → 更新地图 → 收获（交接 Fabric）`
 
 | 功能域 | 数量 | 职责 |
 |--------|------|------|
@@ -72,6 +78,7 @@ graph TB
 | [git](./git/README.md) — Git 工程工具 | 5 | 危险命令拦截、提交原则、分支规划、分支生命周期、推送原则 |
 | [engineering](./engineering/README.md) — Grid 脊椎 | 5 | 总编排器 + PRD 综合、Issue 拆分、双轴代码审查、大型重构渐进规划 |
 | [knowledge](./knowledge/README.md) — Fabric 脊椎 | 7 | 捕获 → 分类 → 归位 → 提炼 → 输出 → 织网 |
+| [learning](./learning/README.md) — Learn 脊椎 | 5 | 陌生领域学习：建图 → 深挖 → 验证 → 收获 → 交接 Fabric |
 | [writing](./writing/README.md) — 写作体系 | 4 | 碎片采集 → 节拍编排 → 逐段塑形 → 逐段重写 |
 | [project](./project/README.md) — 项目管理 | 5 | 初始化 → 计划 → 回顾 → 链接 → 归档 |
 | [tdx](./tdx/README.md) — TDX 项目专属 | 5 | TdxQuant 文档、Loguru、Prisma 规范、10 步开发流程、集成测试 |
@@ -150,6 +157,7 @@ graph TD
 | git — Git 工程工具 | 6 | 全局 | git-guardrails, git-commit-guide, git-branch-plan, git-branch-lifecycle, git-push-guide, changelog-guide |
 | engineering — Grid 脊椎 | 5 | 全局 | grid, to-prd, to-issues, code-review, wayfinder |
 | knowledge — Fabric 脊椎 | 7 | 知识库 `.agents/skills/` | fabric, capture, classify, organize, distill, express, connect |
+| learning — Learn 脊椎 | 5 | 知识库 `.agents/skills/` | learn, map, dig, verify, harvest |
 | writing — 写作体系 | 4 | 知识库 | writing-fragments, writing-beats, writing-shape, edit-article |
 | project — 项目管理 | 5 | 知识库 | project-init, project-plan, project-review, project-links, project-archive |
 | tdx — TDX 项目专属 | 5 | TDX 项目 `.agents/skills/` | tdx-quant-docs, loguru, prisma-docs, tdx-dev-guide, tdx-test-spec |
@@ -161,6 +169,7 @@ graph TD
 |------|------|
 | 新功能开发 | grid → grilling → to-prd → to-issues → git-branch-plan → tdd → code-review → git-commit-guide |
 | 剪藏到消化 | fabric → capture → classify → organize → distill |
+| 陌生领域学习 | learn → map → dig → verify → 更新地图（循环）→ harvest → 交接 fabric |
 | 写一篇文章 | fabric → express → writing-fragments → writing-beats → writing-shape → edit-article |
 | 项目收尾 | project-archive → 提炼可复用知识反哺知识库 → 项目移入归档 |
 | 织网检测 | organize 完成后检 ≥3 提示建 MOC；distill 完成后检 ≥5 提示融合 hub |
