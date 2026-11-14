@@ -373,7 +373,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **输入**：用户需求描述
 - **输出**：完整的开发流程推进 + 各阶段产出物
 - **协作**：编排全局共享层 + 项目专属 skill；详见 [[Grid编排器设计]]
-- **特殊**：`disable-model-invocation: true` — 仅由对话语义触发，不被模型自动调用
+- **可见性**：不设 `disable-model-invocation`，由 description 触发词自动加载；加载后按 `AGENTS.md` 6.2 先确认再执行
 
 #### to-prd
 
@@ -426,7 +426,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **输入**：用户操作意图
 - **输出**：按 CODE 流程驱动原子 skill + 嵌入织网检测
 - **协作**：编排 knowledge + writing + project 三个功能域；详见 [[Fabric编排器设计]]
-- **特殊**：`disable-model-invocation: true` — 仅由对话语义触发
+- **可见性**：不设 `disable-model-invocation`，由 description 触发词自动加载；加载后按 `AGENTS.md` 6.2 先确认再执行
 
 #### capture
 
@@ -577,7 +577,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **输入**：陌生领域名
 - **输出**：领域地图 + 深挖循环推进 + 收获笔记交接 Fabric
 - **协作**：编排 learning 功能域（map/dig/verify/harvest）；详见 [[Learn编排器设计]]
-- **特殊**：`disable-model-invocation: true` — 仅由对话语义触发
+- **可见性**：不设 `disable-model-invocation`，由 description 触发词自动加载；加载后按 `AGENTS.md` 6.2 先确认再执行
 
 #### map
 
@@ -814,7 +814,7 @@ graph TB
 
 1. **确认 skill 已部署**：用 [[部署手册#五、验证清单|验证清单]] 检查对应路径下是否有 `SKILL.md`
 2. **检查 description 匹配**：skill 的 `description` 字段是否对应你的输入语义——尝试在对话中明确提及 skill 名或其触发关键词
-3. **检查 disable-model-invocation**：`grid`、`fabric` 和 `learn` 设置了 `disable-model-invocation: true`，不会被模型自动调用——需要通过对话语义触发
+3. **检查编排器可见性**：`grid`、`fabric`、`learn` 不应设置 `disable-model-invocation`；若 skill 列表里看不到它们，检查是否被 `opencode/autoinvoke: false` 或 `permission.skill` 隐藏
 4. **检查部署层级**：Vault 专属 skill 在 TDX/TA 项目中不可用；全局 skill 在所有项目中可用
 
 ### 多个 Skill 描述冲突

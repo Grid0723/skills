@@ -96,7 +96,7 @@ graph TB
 ### 三步上手
 
 1. **安装**：`npx skills add Grid0723/skills`——全局安装对所有项目可用；在目标目录内安装则只对该项目（或本知识库）生效
-2. **触发**：skill 按 `description 自动匹配 > 编排器路由 > 用户主动调用` 的优先级加载。Grid/Fabric/Learn 编排器设置了 `disable-model-invocation: true`，模型不会自动调用它们——通过对话语义触发（"帮我实现…"、"整理知识库"、"我要学 X"）即可
+2. **触发**：skill 按 `description 自动匹配 > 编排器路由 > 用户主动调用` 的优先级加载。Grid/Fabric/Learn 三个编排器**对模型可见**（不设 `disable-model-invocation`），由 description 的触发词自动加载；加载后按 `AGENTS.md` 6.2 先确认再执行
 3. **开始**：现在就可以说「保存这个」、「帮我实现一个功能」或「我要学 X 领域」——编排器接管后，全程由它路由到正确的原子 skill
 
 ### 加载优先级

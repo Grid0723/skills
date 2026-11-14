@@ -1,7 +1,6 @@
 ---
 name: grid
-description: 软件开发生命周期总编排器——从模糊想法到代码合并的全流程路由与调度。Use when the user has a software development task（新功能、bug修复、重构、配置变更），or says "帮我实现"、"写代码"、"改 bug"。
-disable-model-invocation: true
+description: 软件开发生命周期编排器——仅在用户要做开发任务（新功能、Bug 修复、重构、配置变更、继续某个开发计划 Task）时使用。纯知识管理、笔记整理、领域学习、环境配置、普通问答不要加载。触发词："帮我实现""写代码""改 bug""重构""继续 Task"。
 ---
 
 # Grid

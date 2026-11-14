@@ -1,7 +1,6 @@
 ---
 name: learn
-description: 陌生领域学习总编排器——管"内容到手前"的认知获取（建图→深挖→验证→收获），完成后交接 Fabric 知识管理。Use when the user wants to learn a new domain, says "我要学X"、"从零学X"、"怎么入门X"。
-disable-model-invocation: true
+description: 陌生领域学习编排器——仅在用户要从零学一个领域或系统掌握某主题时使用。单篇资料阅读、概念解释、笔记整理、代码任务不要加载。触发词："我要学 X""从零学 X""怎么入门 X""系统学一下 X"。
 ---
 
 # learn
