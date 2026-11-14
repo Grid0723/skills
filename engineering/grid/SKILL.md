@@ -96,7 +96,6 @@ description: 软件开发生命周期编排器——仅在用户要做开发任�
 ## 全局约束
 
 编码阶段全程遵守：
-- `karpathy-guidelines` —— LLM 编码行为规范
 - `git-guardrails` —— 禁止自动 git add/commit/push
 - `git-commit-guide` —— 完成一个小功能点立即提交
 

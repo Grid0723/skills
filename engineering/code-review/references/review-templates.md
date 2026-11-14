@@ -9,7 +9,6 @@
 审查日期: 2026-07-15
 
 ## 加载的审查 Skill
-- karpathy-guidelines
 - finance-review（如涉金额）
 
 ## 检查项
