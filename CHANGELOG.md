@@ -17,6 +17,10 @@
 
 - **编排器 `disable-model-invocation`**：`fabric` / `grid` / `learn` 移除该配置，改为对模型可见、由 description 触发词自动加载；原「仅由对话语义触发、模型不会自动调用」的行为不再适用
 
+### Fixed
+
+- **`engineering/grid` / `engineering/code-review`**：移除对不存在的 `karpathy-guidelines` 的引用——该 skill 从未安装，编排器全局约束与审查模板此前指向无法加载的 skill
+
 ## [1.0.8] - 2026-08-23
 
 ### Changed
