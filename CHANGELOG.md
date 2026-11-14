@@ -8,10 +8,14 @@
 
 ### Changed
 
-- **编排器可见性**：`fabric` / `grid` / `learn` 移除 `disable-model-invocation`，改为对模型可见、由 description 触发词自动加载；description 重写为「做什么 + 何时用 + 负向边界 + 触发词」
+- **编排器触发方式**：`fabric` / `grid` / `learn` 的 description 重写为「做什么 + 何时用 + 负向边界 + 触发词」，改由 description 触发词自动加载
 - **fabric**：新增「入口判定」与「提交信息模板」；归位阶段状态改为 `已归位`，提炼完成标 `已提炼`
 - **capture / organize / distill**：新增「前置与后继」声明；capture 补齐「想法分流」条目（此前仅存在于 Vault 运行副本）；organize 状态由 `已消化` 改为 `已归位`
 - **README / Grid Skills 使用手册**：同步编排器可见性与排障说明（不再声称"模型不会自动调用"）
+
+### Removed
+
+- **编排器 `disable-model-invocation`**：`fabric` / `grid` / `learn` 移除该配置，改为对模型可见、由 description 触发词自动加载；原「仅由对话语义触发、模型不会自动调用」的行为不再适用
 
 ## [1.0.8] - 2026-08-23
 
