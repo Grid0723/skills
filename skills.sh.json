@@ -37,7 +37,8 @@
         "organize",
         "distill",
         "express",
-        "connect"
+        "connect",
+        "vault-lint"
       ]
     },
     {

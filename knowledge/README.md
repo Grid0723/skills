@@ -13,3 +13,4 @@ Fabric 脊椎内核——知识管理的 CODE 工作流原子步骤。
 - **[distill](./distill/SKILL.md)** — 渐进式总结提炼：**四层递进——加粗→高亮→执行摘要**。10 秒测试：提炼后的笔记应在 10 秒内抓住核心价值。完成后检 ≥5 融合 hub。
 - **[express](./express/SKILL.md)** — 输出阶段：**写作管道路由——fragments→beats→shape→edit-article**。按需跳过步骤。不承担开启新项目的职能。
 - **[connect](./connect/SKILL.md)** — 全量知识库扫描：**L1 标签统一→L2 建 MOC→L3 补双链→L4 融合 hub**。与归位/提炼的嵌入检测互补。
+- **[vault-lint](./vault-lint/SKILL.md)** — 笔记库体检：**frontmatter 完整性、状态机合规、标签格式、重复文件、时效**；只读报告 + dry-run 修复。

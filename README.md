@@ -2,9 +2,9 @@
 
 [![skills.sh](https://skills.sh/b/Grid0723/skills)](https://skills.sh/Grid0723/skills)
 
-> 三线 Agent Skill 体系——46 个原子技能。这不是一份技能清单，而是一套方法论的沉淀：让 AI 助手在「软件开发生命周期」、「知识管理」与「陌生领域学习」三条工作流上，每次都以相同的过程工作。
+> 三线 Agent Skill 体系——47 个原子技能。这不是一份技能清单，而是一套方法论的沉淀：让 AI 助手在「软件开发生命周期」、「知识管理」与「陌生领域学习」三条工作流上，每次都以相同的过程工作。
 
-**Agent Skill** 是写给 AI Agent 的指令包：一段触发描述 + 有序步骤 + 按需展开的参考。本仓库把这种指令包系统化为 46 个 skill + 36 个 reference 文件——围绕"让指令可预测"组织。
+**Agent Skill** 是写给 AI Agent 的指令包：一段触发描述 + 有序步骤 + 按需展开的参考。本仓库把这种指令包系统化为 47 个 skill + 37 个 reference 文件——围绕"让指令可预测"组织。
 
 ## 为什么要做
 
@@ -44,11 +44,11 @@
 - **2026-11-15** v2.2.0：新增 `implement` Task 执行 skill + 开发计划/文档骨架统一（45 个 skill）
 - **2026-11-15** v2.2.1：新增 `diagnosing-bugs` 难 bug 诊断循环并入 Grid Bug 修复路径（46 个 skill）
 
-沉淀下来的不是 46 个文件，而是一套从"分析别人的体系"到"演化出自己的体系"的方法。
+沉淀下来的不是 47 个文件，而是一套从"分析别人的体系"到"演化出自己的体系"的方法。
 
 ## 能做什么
 
-方法落地为 46 个 skill，按 9 个功能域组织，部署在三个层次：
+方法落地为 47 个 skill，按 9 个功能域组织，部署在三个层次：
 
 ```mermaid
 graph TB
@@ -56,7 +56,7 @@ graph TB
     FAB["Fabric 编排器<br/>Obsidian 知识管理"]
     LEARN["Learn 编排器<br/>陌生领域学习"]
     SHARED["全局共享层 · 17 个<br/>shared(4) + git(4) + engineering(9)"]
-    VAULT["知识库专属层 · 18 个<br/>knowledge(7) + writing(4) + project(2) + learning(5)"]
+    VAULT["知识库专属层 · 19 个<br/>knowledge(8) + writing(4) + project(2) + learning(5)"]
     PROJ["项目热插拔层 · 11 个<br/>TDX(5) + trading-assistant(6)"]
 
     GRID --> SHARED
@@ -178,14 +178,14 @@ graph TD
 
 Learn 与 Fabric 是流水线接力关系：Learn 管"内容到手前"的认知获取（建图→深挖→验证→更新地图循环），收获后产出写入 `00_收集箱` 交接 Fabric 沉淀（分类→归位→提炼→织网）。验证贯穿全程，防止"漂亮但不正确"的地图。
 
-### 46 个 skill 分类矩阵
+### 47 个 skill 分类矩阵
 
 | 功能域 | 数量 | 部署层级 | 代表 skill |
 |--------|------|---------|-----------|
 | shared — 全局共享 primitive | 4 | 全局 `~/.agents/skills/` | writing-great-skills, grilling, tdd, doc-architecture |
 | git — Git 工程工具 | 4 | 全局 | git-guardrails, git-commit, git-branch, git-push |
 | engineering — Grid 脊椎 | 9 | 全局 | grid, to-prd, to-issues, implement, code-review, diagnosing-bugs, wayfinder, setup-grid, retro |
-| knowledge — Fabric 脊椎 | 7 | 知识库 `.agents/skills/` | fabric, capture, classify, organize, distill, express, connect |
+| knowledge — Fabric 脊椎 | 8 | 知识库 `.agents/skills/` | fabric, capture, classify, organize, distill, express, connect, vault-lint |
 | learning — Learn 脊椎 | 5 | 知识库 `.agents/skills/` | learn, map, dig, verify, harvest |
 | writing — 写作体系 | 4 | 知识库 | writing-fragments, writing-beats, writing-shape, edit-article |
 | project — 项目管理 | 2 | 知识库 | project-lifecycle, project-maintain |
@@ -212,6 +212,6 @@ Learn 与 Fabric 是流水线接力关系：Learn 管"内容到手前"的认知�
 
 ## 文档导航
 
-- **[Grid Skills 使用手册](./docs/Grid%20Skills%20使用手册.md)** — 完整操作指南：路由决策图、46 个 skill 的触发条件速查、协作关系、故障排查
+- **[Grid Skills 使用手册](./docs/Grid%20Skills%20使用手册.md)** — 完整操作指南：路由决策图、47 个 skill 的触发条件速查、协作关系、故障排查
 - **[CHANGELOG.md](./CHANGELOG.md)** — 版本变更记录（Keep a Changelog + SemVer）
 - 各功能域职责速览见上方「能做什么」表格，每个域 README 含全部 skill 的一句话职责

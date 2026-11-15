@@ -6,6 +6,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- **`knowledge/vault-lint`** — 笔记库体检：frontmatter 完整性、状态机合规、标签格式、重复文件、时效；只读报告 + dry-run 修复
+
 ## [2.2.1] - 2026-11-15
 
 ### Added
