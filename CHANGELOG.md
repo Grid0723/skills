@@ -6,12 +6,15 @@
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-11-15
+
 ### Changed
 
 - **git 域按工作单元合并（6 → 4）**：`git-commit-guide` + `changelog-guide` → `git-commit`；`git-branch-plan` + `git-branch-lifecycle` → `git-branch`；`git-push-guide` → `git-push`（重命名）；`git-guardrails` 保持独立
 - **project 域按工作单元合并（5 → 2）**：`project-init` + `project-plan` + `project-archive` → `project-lifecycle`；`project-review` + `project-links` → `project-maintain`
 - **合并后的 skill 自包含**：吸收原 OpenCode command 的入口步骤（提交/分支/推送/项目流程），用户无需自建命令
 - **README / 使用手册 / skills.sh.json**：同步 44 个 skill、15 个全局、18 个知识库专属
+- **升级注意**：本版移除 10 个旧 skill ID，虽按 2.1.0 发布，实质为不兼容变更——升级前须对照下方迁移映射更新引用
 
 ### Removed
 
