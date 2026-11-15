@@ -9,7 +9,7 @@ tags: []
 
 本格式基于 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)，并遵守[语义化版本控制](https://semver.org/spec/v2.0.0.html)。
 
-本项目所有显著变更记录。写入校验见 `changelog-guide`。
+本项目所有显著变更记录。写入校验见 `git-commit`（CHANGELOG 模式）。
 
 ## 格式
 

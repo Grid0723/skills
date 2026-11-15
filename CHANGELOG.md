@@ -6,6 +6,33 @@
 
 ## [Unreleased]
 
+### Changed
+
+- **git 域按工作单元合并（6 → 4）**：`git-commit-guide` + `changelog-guide` → `git-commit`；`git-branch-plan` + `git-branch-lifecycle` → `git-branch`；`git-push-guide` → `git-push`（重命名）；`git-guardrails` 保持独立
+- **project 域按工作单元合并（5 → 2）**：`project-init` + `project-plan` + `project-archive` → `project-lifecycle`；`project-review` + `project-links` → `project-maintain`
+- **合并后的 skill 自包含**：吸收原 OpenCode command 的入口步骤（提交/分支/推送/项目流程），用户无需自建命令
+- **README / 使用手册 / skills.sh.json**：同步 44 个 skill、15 个全局、18 个知识库专属
+
+### Removed
+
+- 移除 `git-commit-guide`、`changelog-guide`、`git-branch-plan`、`git-branch-lifecycle`、`git-push-guide`
+- 移除 `project-init`、`project-plan`、`project-review`、`project-links`、`project-archive`
+
+迁移映射（旧 → 新）：
+
+| 旧名 | 新名 | 对应模式 |
+|---|---|---|
+| `git-commit-guide` | `git-commit` | 提交模式 |
+| `changelog-guide` | `git-commit` | CHANGELOG 模式 |
+| `git-branch-plan` | `git-branch` | 创建模式 |
+| `git-branch-lifecycle` | `git-branch` | 生命周期模式 |
+| `git-push-guide` | `git-push` | 推送模式 |
+| `project-init` | `project-lifecycle` | 启动模式 |
+| `project-plan` | `project-lifecycle` | 计划模式 |
+| `project-archive` | `project-lifecycle` | 归档模式 |
+| `project-review` | `project-maintain` | 回顾模式 |
+| `project-links` | `project-maintain` | 链接模式 |
+
 ## [2.0.0] - 2026-11-15
 
 ### Added

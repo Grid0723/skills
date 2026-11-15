@@ -3,7 +3,7 @@ Author: 张谦
 tags: [技术/AI/Skills]
 关键词: [编排器路由, 操作指南, 工作流, 使用手册, Fabric, Grid, Learn, Skill协作]
 类型: 索引
-description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Learn 三线编排器工作流、49 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
+description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Learn 三线编排器工作流、44 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
 状态: 已归位
 创建: 2026-08-06 00:30:00
 修改: 2026-11-15 10:30:00
@@ -12,21 +12,21 @@ description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Le
 # Grid Skills 使用手册
 
 > [!abstract]
-> Grid0723/skills 体系包含 **49 个原子 skill**，按三线编排器（Grid + Fabric + Learn）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
+> Grid0723/skills 体系包含 **44 个原子 skill**，按三线编排器（Grid + Fabric + Learn）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
 
 ## 一、总览
 
-### 49 个 Skill 分类矩阵
+### 44 个 Skill 分类矩阵
 
 | 功能域                             | 数量  | 部署层级                    | 典型 skill                                                                         |
 | ------------------------------- | --- | ----------------------- | -------------------------------------------------------------------------------- |
 | **shared** — 全局共享 primitive     | 4   | 全局 `~/.agents/skills/`  | writing-great-skills, grilling, tdd, doc-architecture                            |
-| **git** — Git 工程工具              | 6   | 全局 `~/.agents/skills/`  | git-guardrails, git-commit-guide, git-branch-plan, git-branch-lifecycle, git-push-guide, changelog-guide |
+| **git** — Git 工程工具              | 4   | 全局 `~/.agents/skills/`  | git-guardrails, git-commit, git-branch, git-push                                    |
 | **engineering** — Grid 脊椎       | 7   | 全局 `~/.agents/skills/`  | grid, to-prd, to-issues, code-review, wayfinder, setup-grid, retro               |
 | **knowledge** — Fabric 脊椎       | 7   | Vault `.agents/skills/` | fabric, capture, classify, organize, distill, express, connect                   |
 | **learning** — Learn 脊椎         | 5   | Vault `.agents/skills/` | learn, map, dig, verify, harvest                                                 |
 | **writing** — 写作体系              | 4   | Vault `.agents/skills/` | writing-fragments, writing-beats, writing-shape, edit-article                    |
-| **project** — 项目管理              | 5   | Vault `.agents/skills/` | project-init, project-plan, project-review, project-links, project-archive       |
+| **project** — 项目管理              | 2   | Vault `.agents/skills/` | project-lifecycle, project-maintain                                             |
 | **tdx** — TDX 项目专属              | 5   | TDX `.agents/skills/`   | tdx-quant-docs, loguru, prisma-docs, tdx-dev-guide, tdx-test-spec                |
 | **trading-assistant** — TA 项目专属 | 6   | TA `.agents/skills/`    | nest-generate, prisma-sync, finance-review, api-contract, doc-sync, ta-test-spec |
 
@@ -65,7 +65,7 @@ graph TD
     GRILL5 --> PRD
     
     PRD --> ISSUE
-    ISSUE --> BRANCH[git-branch-plan<br/>创建 feature 分支]
+    ISSUE --> BRANCH[git-branch<br/>创建 feature 分支]
     BRANCH --> CODE
     
     CODE --> LOOP{开发计划<br/>有未完成 Task?}
@@ -74,7 +74,7 @@ graph TD
     IMPL --> PASS{测试通过?}
     PASS -->|否| IMPL
     PASS -->|是| REVIEW[code-review<br/>双轴审查]
-    REVIEW -->|通过| DONE[标记完成<br/>git-commit-guide]
+    REVIEW -->|通过| DONE[标记完成<br/>git-commit]
     REVIEW -->|需修改| IMPL
     DONE --> LOOP
     LOOP -->|全部完成| END_ROUTE{规模判断}
@@ -82,7 +82,7 @@ graph TD
     END_ROUTE -->|常规任务| FINISH[✅ 完成]
     
     CODE -.->|全程约束| GGRD[git-guardrails]
-    CODE -.->|完成 Task 后| GCMT[git-commit-guide]
+    CODE -.->|完成 Task 后| GCMT[git-commit]
 ```
 
 ### 各阶段详解
@@ -92,12 +92,12 @@ graph TD
 | **路由** | — | 接收用户输入后立即执行 | 判定任务类型 + 推荐阶段序列 + 推荐项目 skill |
 | **拷问** | `grilling` | 任务模糊需要具体化（已有项目计划时**不可跳过**，计划仅作输入素材） | 共识（无文件产出） |
 | **PRD** | `to-prd` | 新功能（Bug 修复/重构/配置变更跳过） | `docs/01-Requirements/PRD-xxx.md` |
-| **拆 Issue** | `to-issues` → `git-branch-plan` | PRD 完成后（配置变更跳过） | `docs/07-MVP/开发计划.md` + feature 分支 |
-| **编码内循环** | `tdd` → `code-review` → `git-commit-guide` | 逐 Task 推进 | 代码 + 测试 + `docs/05-ADR/` 审查报告 |
-| **超大任务规划** | `wayfinder` → `git-branch-lifecycle` | 仅 DevOps 级大型重构/迁移 | 共享地图 + Ticket 列表 |
+| **拆 Issue** | `to-issues` → `git-branch` | PRD 完成后（配置变更跳过） | `docs/07-MVP/开发计划.md` + feature 分支 |
+| **编码内循环** | `tdd` → `code-review` → `git-commit` | 逐 Task 推进 | 代码 + 测试 + `docs/05-ADR/` 审查报告 |
+| **超大任务规划** | `wayfinder` → `git-branch` | 仅 DevOps 级大型重构/迁移 | 共享地图 + Ticket 列表 |
 
 > [!warning] 已有项目计划 ≠ 可跳过阶段
-> Fabric 产出的 `项目计划.md`（`project-init`/`project-plan` 产物）只是**按功能模块分组的任务清单**，不是 PRD 也不是开发计划。路由时若检测到已有项目计划，类型判定为「项目立项（已有项目计划）」，阶段序列 = **拷问 → PRD → 拆 Issue → 编码**，**禁止跳过**任何阶段——项目计划仅作为拷问输入素材。
+> Fabric 产出的 `项目计划.md`（`project-lifecycle` 计划模式的产物）只是**按功能模块分组的任务清单**，不是 PRD 也不是开发计划。路由时若检测到已有项目计划，类型判定为「项目立项（已有项目计划）」，阶段序列 = **拷问 → PRD → 拆 Issue → 编码**，**禁止跳过**任何阶段——项目计划仅作为拷问输入素材。
 
 ### 项目技能热插拔扫描
 
@@ -117,7 +117,7 @@ Grid 在路由和编码阶段自动扫描当前项目 `AGENTS.md` 中的 `skills
         → 是：code-review（双轴并行审查）
           → Standards 审查（加载项目专属审查 skill）
           → Spec 审查（独立上下文）
-          → 通过：标记 -[x]，git-commit-guide 提交
+          → 通过：标记 -[x]，git-commit 提交
           → 需修改：回到实现
 ```
 
@@ -125,8 +125,8 @@ Grid 在路由和编码阶段自动扫描当前项目 `AGENTS.md` 中的 `skills
 
 编码阶段全程自动遵守：
 - `git-guardrails` — 禁止未经确认执行 `git add/commit/push`
-- `git-commit-guide` — 一个 commit 只做一件事，小步快跑
-- `git-branch-lifecycle` — 长周期分支定期同步、冲突预防
+- `git-commit` — 一个 commit 只做一件事，小步快跑
+- `git-branch` — 长周期分支定期同步、冲突预防
 
 ---
 
@@ -171,11 +171,8 @@ graph TD
     CON --> L1[L1: 标签统一] --> L2[L2: 建 MOC] --> L3[L3: 补双链] --> L4[L4: 融合 hub]
     
     PRJ --> PJ_TYPE{操作类型}
-    PJ_TYPE -->|新建| PI[project-init]
-    PI --> PP[project-plan]
-    PJ_TYPE -->|回顾| PR[project-review]
-    PJ_TYPE -->|链接| PL[project-links]
-    PJ_TYPE -->|完成| PA[project-archive]
+    PJ_TYPE -->|新建/计划/归档| PLC[project-lifecycle]
+    PJ_TYPE -->|回顾/链接| PMT[project-maintain]
 ```
 
 ### 六阶段详解
@@ -209,14 +206,14 @@ Fabric 在两个阶段自动嵌入织网检测：
 
 ### 项目管理子体系
 
-5 个项目管理 skill 独立于 CODE 阶段管道，通过 Fabric 按需触发：
+2 个项目管理 skill 独立于 CODE 阶段管道，通过 Fabric 按需触发：
 
 | 用户说 | 加载 skill | 说明 |
 |--------|-----------|------|
-| "新建项目" | `project-init` → `project-plan` | 总览文档 + 任务清单 |
-| "更新里程碑"、"回顾进度" | `project-review` | 基于 CHANGELOG/commit log |
-| "加个外部链接" | `project-links` | `20_项目/外部链接.md` |
-| "归档项目" | `project-archive` | 先反哺知识到 `10_领域`，再移入 `90_归档` |
+| "新建项目" | `project-lifecycle`（启动 → 计划） | 总览文档 + 任务清单 |
+| "更新里程碑"、"回顾进度" | `project-maintain` | 基于 CHANGELOG/commit log |
+| "加个外部链接" | `project-maintain` | `20_项目/外部链接.md` |
+| "归档项目" | `project-lifecycle` | 先反哺知识到 `10_领域`，再移入 `90_归档` |
 
 ---
 
@@ -324,45 +321,31 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **输出**：安全审批——展示影响范围，确认后执行
 - **协作**：被 Grid 编码阶段作为全局约束加载
 
-#### git-commit-guide
+#### git-commit
 
-- **功能**：通用提交原则——一个 commit 只做一件事，小步快跑
-- **触发**：编码完成一个功能点、Grid 编码内循环标记 Task 完成后
-- **输入**：待提交的变更
-- **输出**：格式化的 commit message（前缀格式由项目 AGENTS.md 声明）
-- **协作**：被 Grid 编码阶段引用
+- **功能**：提交与 CHANGELOG 治理——单一主题、信息格式、破坏性标注、SemVer 联动；内含 Keep a Changelog 格式校验
+- **触发**："提交"、"commit"、"提交信息"、"检查 CHANGELOG"、"发版"
+- **输入**：`git status` / `git diff --stat` 与变更内容
+- **输出**：待确认的 commit message；CHANGELOG 合规报告与版本号建议
+- **入口**：提交模式 / CHANGELOG 模式（加载后先判定）
+- **协作**：被 Grid 编码阶段引用；危险命令移交 git-guardrails
 
-#### git-branch-plan
+#### git-branch
 
-- **功能**：拆解任务后规划分支命名和创建策略——短命分支、从最新 main 拉出
-- **触发**：Grid to-issues 完成后、新 feature 开始前
-- **输入**：开发计划中的 Task 列表
-- **输出**：分支命名 + 创建命令
-- **协作**：被 Grid 拆 Issue 阶段自动提示
+- **功能**：分支生命周期——创建命名、基线检查、长周期同步与合并收尾
+- **触发**："开分支"、"建分支"、"分支怎么命名"、"长分支怎么管"、"合并分支"
+- **输入**：任务描述、当前分支状态
+- **输出**：分支创建命令；同步/合并策略与收尾清单
+- **入口**：创建模式 / 生命周期模式
+- **协作**：被 Grid 拆 Issue 与 wayfinder 阶段引用
 
-#### git-branch-lifecycle
+#### git-push
 
-- **功能**：长周期分支管理——定期同步、冲突预防、合并策略选择
-- **触发**：分支存活超 2 天、准备合并长周期分支
-- **输入**：当前分支状态
-- **输出**：同步策略 + 合并建议
-- **协作**：被 Grid wayfinder 阶段引用
-
-#### git-push-guide
-
-- **功能**：推送原则——推前自检门、领先/落后检测、失败处理、发布 tag 推送
-- **触发**：即将 push、询问推送方法、push 失败或被拒、发布版本打 tag
+- **功能**：推送——推前自检门、领先/落后检测、失败处理、发布 tag 推送
+- **触发**："推送"、"push"、"推送失败"、"打 tag"
 - **输入**：当前仓库与分支状态
 - **输出**：推前检查结论 + 推送命令或失败修复方案
 - **协作**：被 Grid 编码内循环引用；危险命令移交 git-guardrails
-
-#### changelog-guide
-
-- **功能**：CHANGELOG 格式校验守卫——六种变动类型、Unreleased 区块、SemVer 版本递增、ISO 8601 日期
-- **触发**：创建或编辑 CHANGELOG 文件（全程自动背景校验）
-- **输入**：待写入的 CHANGELOG 内容
-- **输出**：格式合规校验 + 版本号递增建议（联动 git-commit-guide 提交类型）
-- **协作**：doc-architecture 提供空白模板；doc-sync 决定何时同步；git-commit-guide 映射提交类型到版本号
 
 ### 5.3 Grid 脊椎（engineering）
 
@@ -390,7 +373,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **触发**：PRD 审批通过后
 - **输入**：PRD 文档
 - **输出**：`docs/07-MVP/开发计划.md`（含 `- [ ] Task-N: <描述> — 验证: <如何确认完成>` 任务清单）
-- **协作**：被 Grid 拆 Issue 阶段加载；完成后自动提示 `git-branch-plan`
+- **协作**：被 Grid 拆 Issue 阶段加载；完成后自动提示 `git-branch`
 - **参考**：references/tracer-bullet-examples.md
 
 #### code-review
@@ -408,7 +391,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **触发**：大型重构/迁移任务（如 pandas→Polars、PostgreSQL→TimescaleDB）
 - **输入**：迁移目标描述
 - **输出**：共享地图 + Ticket 列表（research/prototype/grilling/task 四种类型）
-- **协作**：被 Grid 超大任务规划阶段加载；与 `git-branch-lifecycle` 协作
+- **协作**：被 Grid 超大任务规划阶段加载；与 `git-branch` 协作
 - **参考**：references/ticket-map-examples.md
 
 #### setup-grid
@@ -489,7 +472,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **输入**：写作意图 + 原料（笔记/碎片）
 - **输出**：写作管道路由 + 第一个写作 skill 已加载
 - **协作**：被 Fabric 输出阶段加载；路由到 writing 体系的 4 个 skill
-- **不承担**：开启新项目（项目初始化走 project-init）
+- **不承担**：开启新项目（项目初始化走 project-lifecycle）
 - **参考**：references/pipeline-routing.md
 
 #### connect
@@ -540,49 +523,25 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 
 ### 6.3 项目管理（project）
 
-#### project-init
+#### project-lifecycle
 
-- **功能**：在 `20_项目/` 下创建新项目的总览文档和外部链接文档
-- **触发**：用户说"新建项目"、"开个新项目"
-- **输入**：项目名称、领域标签
-- **输出**：`20_项目/<项目名>/` 总览文档（`类型: 项目` + `项目阶段: 启动`）
-- **协作**：完成后建议调用 `project-plan`；可被 Fabric 挂靠触发
-- **参考**：references/templates.md
+- **功能**：项目生命周期——立项（总览 + 外部链接）、按功能模块拆任务、归档前知识反哺
+- **触发**："新建项目"、"立项"、"拆项目任务"、"归档项目"
+- **输入**：项目名称、领域标签、功能范围
+- **输出**：总览 + 外部链接 + `项目计划.md`；归档时反哺笔记并移入 `90_归档`
+- **入口**：启动模式 / 计划模式 / 归档模式
+- **协作**：可被 Fabric 项目管理挂靠触发；进入编码仍须走 Grid 完整流程
+- **参考**：references/templates.md、plan-template.md、archive-checklist.md
 
-#### project-plan
+#### project-maintain
 
-- **功能**：按功能模块分组创建项目任务清单
-- **触发**：project-init 完成后或需要更新项目范围
-- **输入**：项目目标
-- **输出**：`20_项目/<项目名>/项目计划.md` —— `- [ ] #项目/<名>` 格式任务清单
-- **协作**：紧随 project-init 调用
-- **参考**：references/plan-template.md
-
-#### project-review
-
-- **功能**：基于 CHANGELOG/commit log 更新项目的里程碑总结
-- **触发**：完成关键功能、切换项目阶段、需要进度回顾
-- **输入**：CHANGELOG 或 commit log
-- **输出**：更新总览文档的「里程碑总结」——核心变更、关键决策、所学经验
+- **功能**：项目维护——里程碑回顾 + 外部链接维护
+- **触发**："更新里程碑"、"回顾进度"、"加个外部链接"、"整理项目链接"
+- **输入**：CHANGELOG / commit log、链接信息
+- **输出**：总览「里程碑总结」；`外部链接.md` 更新
+- **入口**：回顾模式 / 链接模式
 - **协作**：被 Fabric 项目管理触发
 - **参考**：references/review-template.md
-
-#### project-links
-
-- **功能**：维护项目的外部链接文档——`file:///` 本地路径和外部 URL
-- **触发**：新增外部资源、更新链接、整理项目引用
-- **输入**：链接信息
-- **输出**：`20_项目/<项目名>/外部链接.md` + 更新 `20_项目/外部链接.md`
-- **协作**：被 Fabric 项目管理触发
-
-#### project-archive
-
-- **功能**：项目完成后知识反哺 `10_领域`，再移入 `90_归档`
-- **触发**：项目完成或不再活跃时
-- **输入**：项目目录
-- **输出**：提炼后的知识笔记 + 项目文件移入归档目录
-- **协作**：被 Fabric 项目管理触发；先提炼再归档——归档后就很少再访问
-- **参考**：references/archive-checklist.md
 
 ### 6.4 Learn 脊椎（learning）
 
@@ -742,9 +701,9 @@ graph TB
         WGS[writing-great-skills]
         DOCA[doc-architecture]
         GGRD[git-guardrails]
-        GCMT[git-commit-guide]
-        GBR[git-branch-plan]
-        GLC[git-branch-lifecycle]
+        GCMT[git-commit]
+        GBR[git-branch]
+        GPUSH[git-push]
         TPRD[to-prd]
         TISS[to-issues]
         CREV[code-review]
@@ -754,8 +713,8 @@ graph TB
     subgraph "Vault 专属层"
         CAP[capture] --> CLS[classify] --> ORG[organize] --> DIS[distill]
         EXP[express] -->|路由| WF[writing-fragments] --> WB[writing-beats] --> WS[writing-shape] --> EA[edit-article]
-        PI[project-init] --> PP[project-plan]
-        PR[project-review]; PL[project-links]; PA[project-archive]
+        PLC[project-lifecycle]
+        PMT[project-maintain]
         CON[connect]
         MAP[map] --> DIG[dig] --> VER[verify]
         VER -->|不通过| DIG
@@ -812,12 +771,12 @@ graph TB
 
 | 链路 | 触发场景 | 涉及 skill |
 |------|---------|-----------|
-| **新功能开发全链路** | 用户："帮我实现 ETF 数据获取" | grid → grilling → to-prd → to-issues → git-branch-plan → tdd → code-review → git-commit-guide |
+| **新功能开发全链路** | 用户："帮我实现 ETF 数据获取" | grid → grilling → to-prd → to-issues → git-branch → tdd → code-review → git-commit |
 | **code-review 动态子加载** | 编码 Task 完成 | code-review → finance-review + api-contract（仅 TA 项目） |
 | **剪藏消化输出链路** | 用户："消化这篇微信文章" | fabric → capture → classify → organize → distill |
 | **陌生领域学习链路** | 用户："我要学 GraphRAG" | learn → map → dig → verify → 更新地图（循环）→ harvest → 交接 fabric |
 | **写作管道路由** | 用户："帮我写一篇关于…的文章" | fabric → express → writing-fragments → beats → shape → edit-article |
-| **项目收尾全链路** | 项目完成 | project-archive → fabric（反哺知识） → 归档 |
+| **项目收尾全链路** | 项目完成 | project-lifecycle → fabric（反哺知识） → 归档 |
 | **织网检测链路** | organize/distill 完成后 | organize → 检≥3→connect 提示；distill → 检≥5→connect 提示 |
 
 ---
@@ -859,7 +818,7 @@ graph TB
 
 ## 相关笔记
 
-- [[部署手册]] — 49 个 skill 的部署路径与验证清单
+- [[部署手册]] — 44 个 skill 的部署路径与验证清单
 - [[双脊椎Agent Skill体系设计]] — 架构总纲与设计原则
 - [[Grid编排器设计]] — Grid 阶段序列与内循环详解
 - [[Fabric编排器设计]] — Fabric CODE 阶段与织网机制

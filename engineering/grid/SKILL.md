@@ -36,7 +36,7 @@ description: 软件开发生命周期编排器——仅在用户要做开发任�
 | 重构 | 用户要求改结构不改功能 | PRD（拷问→拆Issue→编码→审查） |
 | 配置变更 | 用户要求改配置/依赖/环境 | PRD、拆Issue（拷问→编码） |
 | 轻量改动 | 单文件、≤50 行、不改公共 API/数据模型/依赖，且已有测试覆盖 | PRD、拆Issue（直接 tdd → code-review） |
-| 项目立项（已有项目计划） | 项目已通过 Fabric `project-init`/`project-plan` 立项，检测到 `项目计划.md`/`总览.md`（Obsidian 产物） | **无**——必须走完整管道 |
+| 项目立项（已有项目计划） | 项目已通过 Fabric `project-lifecycle` 立项，检测到 `项目计划.md`/`总览.md`（Obsidian 产物） | **无**——必须走完整管道 |
 
 > [!warning] 已有项目计划 ≠ 可跳过阶段
 > Fabric 产出的 `项目计划.md` 只是**按功能模块分组的任务清单**（无 seam/范围/风险标注），不是 PRD，也不是开发计划。**严禁**将其判定为"现成 PRD+开发计划"而跳过拷问/PRD/拆 Issue。项目计划仅作为拷问阶段的输入素材。
@@ -71,7 +71,7 @@ description: 软件开发生命周期编排器——仅在用户要做开发任�
 
 加载 `to-issues` skill，PRD → tracer bullet 垂直切片，写入 `开发计划.md`。每个 Task 可独立演示和验证。
 
-拆解完成后自动提示调用 `git-branch-plan`：
+拆解完成后自动提示调用 `git-branch`：
 > 建议创建分支 `feature/<功能名>`，是否执行？
 
 - 完成标准：开发计划已写入，分支已创建（如适用）
@@ -100,7 +100,7 @@ description: 软件开发生命周期编排器——仅在用户要做开发任�
 
 编码阶段全程遵守：
 - `git-guardrails` —— 禁止自动 git add/commit/push
-- `git-commit-guide` —— 完成一个小功能点立即提交
+- `git-commit` —— 完成一个小功能点立即提交
 
 ## 内部引用
 
@@ -108,9 +108,9 @@ description: 软件开发生命周期编排器——仅在用户要做开发任�
 |------|-----------------|
 | 拷问 | `grilling` |
 | PRD | `to-prd` |
-| 拆 Issue | `to-issues` → `git-branch-plan` |
-| 编码 | `tdd` → `code-review` → `git-commit-guide` |
-| 超大任务规划 | `wayfinder` → `git-branch-lifecycle` |
+| 拆 Issue | `to-issues` → `git-branch` |
+| 编码 | `tdd` → `code-review` → `git-commit` |
+| 超大任务规划 | `wayfinder` → `git-branch` |
 
 ## 项目技能扫描
 

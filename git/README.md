@@ -1,10 +1,8 @@
 # git
 
-Git 工程工具——按 Grid 阶段分散的原子规范。纯参考，可自动触发。
+Git 工程工具——按工作单元组织的规范。纯参考，可自动触发。
 
 - **[git-guardrails](./git-guardrails/SKILL.md)** — **拦截危险 Git 命令**防不可逆破坏。危险操作走审批门，安全方案优先。
-- **[git-commit-guide](./git-commit-guide/SKILL.md)** — **一个 commit 只做一件事，小步快跑**。前缀格式由各项目 AGENTS.md 声明。
-- **[git-branch-plan](./git-branch-plan/SKILL.md)** — 拆 Issue 后规划分支：**短命分支、从最新 main 拉出、短横线命名**。
-- **[git-branch-lifecycle](./git-branch-lifecycle/SKILL.md)** — 长周期分支管理：**定期同步 main、冲突窗口预防、瘦分支**。
-- ** [git-push-guide](./git-push-guide/SKILL.md) ** — 推送原则：**推前自检门、领先/落后检测、失败处理、发布 tag 推送**。
-- **[changelog-guide](./changelog-guide/SKILL.md)** — **CHANGELOG 格式校验守卫**：六种变动类型、Unreleased 区块、SemVer 递增、ISO 8601 日期。全程自动背景校验。
+- **[git-commit](./git-commit/SKILL.md)** — **一个 commit 只做一件事**，提交前自检、信息格式、破坏性标注；内含 **CHANGELOG 格式校验**（六类变动、Unreleased、SemVer 联动、ISO 8601）。
+- **[git-branch](./git-branch/SKILL.md)** — 分支生命周期：**短命分支、从最新 main 拉出、短横线命名**；超过 2 天的分支定期同步 main、预防冲突窗口并收尾。
+- **[git-push](./git-push/SKILL.md)** — 推送原则：**推前自检门、领先/落后检测、失败处理、发布 tag 推送**。

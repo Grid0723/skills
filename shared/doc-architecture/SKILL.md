@@ -77,7 +77,7 @@ docs/
 
 ### CHANGELOG.md —— 版本变更记录
 
-格式遵守 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) + [语义化版本](https://semver.org/spec/v2.0.0.html)，写入校验见 `changelog-guide`。
+格式遵守 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) + [语义化版本](https://semver.org/spec/v2.0.0.html)，写入校验见 `git-commit`（CHANGELOG 模式）。
 
 ```markdown
 # CHANGELOG
@@ -155,7 +155,7 @@ Grid `code-review` 审查通过后自动写入。
 
 ### 07-MVP —— 开发实施
 
-Grid `to-issues` 产出的开发计划写入此处。实施概览和实现日志由 `project-review` 更新。
+Grid `to-issues` 产出的开发计划写入此处。实施概览和实现日志由 `project-maintain` 更新。
 
 ### 08-Testing —— 测试文档
 
@@ -170,7 +170,7 @@ Grid `to-issues` 产出的开发计划写入此处。实施概览和实现日志
 | 编码→code-review | 审查报告 → ADR | `05-ADR/<序号>-<标题>.md` | 审查通过 |
 | wayfinder | ticket 地图 | `07-MVP/` 或 `06-DevOps/` | DevOps 任务 |
 | doc-sync | 同步更新 | CHANGELOG + 受影响文档 | 代码变更后 |
-| project-review | 里程碑总结 | `07-MVP/实现日志.md` | 功能完成/阶段切换 |
+| project-maintain | 里程碑总结 | `07-MVP/实现日志.md` | 功能完成/阶段切换 |
 
 ## 项目初始化——创建文档骨架
 

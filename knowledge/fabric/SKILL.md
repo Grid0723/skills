@@ -90,14 +90,14 @@ description: 知识管理编排器——仅在用户要保存外部内容（链�
 
 ## 项目管理——挂靠触发
 
-项目管理的 5 个原子 skill 独立于阶段管道，按需手动触发：
+项目管理的 2 个原子 skill 独立于阶段管道，按需手动触发：
 
 | 用户说 | 加载 |
 |--------|------|
-| "新建项目" | `project-init` → `project-plan` |
-| "更新里程碑"、"回顾进度" | `project-review` |
-| "加个外部链接" | `project-links` |
-| "归档项目" | `project-archive` |
+| "新建项目"、"拆任务" | `project-lifecycle` |
+| "更新里程碑"、"回顾进度" | `project-maintain` |
+| "加个外部链接" | `project-maintain` |
+| "归档项目" | `project-lifecycle` |
 
 ## 内部引用
 
@@ -109,7 +109,7 @@ description: 知识管理编排器——仅在用户要保存外部内容（链�
 | 提炼 | `distill` | 检≥5 融合 hub |
 | 输出 | `express` → 写作体系 4 个 skill | — |
 | 织网 | `connect` | — |
-| 项目管理 | `project-init/plan/review/links/archive` | — |
+| 项目管理 | `project-lifecycle` / `project-maintain` | — |
 
 ## 提交信息模板
 

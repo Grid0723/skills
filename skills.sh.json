@@ -51,14 +51,12 @@
     },
     {
       "title": "Git 工程",
-      "description": "原子 Git 规范——安全护栏、提交指南、分支规划、生命周期管理、变更日志校验",
+      "description": "原子 Git 规范——安全护栏、提交与 CHANGELOG 治理、分支生命周期、推送",
       "skills": [
         "git-guardrails",
-        "git-commit-guide",
-        "git-branch-plan",
-        "git-branch-lifecycle",
-        "git-push-guide",
-        "changelog-guide"
+        "git-commit",
+        "git-branch",
+        "git-push"
       ]
     },
     {
@@ -73,13 +71,10 @@
     },
     {
       "title": "项目管理",
-      "description": "挂靠 Fabric 编排器的独立技能组——初始化、计划、回顾、外部链接、归档",
+      "description": "挂靠 Fabric 编排器的独立技能组——生命周期（立项/计划/归档）与维护（回顾/链接）",
       "skills": [
-        "project-init",
-        "project-plan",
-        "project-review",
-        "project-links",
-        "project-archive"
+        "project-lifecycle",
+        "project-maintain"
       ]
     },
     {
