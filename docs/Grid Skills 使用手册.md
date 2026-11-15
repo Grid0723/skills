@@ -16,6 +16,288 @@ description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Le
 
 ## 一、总览
 
+### 设计哲学
+
+```text
+$ grid
+╭──────────────────────────────╮
+│  welcome to the grid         │
+│  > _                         │
+╰──────────────────────────────╯
+```
+
+用系统对抗随机。用实践校验认知。用制度约束风险。用密度对抗稀释。用长期对抗波动。
+
+### 三条脊椎的分工
+
+| 脊椎 | 管什么 | 典型入口 |
+|---|---|---|
+| **Grid** | 把事做出来：需求 → 方案 → 任务 → 实现 → 审查 | "帮我实现…"、"继续 CF-S1-F2-T3"、"跑完 S1" |
+| **Fabric** | 把认知留下来：捕获 → 归位 → 提炼 → 织网 | "保存这个"、"消化这篇"、"整理知识库" |
+| **Learn** | 把未知变成地图：建图 → 深挖 → 验证 → 收获 | "我要学 X"、"从零学 X" |
+
+一句话：**Grid 管产出，Fabric 管沉淀，Learn 管输入前的地图。** 三者不是并列功能，而是一条流水线：Learn 的收获交给 Fabric，Fabric 的认知支撑 Grid 的决策。
+
+### 使用目的
+
+- **行为可预测**：同一类任务走同一流程，不因会话、模型或心情而变。
+- **知识可积累**：每次捕获、提炼、决策都有固定位置，三个月后还能找到。
+- **协作可交接**：编号（S-F-T）、状态（四态）、文档结构统一，人或 Agent 接手都能读懂。
+- **出错可回滚**：一个 Task 一个 commit；合并按工作单元，回滚粒度清晰。
+- **经验可复用**：Gotchas 记录真实失败，下一个会话直接受益。
+
+### 怎么开始
+
+1. **不确定用哪条线** → 说清目标，让编排器路由。不要先想"该用哪个 skill"。
+2. **明确任务** → 直接给编排器或原子 skill：`@grid`、`@fabric`、`@learn`，或直接说"执行 CF-S1-F2-T3"。
+3. **想改体系** → 先读 `writing-great-skills` 元规范，再动 SKILL.md；改完跑 `evals/check-structure.ps1`。
+4. **不确定笔记规范** → 跑 `vault-lint`，先看报告再修。
+5. **不确定部署是否一致** → 跑 `setup-grid`，它只读，不会改任何文件。
+
+### 安装与更新
+
+#### 全局安装（17 个）
+
+```bash
+npx skills@latest add Grid0723/skills
+# 不指定 agent；装到 ~/.agents/skills/
+```
+
+装入：`shared(4) + git(4) + engineering(9)`。验证：
+
+```powershell
+Test-Path ~/.agents/skills/grid/SKILL.md
+Test-Path ~/.agents/skills/implement/SKILL.md
+```
+
+#### 项目级安装
+
+**Vault**（knowledge + writing + project + learning，19 个）：
+
+```bash
+cd "D:/Documents/09obsidianRepository/note"
+npx skills@latest add Grid0723/skills
+# 不指定 agent；装到 .agents/skills/
+```
+
+**TDX / trading_assistant**（项目专属）：
+
+```bash
+cd "D:/Documents/05code/TDX"
+npx skills@latest add Grid0723/skills
+# 不指定 agent；装到 .agents/skills/
+```
+
+分别装 5 / 6 个项目专属 skill，只在对应目录生效。
+
+#### 更新
+
+```bash
+npx skills@latest update
+# 或重新 add 拉取新增 skill
+```
+
+更新后按顺序校验：
+
+1. `setup-grid` — 源仓库与运行副本 diff 是否为 0
+2. `evals/check-structure.ps1` — 47 个 skill 是否有结构失败
+3. 重启会话，确认 skill 出现在可用列表
+4. **不要直接改运行副本**——下次安装会覆盖；改动只回写源仓库
+
+### AGENTS.md 配置
+
+> 本节只写与 skill 相关的配置。项目自己的测试/构建命令、代码规范、架构约束属于项目文档，不在本手册范围。
+
+原则：**AGENTS.md 只放索引与路由，不放步骤**。步骤在 SKILL.md，项目事实在项目 AGENTS.md。
+
+| 文件 | 放什么 | 不放什么 |
+|---|---|---|
+| 全局 `~/.config/opencode/AGENTS.md` | skill 索引、三条脊椎路由、守门 | 操作步骤 |
+| 项目根 `AGENTS.md` | `skills:` 声明、编号、docs 结构、命令 | 通用流程 |
+| `SKILL.md` | 步骤、判据、Gotchas | 项目路径与命令 |
+
+#### 全局 AGENTS.md
+
+直接复制到 `~/.config/opencode/AGENTS.md` 的 Skills 章节（或追加到末尾）：
+
+~~~markdown
+## Skills
+
+> 17 个全局 skill，装在 `~/.agents/skills/`。安装：`npx skills@latest add Grid0723/skills`（不指定 agent，装到 `.agents/skills/`）。
+
+### 路由
+
+- 软件工程任务 → `grid`（新功能 / Bug / 重构 / 配置 / 继续 Task）
+- 知识管理 → `fabric`（保存 / 消化 / 整理 / 写文章）
+- 陌生领域学习 → `learn`（从零学 X）
+- 不确定 → 说清目标，让编排器路由
+
+### 守门
+
+- 编排器加载后先确认再执行（先输出阶段序列）
+- 危险 Git 命令走 `git-guardrails`
+- 提交前按 `git-commit` 自检；CHANGELOG 用其 CHANGELOG 模式
+- 一个 Task 一个 commit；不自动 push
+
+### Git 域（4）
+
+| Skill | 用途 |
+|---|---|
+| `git-guardrails` | 危险命令拦截 |
+| `git-commit` | 提交 + CHANGELOG（两种模式） |
+| `git-branch` | 分支创建 + 生命周期 |
+| `git-push` | 推送与失败处理 |
+
+### Grid 域（9）
+
+| Skill | 用途 |
+|---|---|
+| `grid` | 开发总编排器 |
+| `to-prd` | PRD 综合 |
+| `to-issues` | S-F-T 任务拆分 |
+| `implement` | Task 执行（单任务 / 阶段批量） |
+| `code-review` | 双轴审查 |
+| `diagnosing-bugs` | 难 bug 诊断 |
+| `wayfinder` | 大型重构规划 |
+| `setup-grid` | 部署一致性检查 |
+| `retro` | Gotchas 回填 |
+~~~
+
+#### 知识库（Obsidian Vault）根 AGENTS.md
+
+追加到知识库根目录的 `AGENTS.md`：
+
+~~~markdown
+## Skills（知识库专属）
+
+> knowledge(8) + writing(4) + project(2) + learning(5)，装在 `.agents/skills/`。
+
+### 知识管理路由
+
+| 你说的意图 | 走哪条 |
+|---|---|
+| 保存 / 剪藏 / 灵感 | `capture` |
+| 消化 / 归位某篇 | `classify` → `organize` → `distill` |
+| 整理知识库 / 建 MOC / 织网 | `connect` |
+| 体检笔记库 | `vault-lint` |
+| 写对外文章 | `express` → `writing-*` |
+| 新建 / 归档项目 | `project-lifecycle` |
+| 更新里程碑 / 加链接 | `project-maintain` |
+
+### 状态机
+
+`待整理 → 已归位 → 已提炼 → 可输出`
+
+- 收集箱只留 `待整理`；领域/项目不留 `待整理`
+- `类型: 项目` 不适用四态（由项目规范定义）
+- 剪藏提炼后原件移 `90_归档/剪藏/`
+
+### 阈值
+
+- 子标签 ≥3 → 建子主题 MOC
+- 子标签 ≥5 → 融合 hub
+
+### Learn 交接
+
+学习产出统一进 `00_收集箱`，`状态: 待整理`，由 Fabric 接续。
+~~~
+
+#### 代码仓库根 AGENTS.md
+
+只写与 skill 有关的部分；项目自己的命令、规范、架构约束不写在这里。
+
+~~~markdown
+# AGENTS.md
+
+## Skill 路由
+
+- 开发任务 → `grid`
+- 知识管理 → `fabric`
+- 陌生领域学习 → `learn`
+- 不确定 → 说清目标，让编排器路由
+
+## 项目专属 Skill（仅当安装了才写）
+
+skills:
+  - <项目专属 skill 1>
+  - <项目专属 skill 2>
+
+> 全局 skill 装在 `~/.agents/skills/`，无需在此声明。
+
+## Skill 依赖的约定
+
+- 任务编号：`<项目码>-S<阶段>-F<功能>-T<任务>`
+- 文档结构：`docs/01-Requirements` → `docs/08-Testing`（见 `doc-architecture`）
+- 提交：一个 Task 一个 commit，不自动 push
+~~~
+
+**通用规则**：
+
+- 项目专属 skill 只在当前目录生效；全局 skill 无需重复声明
+- `skills:` 列表随 `.agents/skills/` 增删同步
+- 项目码自定（如 APP / WEB / CLI），固定不变、阶段只增不减
+
+#### 已有仓库的升级清单
+
+旧名 → 新名：
+
+| 旧名 | 新名 | 说明 |
+|---|---|---|
+| `git-commit-guide` | `git-commit` | 提交模式 |
+| `changelog-guide` | `git-commit` | CHANGELOG 模式 |
+| `git-branch-plan` | `git-branch` | 创建模式 |
+| `git-branch-lifecycle` | `git-branch` | 生命周期模式 |
+| `git-push-guide` | `git-push` | — |
+| `project-init` / `project-plan` / `project-archive` | `project-lifecycle` | 启动 / 计划 / 归档 |
+| `project-review` / `project-links` | `project-maintain` | 回顾 / 链接 |
+
+替换后跑 `setup-grid` 检查部署一致性。
+
+### 编号与文档结构
+
+**任务编号**：
+
+```text
+<项目码>-S<阶段>-F<功能>-T<任务>
+
+项目码：2–4 位大写，固定不变（如 APP / WEB / CLI）
+阶段：  S1、S2…（整数，只增不减；禁止 S1.5、R1）
+功能：  F1、F2…（与 PRD 一一对应）
+任务：  T1、T2…（一个 Task = 一个 commit）
+ADR：   ADR-001…（独立编号，3 位，不复用）
+```
+
+**代码仓库 docs 结构**（详见 `doc-architecture`）：
+
+```text
+docs/
+├── 01-Requirements/   PRD-F<nn>-<功能名>.md
+├── 02-Architecture/   架构总览.md + design/
+├── 05-ADR/            0000-ADR模板.md + ADR-<nnn>-<名>.md
+├── 06-DevOps/         部署 / 环境 / CI
+├── 07-MVP/            实施概览.md + 开发计划.md + 实现日志.md
+├── 08-Testing/        测试手册 / 测试记录 / S<n>-验收清单
+└── CHANGELOG.md
+```
+
+**知识库状态机**：`待整理 → 已归位 → 已提炼 → 可输出`。`类型: 项目` 不适用（投研等由项目规范定义）。
+
+### 常见任务路由
+
+| 你说 | 走哪条链路 | 产物 |
+|---|---|---|
+| 保存这个链接 | fabric → capture | 收集箱笔记，`待整理` |
+| 消化这篇 | fabric → classify → organize → distill | 领域笔记 + 执行摘要 |
+| 整理知识库 | fabric → connect | MOC / 双链建议 |
+| 体检一下笔记库 | fabric → vault-lint | 分级报告 + 修复清单 |
+| 帮我实现 X | grid → grilling → to-prd → to-issues → implement | 代码 + 一个 Task 一个 commit |
+| 继续 CF-S1-F2-T3 | grid → implement 单任务 | 一个 commit |
+| 跑完 S1 | grid → implement 批量 | 阶段完成，失败即停 |
+| 这个 bug 很难查 | grid → diagnosing-bugs → implement | 根因 + 回归测试 |
+| 我要学 X | learn → map → dig → verify → harvest | 领域地图 + 收集箱笔记 |
+| 写一篇发出去的文章 | fabric → express → writing-* | 对外文章 |
+| 沉淀经验 | fabric → distill | 永久笔记（不走写作管道） |
+
 ### 47 个 Skill 分类矩阵
 
 | 功能域                             | 数量  | 部署层级                    | 典型 skill                                                                         |
@@ -46,6 +328,15 @@ description 自动匹配 > 编排器路由加载 > 用户主动调用
 ## 二、Grid 编排器——软件工程线
 
 > Grid 是软件开发生命周期的总编排器。加载条件：用户提出软件开发任务（"帮我实现"、"写代码"、"改 bug"）。
+
+### 什么时候用 / 不用
+
+| 用 | 不用 |
+|---|---|
+| 新功能、Bug 修复、重构、配置变更 | 纯知识管理（走 Fabric） |
+| 继续开发计划里的某个 Task（`CF-S1-F2-T3`） | 从零学一个领域（走 Learn） |
+| 跑完一个阶段的全部 Task（`S1`） | 改笔记 frontmatter（走 `vault-lint`） |
+| 难 bug 需要系统诊断（`diagnosing-bugs`） | 普通问答、环境配置说明 |
 
 ### 路由决策流程
 
@@ -134,6 +425,15 @@ Grid 在路由和编码阶段自动扫描当前项目 `AGENTS.md` 中的 `skills
 
 > Fabric 是 Obsidian Vault 知识管理的总编排器。加载条件：用户要求管理笔记（"保存这个"、"消化这篇"、"整理知识库"、"写文章"）。
 
+### 什么时候用 / 不用
+
+| 用 | 不用 |
+|---|---|
+| 保存、剪藏、消化、归位、整理 | 软件开发任务（走 Grid） |
+| 建 MOC、补双链、笔记库体检（`vault-lint`） | 陌生领域学习（走 Learn） |
+| 写对外文章（`express` → writing 管道） | 单篇笔记的随口解释 |
+| 项目管理：立项 / 计划 / 回顾 / 归档 | 代码仓库的架构决策（写 ADR，走 Grid） |
+
 ### 路由决策流程
 
 ```mermaid
@@ -220,6 +520,14 @@ Fabric 在两个阶段自动嵌入织网检测：
 ## 四、Learn 编排器——陌生领域学习线
 
 > Learn 是陌生领域学习的总编排器。加载条件：用户想从零学一个领域（"我要学 X"、"从零学 X"、"怎么入门 X"）。它管**内容到手前**的认知获取，完成后通过 harvest 交接 Fabric（内容到手后的知识管理）。方法论见 [领域地图式学习](../../../docs/领域地图式学习.md)，设计见 [[Learn编排器设计]]。
+
+### 什么时候用 / 不用
+
+| 用 | 不用 |
+|---|---|
+| 从零学一个领域（"我要学 GraphRAG"） | 解释单个概念（直接回答，或直接 `dig`） |
+| 系统掌握某主题：建图 → 深挖 → 验证 | 整理已有笔记（走 Fabric） |
+| 需要领域地图与学习路径 | 写文章（走 Fabric → `express`） |
 
 ### 路由决策流程
 
@@ -470,7 +778,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **功能**：将已分类笔记物理移动到领域/项目目录，更新标签和状态
 - **触发**：classify 确认归属后
 - **输入**：笔记文件路径 + 分类结果
-- **输出**：文件已移入目标目录，frontmatter 已更新，`状态: 已消化`
+- **输出**：文件已移入目标目录，frontmatter 已更新，`状态: 已归位`
 - **协作**：被 Fabric 归位阶段加载；完成后嵌入织网检测（子标签 ≥3 提示建 MOC）
 - **参考**：references/organize-examples.md
 
@@ -850,6 +1158,46 @@ graph TB
 1. **确认 `AGENTS.md` 声明**：项目根目录 `AGENTS.md` 的 `skills:` 列表中是否包含了该 skill
 2. **确认工作目录**：OpenCode 当前工作目录必须是该项目目录——在 vault 下开发 TDX 项目时，需要手动切换到 TDX 项目目录
 3. **确认所属项目**：TDX skill 只在 TDX 项目可用，TA skill 只在 TA 项目可用
+
+### 编排器加载了，但没按阶段走
+
+> [!warning] 现象：`fabric` / `grid` / `learn` 已加载，却直接跳到某个原子 skill，跳过前置阶段
+
+**处理**：
+
+1. 让编排器先输出「入口判定」结果（阶段序列），再执行
+2. 确认 `AGENTS.md` 6.2 的「先确认再执行」是否生效
+3. 若仍跳步，明确说"按入口判定走，不要跨阶段"
+
+### 笔记状态与位置不一致
+
+> [!bug] 现象：收集箱里有 `已归位`，或领域里有 `待整理`
+
+**处理**：
+
+1. 跑 `vault-lint`，拿到分级报告
+2. 按报告修复：移出、回退状态，或补 `description`
+3. `类型: 项目` 的状态由项目规范定义，不算异常
+
+### 找不到某个 Task / 编号冲突
+
+> [!bug] 现象：「继续 CF-S1-F2-T3」时找不到任务原文
+
+**处理**：
+
+1. 检查 `docs/07-MVP/开发计划.md` 是否有该编号
+2. 编号规则：`<项目码>-S<阶段>-F<功能>-T<任务>`，阶段必须是整数
+3. 旧编号（`R1-T3b`、`S6.11-T8`）需先迁移，不能直接复用
+
+### 源仓库与运行副本不一致
+
+> [!bug] 现象：改了 skill，但行为没变
+
+**处理**：
+
+1. 跑 `setup-grid`，看源仓库与运行副本的 diff
+2. 本地更新：`npx skills add Grid0723/skills`
+3. 不要直接改运行副本——下次安装会覆盖
 
 ---
 
