@@ -11,6 +11,7 @@
 ### Added
 
 - **`engineering/implement`** — 执行开发计划中的 Task：单任务模式（默认）或阶段批量模式（显式 `S<n>`）；读原文 → 确认 seam → tdd → code-review → 一个 Task 一个 commit；批量失败即停
+- **`engineering/diagnosing-bugs`** — 难 bug 与性能回归的诊断循环：红色反馈环 → mutation diff 验真 → 最小化 → 假设 → 埋点 → 修复 + 回归
 
 ### Changed
 
