@@ -6,6 +6,8 @@
 
 ## [Unreleased]
 
+## [2.2.3] - 2026-11-15
+
 ### Changed
 
 - **写作体系与知识沉淀的边界**：`express` 新增入口判定、`fabric` 写作阶段路由补「沉淀经验 → `distill`」、`distill` 新增出口转 `express`、`writing-fragments` 新增「不适用」段；使用手册同步边界对照表——判定标准为「这篇是给自己还是给别人看」
