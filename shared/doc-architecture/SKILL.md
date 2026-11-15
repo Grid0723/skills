@@ -1,209 +1,213 @@
 ---
 name: doc-architecture
-description: 项目文档的标准目录架构与撰写规范——项目初始化、Grid 阶段产出映射、Agent 上下文指针。Use when initializing a new project, setting up documentation, when Grid needs to know where to write its outputs, or when the user asks about documentation structure.
+description: 项目文档的标准目录架构与撰写规范——8 目录骨架、07-MVP 计划格式、ADR 编号、S-F-T 任务编号与 Grid 阶段产出映射。Use when initializing a new project, setting up documentation, or when the user asks about documentation structure.
 ---
 
 # doc-architecture
 
-定义项目文档的标准 8 目录骨架、每目录的撰写规范和 Grid 阶段产出映射。不包含具体内容——内容由各阶段产出物和 Agent 按需生成。
+定义 `docs/` 的标准结构与固定文件格式。内容由各阶段产出，本 skill 只管**骨架与格式**。
 
 ## Leading Words
 
 | 术语 | 定义 |
 |------|------|
-| **文档骨架（Doc Skeleton）** | 项目初始化时创建的 docs/ 目录结构——只含空白模板，不含具体内容 |
-| **上下文指针（Context Pointer）** | Agent 通过 `docs/README.md` 快速导航到需要的文档——不重复写内容，只建查阅入口 |
-| **阶段产出映射（Phase Output Mapping）** | Grid 的每个阶段有明确的 docs/ 写入目标 |
+| **文档骨架** | 初始化时创建的目录与固定入口文件，只含模板，不含具体内容 |
+| **固定入口** | 每个目录有一个约定文件（如 `架构总览.md`），Agent 先读它再按需展开 |
+| **阶段产出映射** | Grid 每个阶段有明确的 docs 写入目标 |
+| **编号体系** | `<项目码>-S<阶段>-F<功能>-T<任务>`；ADR 独立编号 |
 
-## 标准目录架构
+## 标准目录
 
-```bash
+```text
 docs/
-├── README.md                     # 📖 文档导航索引——"我想了解 X，应该去看哪个文件"
-├── CHANGELOG.md                  # 版本变更记录——按日期+版本号记录
+├── README.md                 # 文档导航（我想了解 X → 看哪个文件）
+├── CHANGELOG.md              # Keep a Changelog + SemVer
 │
-├── 01-Requirements/              # 📋 需求文档
-│   └── PRD-<功能名>.md           # 产品需求文档——Grid to-prd 产出
-│
-├── 02-Architecture/              # 🏗️ 架构文档
-│   ├── 系统架构.md               # 系统架构总览——模块职责、技术栈、数据流
-│   ├── 时序图.md                 # 关键流程的时序图/状态机——可选
-│   ├── 开发指南.md               # 新增功能的开发流程——项目专属 dev-guide 的文档版
-│   └── 设计模式.md               # 项目中使用的设计模式总结——可选
-│
-├── 03-Database/                  # 🗄️ 数据库设计
-│   ├── 数据库设计.md             # ER 图 + 表结构 + 索引汇总
-│   └── 数据字典.md               # 字段级详细说明
-│
-├── 04-API/                       # 🔌 API 契约
-│   └── <接口契约>.md             # 内部接口契约或 OpenAPI 链接
-│
-├── 05-ADR/                       # 📝 架构决策记录
-│   └── <序号>-<决策标题>.md      # 每条决策一个文件，Grid code-review 产出
-│
-├── 06-DevOps/                    # 🚀 运维部署
-│   ├── CLI使用说明.md            # CLI 命令完整参考——如适用
-│   ├── 部署指南.md               # 环境搭建、安装、启动
-│   ├── 配置参考.md               # 配置文件全量参数说明——如适用
-│   └── 故障排查.md               # FAQ / 常见问题
-│
-├── 07-MVP/                       # 🎯 开发实施
-│   ├── 实施概览.md               # 项目目标 + 功能清单 + 技术选型回顾
-│   ├── 实现日志.md               # 各里程碑实现记录
-│   └── 开发计划-<功能名>.md      # Grid to-issues 产出
-│
-└── 08-Testing/                   # 🧪 测试文档
-    ├── 测试手册.md               # 全量测试用例
-    └── 测试记录.md               # 测试执行记录归档
+├── 01-Requirements/          # 必选
+│   └── PRD-F<nn>-<功能名>.md
+├── 02-Architecture/          # 必选
+│   ├── 架构总览.md            # 固定入口
+│   └── design/               # 按需：专题设计
+├── 03-Database/              # 数据类项目
+│   ├── 数据模型.md
+│   └── 数据字典.md            # 按需
+├── 04-API/                   # 有 API 的项目
+│   └── 接口契约.md
+├── 05-ADR/                   # 必选
+│   ├── 0000-ADR模板.md
+│   └── ADR-<nnn>-<中文短名>.md
+├── 06-DevOps/                # 必选
+│   ├── 部署.md
+│   ├── 环境.md               # 按需
+│   └── CI.md                 # 按需
+├── 07-MVP/                   # 必选
+│   ├── 实施概览.md            # 固定入口：当前阶段、进度、下一步
+│   ├── 开发计划.md            # 唯一任务源：S → F → T
+│   ├── 实现日志.md            # 可选：按日期记录完成项与偏差
+│   └── 计划/                 # 可选：单阶段任务 >10 个时拆
+│       └── S<n>-<阶段名>.md
+├── 08-Testing/               # 按需
+│   ├── 测试手册.md
+│   ├── 测试记录.md
+│   └── S<n>-验收清单.md
+└── 09-参考资料/               # 可选：外部资料、社区、竞品
 ```
 
-## 每目录撰写规范
+## 编号体系
 
-### README.md —— 文档导航索引
+```text
+<项目码>-S<阶段>-F<功能>-T<任务>
 
-```markdown
-# 📖 文档索引
-
-## 快速导航
-
-| 我想... | 去看... |
-|---------|--------|
-| 了解系统功能 | 01-Requirements/ |
-| 理解架构 | 02-Architecture/系统架构.md |
-| 搭建环境 | 06-DevOps/部署指南.md |
-| 查数据库 | 03-Database/数据库设计.md |
-...
+项目码：2–4 位大写（CF / IOT / TDX / TA / AR），固定不变
+阶段：  S1、S2、S3…（整数，只增不减；禁止 S1.5 / R1）
+功能：  F1、F2、F3…（阶段内递增，与 PRD 一一对应）
+任务：  T1、T2、T3…（功能内递增；一个 Task = 一个 commit）
+ADR：   ADR-001…（项目内递增，3 位，不复用，与 Task 解耦）
 ```
 
-### CHANGELOG.md —— 版本变更记录
+示例：
 
-格式遵守 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) + [语义化版本](https://semver.org/spec/v2.0.0.html)，写入校验见 `git-commit`（CHANGELOG 模式）。
+| 产物 | 编号 |
+|---|---|
+| 任务 | `CF-S1-F2-T3` |
+| PRD | `PRD-F02-编辑菜单.md` |
+| 分支 | `feature/CF-S1-F2` |
+| commit | `feat(CF-S1-F2-T3): 编辑菜单表单接线` |
+| 决策 | `ADR-049` |
+
+## 固定文件格式
+
+### 01-Requirements / PRD
 
 ```markdown
-# CHANGELOG
+# PRD: <功能名>
 
-本格式基于 Keep a Changelog，并遵守语义化版本控制（SemVer）。
+## 目标
+一句话描述要解决的问题。
 
-## [Unreleased]
+## 范围
+- 包含：…
+- 不包含：…
 
-### Added
-- xxx
+## 接缝（可独立验证点）
+- [ ] Seam 1: …
+- [ ] Seam 2: …
 
-## [0.1.0] - YYYY-MM-DD
-
-### Added
-- xxx
-
-### Fixed
-- xxx
+## 约束
+## 风险
 ```
 
-要点：
-- 版本标题格式 `## [版本号] - YYYY-MM-DD`（ISO 8601），`v` 前缀是 git 标签惯例、非版本号本体
-- 最上方保留 `[Unreleased]` 区块——发布时整体搬入新版本标题
-- 变动类型用六种标准：`Added` / `Changed` / `Deprecated` / `Removed` / `Fixed` / `Security`
+命名：`PRD-F<nn>-<功能名>.md`；小项目可省略 F 号，但同一仓库内必须一致。
 
-### 01-Requirements —— 需求文档
-
-每个功能一个 PRD 文件。Grid `to-prd` 阶段自动写入。格式见 `references/templates/01-Requirements/PRD.md`。
-
-### 02-Architecture —— 架构文档
-
-- **系统架构.md**：模块职责、技术栈、目录结构、核心数据流、关键设计原则
-- **开发指南.md**：本地新增功能的步骤级流程——对应 `tdx-dev-guide` 或 `nest-generate` 的文档版
-- **时序图.md / 设计模式.md**：按需产出，非必需
-
-### 03-Database —— 数据库设计
-
-- **数据库设计.md**：Mermaid ER 图、表结构总览、设计要点、索引汇总
-- **数据字典.md**：字段级说明——每表的字段名、类型、含义、约束
-
-### 05-ADR —— 架构决策记录
+### 05-ADR
 
 ```markdown
-# ADR: <决策标题>
+# ADR-<nnn>: <决策标题>
 
 - 状态: 通过 / 搁置 / 废弃
 - 日期: YYYY-MM-DD
 - 决策: 我们选择 X 而非 Y
-- 理由: 因为...
-- 代价: 但代价是...
-- 替代方案: 考虑了 A、B、C，选择 X 的原因
+- 理由: 因为…
+- 代价: 但代价是…
+- 替代方案: 考虑过 A、B、C
 ```
 
-Grid `code-review` 审查通过后自动写入。
+命名：`ADR-<3 位>-<中文短名>.md`；模板固定为 `0000-ADR模板.md`。编号不复用。
 
-### 06-DevOps —— 运维部署
+### 07-MVP / 实施概览
 
-**CLI使用说明.md**（如适用）：
+只回答三个问题，不堆任务：
 
 ```markdown
-- 全局选项
-- 命令组参考（每个命令：参数/返回值/示例）
-- 典型操作场景
+# 实施概览
+
+## 当前阶段
+S<n> · <阶段名>（进度 x/y）
+
+## 正在做什么
+一句话。
+
+## 下一步
+下一件要执行的事。
 ```
 
-**故障排查.md**：
+### 07-MVP / 开发计划
+
+唯一任务源：
 
 ```markdown
-## 分类 FAQ
-### 安装与环境
-| 问题 | 解决方案 |
-### 运行时
-| 问题 | 解决方案 |
+## S1 · <阶段名>
+
+### F1 · <功能名>
+- [ ] CF-S1-F1-T1 <任务描述> — Done when: <可验证判据>
+- [ ] CF-S1-F1-T2 <任务描述> — Done when: <可验证判据>
+
+### F2 · <功能名>
+- [ ] CF-S1-F2-T1 <任务描述> — Done when: <可验证判据>
 ```
 
-### 07-MVP —— 开发实施
+规则：
 
-Grid `to-issues` 产出的开发计划写入此处。实施概览和实现日志由 `project-maintain` 更新。
+- 一个 Task = 一个 commit
+- 每个 Task 必须有 `Done when`
+- 一个功能一个分支（`feature/<项目码>-S<n>-F<n>`）
+- `计划/` 只是本文件的阶段拆分，不允许出现第二份任务清单
 
-### 08-Testing —— 测试文档
+### 02-Architecture / 架构总览
 
-对应 `tdx-test-spec` / `ta-test-spec` 的文档版——具体的测试用例列表和执行记录。
+模块职责、技术栈、目录结构、核心数据流、关键设计原则；专题设计放 `design/`。
 
-## Grid 阶段 → 文档产出映射
+### 03-Database
 
-| Grid 阶段 | 产出物 | 写入目标 | 触发条件 |
-|-----------|--------|---------|---------|
-| to-prd | PRD | `01-Requirements/PRD-<功能名>.md` | PRD 审批通过 |
-| to-issues | 开发计划 | `07-MVP/开发计划-<功能名>.md` | 拆解完成 |
-| 编码→code-review | 审查报告 → ADR | `05-ADR/<序号>-<标题>.md` | 审查通过 |
-| wayfinder | ticket 地图 | `07-MVP/` 或 `06-DevOps/` | DevOps 任务 |
-| doc-sync | 同步更新 | CHANGELOG + 受影响文档 | 代码变更后 |
-| project-maintain | 里程碑总结 | `07-MVP/实现日志.md` | 功能完成/阶段切换 |
+`数据模型.md`：Mermaid ER 图 + 表结构 + 索引；`数据字典.md`：字段级说明。
 
-## 项目初始化——创建文档骨架
+### 04-API
 
-当 Grid 启动新项目时，执行以下步骤：
+内部契约或 OpenAPI 链接；与 `api-contract` skill 对齐。
 
-### 1. 创建 docs/ 骨架
+### 06-DevOps
 
-从 `references/templates/` 复制初始文件到项目 `docs/` 下：
-- `README.md` —— 空白导航索引
-- `CHANGELOG.md` —— 空白变更记录
-- 各子目录的占位 `.gitkeep`（不含具体内容的文档待后续阶段填充）
+`部署.md`（环境搭建、启动）、`环境.md`（依赖与变量）、`CI.md`（流水线）。
 
-### 2. 填充已有信息
+### 08-Testing
 
-如果项目已有代码/数据库/配置：
-- `02-Architecture/系统架构.md` ← 从代码目录结构生成初始版本
-- `03-Database/数据库设计.md` ← 从 schema 文件生成 ER 图和字段表
-- `06-DevOps/部署指南.md` ← 从 pyproject.toml / package.json / AGENTS.md 提取环境配置
+`测试手册.md`（用例）、`测试记录.md`（执行归档）、`S<n>-验收清单.md`（阶段验收）。
 
-### 3. 写入 README.md 快速导航
+### CHANGELOG
 
-生成导航表，链接到实际存在的文档文件。
+Keep a Changelog + SemVer；写入校验见 `git-commit` 的 CHANGELOG 模式。
 
-## Agent 查阅流程
+## Grid 阶段 → 文档产出
 
-当 Agent 在编码过程中遇到不确定时：
-1. 先查 `docs/README.md` 快速导航——定位到相关文档
-2. 读取该文档——获取架构约束、API 契约、数据库结构等上下文
-3. 如果 docs 中无答案 → 查看项目 skill（`tdx-quant-docs` 等）的 reference 文件
-4. 如果仍无答案 → 启动 `grilling` 拷问用户
+| 阶段 | 产出 | 写入目标 |
+|---|---|---|
+| to-prd | PRD | `01-Requirements/PRD-F<nn>-<名>.md` |
+| to-issues | 开发计划 | `07-MVP/开发计划.md` |
+| 编码 → code-review | ADR | `05-ADR/ADR-<nnn>-<名>.md` |
+| implement | 实现日志 | `07-MVP/实现日志.md` |
+| project-maintain | 里程碑总结 | `07-MVP/实施概览.md` |
+
+## 新项目初始化
+
+1. 创建目录与固定入口文件（从 `references/templates/` 复制）。
+2. 若已有代码：从目录结构生成 `架构总览.md`，从 schema 生成 `数据模型.md`，从包配置生成 `部署.md`。
+3. 生成 `README.md` 导航表，只链接实际存在的文件。
+4. 确定项目码并写入 `07-MVP/实施概览.md`。
+
+## Agent 查阅顺序
+
+1. `docs/README.md` → 定位
+2. 对应固定入口文件 → 读约束
+3. 项目 skill 的 references
+4. 仍无答案 → `grilling`
+
+## 边界
+
+- 不替代代码仓库的 README；docs 面向开发过程，README 面向使用者
+- 不在 docs 里复制代码；只写约束、决策与契约
+- 旧项目迁移按需进行，不强制一次改完
 
 ## 外部参考
 
-- `references/templates/` — 8 个子目录的空白模板文件——项目初始化时复制
-- `references/instances/tdx.md` — TDX 项目实例化配置：实际文件状态 + 独有差异 + 初始化推荐
-- `references/instances/trading-assistant.md` — trading-assistant 项目实例化配置
+- `references/templates/` — 各目录空白模板（按本 SKILL.md 格式维护）
+- `references/instances/` — TDX / trading-assistant 的实例化配置

@@ -6,6 +6,20 @@
 
 ## [Unreleased]
 
+### Added
+
+- **`engineering/implement`** — 执行开发计划中的 Task：单任务模式（默认）或阶段批量模式（显式 `S<n>`）；读原文 → 确认 seam → tdd → code-review → 一个 Task 一个 commit；批量失败即停
+
+### Changed
+
+- **`doc-architecture` 重写为实际 8 目录模板**：固定入口文件（架构总览/实施概览/开发计划）、07-MVP 计划格式、ADR 统一编号、PRD 命名规则；移除与 Obsidian 混用的 frontmatter
+- **任务编号体系统一**：`<项目码>-S<阶段>-F<功能>-T<任务>`，阶段号整数、功能与 PRD 一一对应、**一个 Task = 一个 commit**；ADR 独立为 `ADR-<3 位>`
+- **`to-issues`**：按 S → F → T 生成 `07-MVP/开发计划.md`，每个 Task 带 `Done when`
+- **`to-prd`**：文件名改为 `PRD-F<nn>-<功能名>.md`
+- **`grid`**：拆 Issue 阶段写入 `docs/07-MVP/开发计划.md`，分支命名改为 `feature/<项目码>-S<n>-F<n>`
+- **README / 使用手册 / skills.sh.json**：同步 45 个 skill、16 个全局
+- **`evals/check-structure.ps1`**：references 检查放行 `templates` 与 `instances` 二级目录
+
 ## [2.1.0] - 2026-11-15
 
 ### Changed

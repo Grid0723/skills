@@ -69,26 +69,21 @@ description: 软件开发生命周期编排器——仅在用户要做开发任�
 
 ### 4. 拆 Issue——引用 to-issues
 
-加载 `to-issues` skill，PRD → tracer bullet 垂直切片，写入 `开发计划.md`。每个 Task 可独立演示和验证。
+加载 `to-issues` skill，PRD → tracer bullet 垂直切片，写入 `docs/07-MVP/开发计划.md`。每个 Task 可独立演示和验证；编号格式 `<项目码>-S<阶段>-F<功能>-T<任务>`（一个 Task = 一个 commit）。
 
 拆解完成后自动提示调用 `git-branch`：
-> 建议创建分支 `feature/<功能名>`，是否执行？
+> 建议创建分支 `feature/<项目码>-S<n>-F<n>`，是否执行？
 
 - 完成标准：开发计划已写入，分支已创建（如适用）
 
-### 5. 编码——内循环驱动
+### 5. 编码——引用 implement
 
-逐任务推进编码内循环。对开发计划中的每个 Task：
+加载 `implement` skill，按 Task 执行：
 
-```bash
-未完成 Task → 写测试(引用 tdd) → 写实现 → 测试通过 → 审查(引用 code-review) → 标记完成
-```
+- 单任务（默认）：`implement <Task ID>` → 读原文 → 确认 seam → tdd → code-review → 一个 Task 一个 commit
+- 批量：`implement S<n>` → 建依赖图 → 按 ready frontier 执行 → 失败即停
 
-- 每完成一个 Task：标记 `- [x]`
-- 审查通过：写入 ADR
-- 审查需修改：回到实现步骤
-- 全部 Task 完成：编码阶段结束
-- 完成标准：开发计划中全部 Task 标记完成
+- 完成标准：开发计划中对应 Task 标记 `[x]`，每个 Task 一个 commit
 
 ### 6. 超大任务规划——引用 wayfinder（条件触发）
 

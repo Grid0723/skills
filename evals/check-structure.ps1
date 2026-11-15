@@ -44,13 +44,15 @@ foreach ($file in $skills) {
 }
 
 # references 只允许一层（SKILL.md → references/*.md）
+# 例外：references/templates/ 是模板集合，允许按目录分类
 Get-ChildItem -Path $Root -Recurse -Directory -Filter "references" |
     Where-Object { $_.FullName -notmatch "[\\/]evals[\\/]" } |
     ForEach-Object {
-        $nested = Get-ChildItem -Path $_.FullName -Recurse -Directory
-        if ($nested) {
+        $subDirs = Get-ChildItem -Path $_.FullName -Directory
+        $unexpected = $subDirs | Where-Object { $_.Name -notin @("templates", "instances") }
+        if ($unexpected) {
             $rel = $_.FullName.Substring($Root.Length).TrimStart('\', '/')
-            $warn.Add("$rel 存在二级目录")
+            $warn.Add("$rel 存在非模板的二级目录")
         }
     }
 

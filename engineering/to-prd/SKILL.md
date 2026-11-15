@@ -62,7 +62,10 @@ description: 将当前对话综合为 PRD 文档——不采访用户，纯综�
 
 ### 4. 写入文件
 
-写入 `docs/01-Requirements/PRD-<功能名>.md`。
+写入 `docs/01-Requirements/PRD-F<nn>-<功能名>.md`（如 `PRD-F02-编辑菜单.md`）。
+
+- 功能编号与 `to-issues` 的 `F<n>` 一一对应
+- 小项目可省略 F 号，但同一仓库内命名必须一致
 
 - 完成标准：文件已保存
 
