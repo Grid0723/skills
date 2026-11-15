@@ -25,7 +25,7 @@ Get-ChildItem "<源仓库>" -Recurse -Filter SKILL.md |
 | 现象 | 原因 | 处理 |
 |---|---|---|
 | 副本多一条规则 | 只在 Vault 副本改过，未回写源仓库 | 先回写源仓库，再同步副本 |
-| 副本少一个 skill | 新增后未部署 | `npx skills@latest add Grid0723/skills -a opencode` |
+| 副本少一个 skill | 新增后未部署 | `npx skills@latest add Grid0723/skills` |
 | 编排器从列表消失 | 误加 `disable-model-invocation` | 删除该字段 |
 | 项目级 skill 报缺失 | 全局层本就不含 knowledge/learning 域 | 标记正常，不修复 |
 | 版本号对不上 | README / CHANGELOG / tag 三处未同步 | 以 tag 为准，回填文档 |
