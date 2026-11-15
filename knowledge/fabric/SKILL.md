@@ -74,9 +74,10 @@ description: 知识管理编排器——仅在用户要保存外部内容（链�
 
 | 用户意图 | 路由 |
 |---------|------|
+| 沉淀经验 / 技术笔记（给自己） | `distill`（不加载写作管道） |
 | 碎片/灵感 | `writing-fragments` |
 | 有原料缺结构 | `writing-fragments` → `writing-beats` |
-| 完整文章 | `fragments` → `beats` → `shape` → `edit-article` |
+| 完整文章（给别人看） | `fragments` → `beats` → `shape` → `edit-article` |
 | 精炼已有文章 | `edit-article` |
 
 - 完成标准：用户确认写作管道，第一个写作 skill 已加载
