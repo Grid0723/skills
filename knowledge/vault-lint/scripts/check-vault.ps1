@@ -51,7 +51,8 @@ foreach ($file in $files) {
     $fm = $match.Groups[1].Value
 
     function Get-Field([string]$name) {
-        $m = [regex]::Match($fm, "(?m)^$name`:\s*(.*?)\s*$")
+        # [ \t] 而非 \s：.NET 的 \s 会跨行匹配，导致 tags: 空值吞掉下一行列表项
+        $m = [regex]::Match($fm, "(?m)^$name[ \t]*:[ \t]*(.*?)[ \t]*$")
         if ($m.Success) {
             $v = $m.Groups[1].Value.Trim()
             if (($v.StartsWith('"') -and $v.EndsWith('"')) -or ($v.StartsWith("'") -and $v.EndsWith("'"))) {
@@ -62,52 +63,84 @@ foreach ($file in $files) {
         return $null
     }
 
+    # 解析 tags：同时支持行内数组 tags: [a, b] 与块级列表 tags:\n  - a
+    function Get-Tags {
+        $result = New-Object System.Collections.Generic.List[string]
+        $inline = [regex]::Match($fm, "(?m)^tags[ \t]*:[ \t]*(.*?)[ \t]*$").Groups[1].Value
+        $inline = ($inline -split '\s+#', 2)[0].Trim()
+        if ($inline -and $inline -ne "[]") {
+            $q = [regex]::Match($inline, '^"(.*)"$')
+            if ($q.Success) { $inline = $q.Groups[1].Value }
+            if ($inline.StartsWith("[") -and $inline.EndsWith("]")) {
+                $inline = $inline.Substring(1, $inline.Length - 2)
+            }
+            foreach ($t in $inline.Split(",")) {
+                $v = $t.Trim().Trim("'", '"')
+                if ($v) { $result.Add($v) }
+            }
+            return $result
+        }
+        # 块级列表：取 tags: 之后连续的缩进列表项
+        $block = [regex]::Match($fm, "(?ms)^tags[ \t]*:[ \t]*\r?\n((?:[ \t]+-[^\r\n]*(?:\r?\n|$))+)")
+        if ($block.Success) {
+            foreach ($line in ($block.Groups[1].Value -split "\r?\n")) {
+                $v = $line.Trim()
+                if (-not $v.StartsWith("-")) { continue }
+                $v = $v.Substring(1).Trim().Trim("'", '"')
+                if ($v) { $result.Add($v) }
+            }
+        }
+        return $result
+    }
+
     $type = Get-Field "类型"
     $status = Get-Field "状态"
+    $tags = Get-Tags
 
     # 必填字段
-    foreach ($field in @("Author", "tags", "类型", "创建", "修改")) {
+    if (-not (Get-Field "Author")) { $fail.Add("[frontmatter] $rel — 缺 Author") }
+    if (-not [regex]::IsMatch($fm, "(?m)^tags[ \t]*:")) { $fail.Add("[frontmatter] $rel — 缺 tags") }
+    foreach ($field in @("类型", "创建", "修改")) {
         if (-not (Get-Field $field)) { $fail.Add("[frontmatter] $rel — 缺 $field") }
     }
 
     # 类型与状态
     if ($type) {
         if ($type -notin $types) { $warn.Add("[类型] $rel — 非标准类型：$type") }
-        if ($type -ne "想法" -and $type -ne "索引" -and -not $status) {
+        if ($type -ne "想法" -and $type -ne "索引" -and $type -ne "项目" -and -not $status) {
             $fail.Add("[状态] $rel — 类型 $type 缺 状态")
         }
-        if ($type -eq "项目" -and $status -and $status -notin $states) {
-            # 项目类型状态由项目规范定义，只提示
-            $warn.Add("[状态] $rel — 项目类型使用自定义状态：$status")
-        }
+        # 项目类型状态由各项目规范自定义，不套四态状态机
         if ($type -ne "项目" -and $status -and $status -notin $states) {
             $fail.Add("[状态] $rel — 非法状态：$status")
         }
     }
 
     # 坏 frontmatter（用原始行判断，剥离引号前）
+    # 先剥掉行内注释：模板里的 `状态: 待整理  # 待整理 | 已归位` 是合法写法
     $statusRaw = [regex]::Match($fm, "(?m)^状态:\s*(.*?)\s*$").Groups[1].Value
+    if ($statusRaw) { $statusRaw = ($statusRaw -split '\s+#', 2)[0].Trim() }
     if ($statusRaw -and ($statusRaw -match '\|' -or $statusRaw -match '^"|"$')) {
         $fail.Add("[frontmatter] $rel — 状态字段格式异常：$statusRaw")
     }
 
     # 标签格式
-    $tagLine = Get-Field "tags"
-    if ($tagLine -and $tagLine -ne "[]") {
-        $inner = $tagLine.Trim()
-        if ($inner.StartsWith("[")) { $inner = $inner.Substring(1, $inner.Length - 2) }
-        foreach ($tag in $inner.Split(",")) {
-            $t = $tag.Trim().Trim("'", '"')
-            if (-not $t) { continue }
-            if ($t.StartsWith("-") -or $t.Contains("[") -or $t.Contains("\") -or -not $t.Contains("/")) {
-                $warn.Add("[标签] $rel — 非标准标签：$t")
-            }
+    foreach ($t in $tags) {
+        if ($t -match '\\|\[|\]' -or -not $t.Contains("/")) {
+            $warn.Add("[标签] $rel — 非标准标签：$t")
         }
     }
 
-    # 重复文件
-    if ($file.Name -match "\s\d+\.md$" -or $file.Name -match "\(\d+\)\.md$") {
-        $warn.Add("[重复] $rel — 疑似副本")
+    # 重复文件：仅当去掉编号后的同名原件确实存在时才报，避免「(2025)」「 1」这类合法命名误报
+    $dupName = $null
+    if ($file.BaseName -match '^(.*?)\s\d+$') { $dupName = $matches[1].Trim() }
+    elseif ($file.BaseName -match '^(.*?)\(\d+\)$') { $dupName = $matches[1].Trim() }
+    if ($dupName) {
+        $hasBase = Get-ChildItem -Path $file.DirectoryName -Filter "*.md" -File |
+            Where-Object { $_.BaseName -eq $dupName }
+        if ($hasBase) {
+            $warn.Add("[重复] $rel — 疑似副本（原件：$dupName.md）")
+        }
     }
 }
 
