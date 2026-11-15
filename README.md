@@ -101,4 +101,4 @@ npx skills@latest update
 
 ## 版本
 
-**v2.2.4** · 47 个 skill · 2026-11-15
+**v2.2.5** · 47 个 skill · 2026-11-15
