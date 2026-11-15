@@ -42,6 +42,7 @@
 - **2026-11-15** v2.0.0：编排器转可见 + 四态状态机 + 治理 skill（`setup-grid` / `retro`，49 个 skill）
 - **2026-11-15** v2.1.0：按工作单元合并 git / project 域——git 6→4、project 5→2（44 个 skill）
 - **2026-11-15** v2.2.0：新增 `implement` Task 执行 skill + 开发计划/文档骨架统一（45 个 skill）
+- **2026-11-15** v2.2.1：新增 `diagnosing-bugs` 难 bug 诊断循环并入 Grid Bug 修复路径（46 个 skill）
 
 沉淀下来的不是 46 个文件，而是一套从"分析别人的体系"到"演化出自己的体系"的方法。
 
