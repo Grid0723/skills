@@ -51,3 +51,10 @@ description: 将已分类笔记物理移动到领域/项目目录，更新标签
 ## 外部参考
 
 - `references/organize-examples.md` — 归位前后 frontmatter 对比、MOC 创建模板、织网检测触发流程
+
+## Gotchas
+
+- 用文件系统移动而非 Obsidian 移动 → 断链；必须用 Obsidian 的移动功能
+- 归位后写 `已消化` → 写 `已归位`
+- 未补 `description` / `关键词` 就移动 → 先补 frontmatter 再移动
+- 归位后不检查子标签数量 → 完成即检 ≥3 建 MOC

@@ -20,7 +20,9 @@
         "to-prd",
         "to-issues",
         "code-review",
-        "wayfinder"
+        "wayfinder",
+        "setup-grid",
+        "retro"
       ]
     },
     {

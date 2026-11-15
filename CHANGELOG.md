@@ -6,12 +6,23 @@
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-11-15
+
+### Added
+
+- **`engineering/setup-grid`** — 部署一致性检查：源仓库 vs 运行副本 diff、版本号、skill 数量、AGENTS.md 注册表与权限配置；只读报告，不自动改
+- **`engineering/retro`** — 会话后复盘：把失败模式写成对应 SKILL.md 的 `## Gotchas`，并建议 SemVer 递增；只改 Gotchas，不改正文
+- **`evals/check-structure.ps1`** — Tier 1 结构检查：frontmatter、行数 ≤500、references 一层、Gotchas、编排器可见性
+- **`evals/cases.md`** — 12 条 Tier 3 回归用例与记录模板
+
 ### Changed
 
 - **编排器触发方式**：`fabric` / `grid` / `learn` 的 description 重写为「做什么 + 何时用 + 负向边界 + 触发词」，改由 description 触发词自动加载
 - **fabric**：新增「入口判定」与「提交信息模板」；归位阶段状态改为 `已归位`，提炼完成标 `已提炼`
 - **capture / organize / distill**：新增「前置与后继」声明；capture 补齐「想法分流」条目（此前仅存在于 Vault 运行副本）；organize 状态由 `已消化` 改为 `已归位`
-- **README / Grid Skills 使用手册**：同步编排器可见性与排障说明（不再声称"模型不会自动调用"）
+- **`engineering/grid`**：路由表新增「轻量改动」类型——单文件、≤50 行、不改公共 API/数据模型/依赖且已有测试覆盖时直接 `tdd` → `code-review`；跳过 PRD 与拆 Issue 须说明判定依据
+- **八个 skill 补 `## Gotchas`**：`grid` / `code-review` / `capture` / `connect` / `distill` / `fabric` / `organize` / `learn` 各补 4 条已知失败模式
+- **README / Grid Skills 使用手册**：同步编排器可见性与排障说明（不再声称"模型不会自动调用"）；计数更新为 49 个 skill、17 个全局、34 个 reference
 
 ### Removed
 

@@ -3,26 +3,26 @@ Author: 张谦
 tags: [技术/AI/Skills]
 关键词: [编排器路由, 操作指南, 工作流, 使用手册, Fabric, Grid, Learn, Skill协作]
 类型: 索引
-description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Learn 三线编排器工作流、47 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
-状态: 已消化
+description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Learn 三线编排器工作流、49 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
+状态: 已归位
 创建: 2026-08-06 00:30:00
-修改: 2026-08-23 02:10:00
+修改: 2026-11-15 10:30:00
 ---
 
 # Grid Skills 使用手册
 
 > [!abstract]
-> Grid0723/skills 体系包含 **47 个原子 skill**，按三线编排器（Grid + Fabric + Learn）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
+> Grid0723/skills 体系包含 **49 个原子 skill**，按三线编排器（Grid + Fabric + Learn）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
 
 ## 一、总览
 
-### 47 个 Skill 分类矩阵
+### 49 个 Skill 分类矩阵
 
 | 功能域                             | 数量  | 部署层级                    | 典型 skill                                                                         |
 | ------------------------------- | --- | ----------------------- | -------------------------------------------------------------------------------- |
 | **shared** — 全局共享 primitive     | 4   | 全局 `~/.agents/skills/`  | writing-great-skills, grilling, tdd, doc-architecture                            |
 | **git** — Git 工程工具              | 6   | 全局 `~/.agents/skills/`  | git-guardrails, git-commit-guide, git-branch-plan, git-branch-lifecycle, git-push-guide, changelog-guide |
-| **engineering** — Grid 脊椎       | 5   | 全局 `~/.agents/skills/`  | grid, to-prd, to-issues, code-review, wayfinder                                  |
+| **engineering** — Grid 脊椎       | 7   | 全局 `~/.agents/skills/`  | grid, to-prd, to-issues, code-review, wayfinder, setup-grid, retro               |
 | **knowledge** — Fabric 脊椎       | 7   | Vault `.agents/skills/` | fabric, capture, classify, organize, distill, express, connect                   |
 | **learning** — Learn 脊椎         | 5   | Vault `.agents/skills/` | learn, map, dig, verify, harvest                                                 |
 | **writing** — 写作体系              | 4   | Vault `.agents/skills/` | writing-fragments, writing-beats, writing-shape, edit-article                    |
@@ -410,6 +410,24 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **输出**：共享地图 + Ticket 列表（research/prototype/grilling/task 四种类型）
 - **协作**：被 Grid 超大任务规划阶段加载；与 `git-branch-lifecycle` 协作
 - **参考**：references/ticket-map-examples.md
+
+#### setup-grid
+
+- **功能**：部署一致性检查——源仓库 vs 运行副本 diff、版本、数量、注册表与权限
+- **触发**：**用户要求检查部署**（"检查部署"、"verify skills"、"装好了吗"、"为什么 skill 没生效"）
+- **输入**：源仓库、全局副本、项目副本路径
+- **输出**：部署报告与修复建议（只读，不自动改）
+- **协作**：与 `deploy` 流程、`evals/check-structure.ps1` 配合
+- **参考**：references/check-deploy.md
+
+#### retro
+
+- **功能**：会话后复盘——把失败模式写成对应 SKILL.md 的 Gotchas，并建议版本号
+- **触发**：**用户要求复盘**（"复盘一下"、"这个 skill 哪里不好用"、"为什么又走错了"）
+- **输入**：本次会话的失败点与绕路
+- **输出**：Gotchas diff + SemVer 建议（只改 Gotchas，不 commit）
+- **协作**：与 `setup-grid` 共同构成治理闭环
+- **参考**：references/gotcha-examples.md
 
 ---
 
@@ -841,7 +859,7 @@ graph TB
 
 ## 相关笔记
 
-- [[部署手册]] — 47 个 skill 的部署路径与验证清单
+- [[部署手册]] — 49 个 skill 的部署路径与验证清单
 - [[双脊椎Agent Skill体系设计]] — 架构总纲与设计原则
 - [[Grid编排器设计]] — Grid 阶段序列与内循环详解
 - [[Fabric编排器设计]] — Fabric CODE 阶段与织网机制

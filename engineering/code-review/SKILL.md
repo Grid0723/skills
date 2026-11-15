@@ -59,3 +59,10 @@ description: 双轴并行代码审查——Standards 审查 + Spec 审查，独�
 ## 外部参考
 
 - `references/review-templates.md` — Standards 审查模板（项目审查 skill 加载示例）、Spec 审查模板（seam 逐项验证）、Sub-Agent 分派实现方案、ADR 写入格式
+
+## Gotchas
+
+- 两个子 agent 共享上下文 → 各自独立上下文，报告不合并
+- 未读项目 `AGENTS.md` / `CODING_STANDARDS.md` 就审查 → 先加载规范再审
+- Spec 轴只看 diff → 必须对照原始 PRD / issue
+- 审查报告写成流水账 → 按严重度排序，只列可执行问题
