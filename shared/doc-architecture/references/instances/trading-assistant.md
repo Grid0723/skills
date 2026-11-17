@@ -47,8 +47,8 @@ docs/
 
 | 差异 | 与通用模板不同 |
 |------|--------------|
-| `04-API/openapi.yaml` | 接口契约用 YAML 而非 Markdown——这是 OpenAPI 3.0 标准，`api-contract` skill 依赖它 |
-| `03-Database/schema.prisma` | SSOT 设计稿用 Prisma Schema 格式而非 .md——`prisma-sync` skill 依赖它 |
+| `04-API/openapi.yaml` | 接口契约用 YAML 而非 Markdown——这是 OpenAPI 3.0 标准，契约校验 skill 依赖它 |
+| `03-Database/schema.prisma` | SSOT 设计稿用 Prisma Schema 格式而非 .md——Schema 同步 skill 依赖它 |
 | `05-ADR/001-decimal-precision.md` | 金融系统有金额精度决策——非金融项目通常跳过此 ADR |
 | `06-DevOps/配置参考.md` | 不生成——trading-assistant 通过 `.env` 配置，无 config.yaml |
 

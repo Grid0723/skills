@@ -48,7 +48,7 @@ description: 软件开发生命周期编排器——仅在用户要做开发任�
 > 示例输出：
 > 本次任务：新增 ETF 数据获取器（新功能）
 > 阶段序列：拷问 → PRD → 拆 Issue → 编码 → 审查
-> 建议加载：`tdx-quant-docs` + `tdx-dev-guide` + `loguru` + `tdx-test-spec`
+> 建议加载：项目专属 skill（按 `AGENTS.md` 的 `skills:` 声明）+ `tdd` + `code-review`
 > 是否确认？
 
 - 完成标准：任务类型已判定，阶段序列已确认，技能推荐已展示

@@ -9,7 +9,7 @@
 审查日期: 2026-07-15
 
 ## 加载的审查 Skill
-- finance-review（如涉金额）
+- 项目自建审查 skill（如涉金融计算、API 契约）
 
 ## 检查项
 
@@ -72,7 +72,7 @@ Grid 编码阶段 → 任务完成 → 启动 code-review
 并行启动两个 sub-agent：
 
 Sub-agent 1（Standards 审查）:
-  上下文: 当前任务涉及的全部文件 + 项目审查 skill（finance-review/api-contract）
+  上下文: 当前任务涉及的全部文件 + 项目审查 skill（若项目声明了）
   指令: 按 Standards 审查模板产出报告
 
 Sub-agent 2（Spec 审查）:

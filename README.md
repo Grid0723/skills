@@ -2,7 +2,7 @@
 
 [![skills.sh](https://skills.sh/b/Grid0723/skills)](https://skills.sh/Grid0723/skills)
 
-> 三线 Agent Skill 体系——47 个原子技能。不是一份技能清单，而是一套方法论的沉淀：让 AI 助手在软件工程、知识管理、陌生领域学习三条工作流上，每次都以相同的过程工作。
+> 三线 Agent Skill 体系——36 个原子技能。不是一份技能清单，而是一套方法论的沉淀：让 AI 助手在软件工程、知识管理、陌生领域学习三条工作流上，每次都以相同的过程工作。
 
 ```text
 $ grid
@@ -18,7 +18,7 @@ $ grid
 
 **Agent Skill** 是写给 AI Agent 的指令包：一段触发描述 + 有序步骤 + 按需展开的参考。
 
-本仓库把它系统化为 **47 个 skill + 37 个 reference 文件**，按 9 个功能域组织，部署在三个层次（全局 / 知识库 / 项目）。演化自 Matt Pocock 的公开体系，但按个人工作流重构：有状态编排器、中文语境、知识管理脊椎、项目热插拔。
+本仓库把它系统化为 **36 个 skill**，按 7 个功能域组织，部署在三个层次（全局 / 知识库 / 项目）。演化自 Matt Pocock 的公开体系，但按个人工作流重构：有状态编排器、中文语境、知识管理脊椎、项目热插拔。
 
 每条 skill 的设计目标只有一个：**让同类任务每次走相同的过程**。定义见 [writing-great-skills](./shared/writing-great-skills/SKILL.md)。
 
@@ -43,8 +43,6 @@ Grid 管产出，Fabric 管沉淀，Learn 管输入前的地图。三者是一�
 | [learning](./learning/README.md) — Learn 脊椎 | 5 | 知识库 | 建图 → 深挖 → 验证 → 收获 | [README](./learning/README.md) |
 | [writing](./writing/README.md) — 写作体系 | 4 | 知识库 | 碎片 → 节拍 → 塑形 → 编辑（面向对外发表） | [README](./writing/README.md) |
 | [project](./project/README.md) — 项目管理 | 2 | 知识库 | 生命周期（立项/计划/归档）、维护（回顾/链接） | [README](./project/README.md) |
-| [tdx](./tdx/README.md) — TDX 项目专属 | 5 | TDX 项目 | TdxQuant 文档、Loguru、Prisma、开发流程、测试 | [README](./tdx/README.md) |
-| [trading-assistant](./trading-assistant/README.md) — TA 项目专属 | 6 | TA 项目 | NestJS 生成、Schema 同步、金融审查、契约、文档、测试 | [README](./trading-assistant/README.md) |
 
 每个域 README 含该域全部 skill 的一句话职责；完整触发条件、输入输出、协作关系见[使用手册](./docs/Grid%20Skills%20使用手册.md)。
 
@@ -58,7 +56,7 @@ Grid 管产出，Fabric 管沉淀，Learn 管输入前的地图。三者是一�
 # 全局（所有项目可用）：shared + git + engineering，17 个
 npx skills@latest add Grid0723/skills
 
-# 项目级（只在该目录生效）：Vault / TDX / TA 专属
+# 项目级（只在该目录生效）：知识库专属（knowledge / writing / project / learning）
 cd <项目目录>
 npx skills@latest add Grid0723/skills
 ```
@@ -91,7 +89,7 @@ npx skills@latest update
 
 | 文档 | 用途 | 详略 |
 |---|---|---|
-| [使用手册](./docs/Grid%20Skills%20使用手册.md) | 路由决策、阶段详解、47 个 skill 速查、协作链路、故障排查 | **详实**：操作级 |
+| [使用手册](./docs/Grid%20Skills%20使用手册.md) | 路由决策、阶段详解、36 个 skill 速查、协作链路、故障排查 | **详实**：操作级 |
 | 各域 README | 单域 skill 一句话职责 | 索引级 |
 | 双脊椎Agent Skill体系设计 | 架构总纲与设计原则（Vault `Grid/docs/`） | 设计级 |
 | 部署手册 | 运行时位置、安装步骤、验证清单（Vault `Grid/docs/`） | 操作级 |
@@ -101,4 +99,4 @@ npx skills@latest update
 
 ## 版本
 
-**v2.2.5** · 47 个 skill · 2026-11-15
+**v3.0.0** · 36 个 skill · 2026-11-17

@@ -79,29 +79,6 @@
         "project-lifecycle",
         "project-maintain"
       ]
-    },
-    {
-      "title": "TDX 项目专属",
-      "description": "TDX 数据采集项目——TdxQuant API、Loguru 日志、Prisma ORM、开发指南、测试规范",
-      "skills": [
-        "tdx-quant-docs",
-        "loguru",
-        "prisma-docs",
-        "tdx-dev-guide",
-        "tdx-test-spec"
-      ]
-    },
-    {
-      "title": "Trading Assistant 项目专属",
-      "description": "交易助手项目——NestJS 代码生成、双 Schema 同步、金融计算审计、API 契约、文档同步、测试规范",
-      "skills": [
-        "nest-generate",
-        "prisma-sync",
-        "finance-review",
-        "api-contract",
-        "doc-sync",
-        "ta-test-spec"
-      ]
     }
   ]
 }

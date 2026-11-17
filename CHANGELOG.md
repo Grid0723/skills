@@ -6,6 +6,14 @@
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-11-17
+
+### Removed
+
+- **项目专属 skill 包整体移出**：删除 `tdx/`（5 个：tdx-quant-docs、loguru、prisma-docs、tdx-dev-guide、tdx-test-spec）与 `trading-assistant/`（6 个：nest-generate、prisma-sync、finance-review、api-contract、doc-sync、ta-test-spec）——项目专属技能改由各项目本地维护，仓库收敛为 36 个 skill / 7 个功能域
+- **连带引用清理**：README 功能域索引与 skill 数量、`skills.sh.json` 的两个项目分组、使用手册第七章「项目热插拔 Skill 速查」整章，以及安装说明、分类矩阵、协作关系图、故障排查中的项目专属条目
+- **模板与示例去项目化**：`grid` 技能推荐示例、`code-review` 动态审查 skill 说明、`doc-architecture` 契约说明、`tdd` 项目测试规范说明、`grilling` 交互示例中指向已删 skill 的表述改为「项目自建 skill」的通用措辞
+
 ## [2.2.5] - 2026-11-15
 
 ### Fixed

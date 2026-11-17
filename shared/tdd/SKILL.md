@@ -35,7 +35,7 @@ description: 红绿循环下的测试标准与反模式定义。Use when writing
 
 ## 项目专属测试规范
 
-各项目可能有附加的测试规范（如 TDX 的集成验证、trading_assistant 的单元+lint）。这些通过项目 AGENTS.md 中的 `skills` 声明加载。
+各项目可能有附加的测试规范（如数据管道项目的集成验证、全栈项目的单元 + lint）。这些通过项目 AGENTS.md 中的 `skills` 声明加载。
 
 ## 外部参考
 

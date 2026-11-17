@@ -163,7 +163,7 @@ S<n> · <阶段名>（进度 x/y）
 
 ### 04-API
 
-内部契约或 OpenAPI 链接；与 `api-contract` skill 对齐。
+内部契约或 OpenAPI 链接；与项目自建的 API 契约校验 skill 对齐。
 
 ### 06-DevOps
 
@@ -210,4 +210,4 @@ Keep a Changelog + SemVer；写入校验见 `git-commit` 的 CHANGELOG 模式。
 ## 外部参考
 
 - `references/templates/` — 各目录空白模板（按本 SKILL.md 格式维护）
-- `references/instances/` — TDX / trading-assistant 的实例化配置
+- `references/instances/` — 数据管道类 / 全栈 Web 类的项目实例化配置

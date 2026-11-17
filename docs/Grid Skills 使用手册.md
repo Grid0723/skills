@@ -3,7 +3,7 @@ Author: 张谦
 tags: [技术/AI/Skills]
 关键词: [编排器路由, 操作指南, 工作流, 使用手册, Fabric, Grid, Learn, Skill协作]
 类型: 索引
-description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Learn 三线编排器工作流、47 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
+description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Learn 三线编排器工作流、36 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
 状态: 已归位
 创建: 2026-08-06 00:30:00
 修改: 2026-11-15 10:30:00
@@ -12,7 +12,7 @@ description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Le
 # Grid Skills 使用手册
 
 > [!abstract]
-> Grid0723/skills 体系包含 **47 个原子 skill**，按三线编排器（Grid + Fabric + Learn）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
+> Grid0723/skills 体系包含 **36 个原子 skill**，按三线编排器（Grid + Fabric + Learn）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
 
 ## 一、总览
 
@@ -80,15 +80,7 @@ npx skills@latest add Grid0723/skills
 # 不指定 agent；装到 .agents/skills/
 ```
 
-**TDX / trading_assistant**（项目专属）：
-
-```bash
-cd "D:/Documents/05code/TDX"
-npx skills@latest add Grid0723/skills
-# 不指定 agent；装到 .agents/skills/
-```
-
-分别装 5 / 6 个项目专属 skill，只在对应目录生效。
+其他项目如需项目专属 skill，在项目根目录执行同样的 `add` 命令，装到该项目 `.agents/skills/`，只在对应目录生效。
 
 #### 更新
 
@@ -100,7 +92,7 @@ npx skills@latest update
 更新后按顺序校验：
 
 1. `setup-grid` — 源仓库与运行副本 diff 是否为 0
-2. `evals/check-structure.ps1` — 47 个 skill 是否有结构失败
+2. `evals/check-structure.ps1` — 36 个 skill 是否有结构失败
 3. 重启会话，确认 skill 出现在可用列表
 4. **不要直接改运行副本**——下次安装会覆盖；改动只回写源仓库
 
@@ -298,7 +290,7 @@ docs/
 | 写一篇发出去的文章 | fabric → express → writing-* | 对外文章 |
 | 沉淀经验 | fabric → distill | 永久笔记（不走写作管道） |
 
-### 47 个 Skill 分类矩阵
+### 36 个 Skill 分类矩阵
 
 | 功能域                             | 数量  | 部署层级                    | 典型 skill                                                                         |
 | ------------------------------- | --- | ----------------------- | -------------------------------------------------------------------------------- |
@@ -309,8 +301,6 @@ docs/
 | **learning** — Learn 脊椎         | 5   | Vault `.agents/skills/` | learn, map, dig, verify, harvest                                                 |
 | **writing** — 写作体系              | 4   | Vault `.agents/skills/` | writing-fragments, writing-beats, writing-shape, edit-article                    |
 | **project** — 项目管理              | 2   | Vault `.agents/skills/` | project-lifecycle, project-maintain                                             |
-| **tdx** — TDX 项目专属              | 5   | TDX `.agents/skills/`   | tdx-quant-docs, loguru, prisma-docs, tdx-dev-guide, tdx-test-spec                |
-| **trading-assistant** — TA 项目专属 | 6   | TA `.agents/skills/`    | nest-generate, prisma-sync, finance-review, api-contract, doc-sync, ta-test-spec |
 
 ### Skill 加载优先级
 
@@ -392,10 +382,7 @@ graph TD
 
 ### 项目技能热插拔扫描
 
-Grid 在路由和编码阶段自动扫描当前项目 `AGENTS.md` 中的 `skills:` 声明：
-
-- **TDX 项目**：自动推荐 `tdx-quant-docs`、`tdx-dev-guide`、`loguru`、`tdx-test-spec`、`prisma-docs`
-- **trading-assistant 项目**：自动推荐 `nest-generate`、`prisma-sync`、`finance-review`、`api-contract`、`doc-sync`、`ta-test-spec`
+Grid 在路由和编码阶段自动扫描当前项目 `AGENTS.md` 中的 `skills:` 声明，加载该项目实际安装的项目专属 skill。本仓库不再内置任何项目专属 skill——需要时在项目根目录单独安装（`npx skills@latest add`）并写进 `AGENTS.md` 的 `skills:` 列表，只在对应目录生效。
 
 ### 编码内循环详解
 
@@ -607,7 +594,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **触发**：编写测试、实现新功能、审查测试质量、Grid 编码内循环
 - **输入**：功能描述或 seam 定义
 - **输出**：测试代码 + 实现代码
-- **协作**：被 Grid 编码阶段加载；需要测试规范的项目 skill（tdx-test-spec/ta-test-spec）提供项目级实施规范
+- **协作**：被 Grid 编码阶段加载；若项目有自建测试规范 skill，由其提供项目级实施规范
 - **参考**：references/mocking.md、references/tests.md
 
 #### doc-architecture
@@ -616,8 +603,8 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **触发**：新项目初始化、文档重构、Grid 各阶段的产出路径参考
 - **输入**：项目类型
 - **输出**：文档目录结构 + 10 个空白模板 + 项目实例化配置
-- **协作**：为 Grid 各阶段提供产出路径规范；prisma-sync/doc-sync 依赖其目录定义
-- **特殊**：含 TDX 和 TA 项目的实例化配置
+- **协作**：为 Grid 各阶段提供产出路径规范
+- **特殊**：含 `references/instances/` 项目实例化配置——数据管道类与全栈 Web 类各一份
 
 ### 5.2 Git 工程工具（git）
 
@@ -708,7 +695,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **触发**：开发计划中 Task 完成、合并前、PR review 时
 - **输入**：已完成 Task 的代码变更
 - **输出**：Standards 审查报告 + Spec 审查报告 → `docs/05-ADR/`
-- **协作**：被 Grid 编码内循环加载；Standards 审查动态加载项目专属审查 skill（finance-review/api-contract）
+- **协作**：被 Grid 编码内循环加载；Standards 审查可动态加载项目自建的审查 skill
 - **参考**：references/review-templates.md
 
 #### wayfinder
@@ -936,101 +923,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 
 ---
 
-## 七、项目热插拔 Skill 速查
-
-### 7.1 TDX 项目专属（5 个）
-
-> 部署于 `D:\Documents\05code\TDX\.agents\skills\`。Python + PostgreSQL + TdxQuant 技术栈。
-
-#### tdx-quant-docs
-
-- **功能**：通达信 TdxQuant 量化框架 API 文档查阅——行情/K线/财务数据/选股公式/交易下单/回测等
-- **触发**：涉及 TdxQuant API 调用、通达信数据获取、通达信公式计算
-- **输入**：API 函数名或场景描述
-- **输出**：返回值类型、参数约束、场景示例
-- **特殊**：含 reference/ 下 15 个分类子目录 + 3 个根级综合文档，覆盖 60+ API
-
-#### loguru
-
-- **功能**：Loguru 日志库的配置指南——全局单例 logger、sink 注册、轮转/格式化
-- **触发**：配置日志、调试日志输出、异常捕获
-- **输入**：日志需求描述
-- **输出**：配置代码 + 场景配方
-- **参考**：references/api.md、references/patterns.md
-
-#### prisma-docs
-
-- **功能**：TDX 项目 Prisma ORM 操作规范——Schema 设计约定、Python 查询/写入、安全红线
-- **触发**：TDX 项目中的数据库操作、Schema 变更
-- **输入**：数据库操作需求
-- **输出**：Prisma 代码（Python 客户端，`DECIMAL(36,18)`、`batch_upsert` 模式）
-- **特殊**：安全红线——禁止自动执行危险命令
-
-#### tdx-dev-guide
-
-- **功能**：新增数据获取器的 10 步端到端开发流程——Cleaner→Fetcher 流水线 + 注册制
-- **触发**：需要为 TDX 添加新的数据获取器
-- **输入**：API 文档或数据源描述
-- **输出**：完整的开发计划——从 API 分析到 CLI 注册
-
-#### tdx-test-spec
-
-- **功能**：TDX 项目集成测试规范——CLI 验收 + dry_run 先行 + 全链路验证
-- **触发**：TDX 项目的测试编写、CI/CD 验证
-- **输入**：待测试的获取器或数据管道
-- **输出**：测试代码 + 验证策略（CLI→预览→写入→增量验证）
-
-### 7.2 trading-assistant 项目专属（6 个）
-
-> 部署于 `D:\Documents\05code\trading_assistant\.agents\skills\`。NestJS + Prisma + TypeScript 全栈。
-
-#### nest-generate
-
-- **功能**：按项目规范生成 NestJS 模块/控制器/服务/DTO
-- **触发**：需要新建 NestJS 模块、创建 CRUD 端点、新增 DTO
-- **输入**：模块名称 + 字段定义
-- **输出**：NestJS 代码（NodeNext 模块系统 + DTO 验证栈 + 金额字符串传输）
-
-#### prisma-sync
-
-- **功能**：双份 Prisma Schema 同步——SSOT 设计稿（`docs/03-Database/`）↔ 实现稿（`backend/prisma/`）
-- **触发**：修改数据模型、Schema 变更
-- **输入**：Schema 变更描述
-- **输出**：两份 Schema 同步（只同步 model/enum，不碰 datasource/generator）
-
-#### finance-review
-
-- **功能**：金融计算审查——decimal.js 审计，禁止原生浮点运算
-- **触发**：涉及金额/价格/数量运算的代码提交
-- **输入**：代码变更中的金融计算逻辑
-- **输出**：审计报告——扫描 `+ - * /` 在变量运算上下文中的出现
-- **协作**：被 `code-review` 的 Standards 审查 agent 动态加载
-
-#### api-contract
-
-- **功能**：OpenAPI 3.0 契约校验——后端 Controller + 前端 API 调用双端独立检查
-- **触发**：修改 API 接口、前后端联调前
-- **输入**：代码变更 + OpenAPI 契约文件
-- **输出**：契约校验报告（路径/参数/响应/金额/分页五维度）
-- **协作**：被 `code-review` 的 Standards 审查 agent 动态加载
-
-#### doc-sync
-
-- **功能**：代码变更后同步更新 `docs/` 文档和 CHANGELOG——文档驱动开发
-- **触发**：代码变更完成
-- **输入**：git diff
-- **输出**：按变更类型（数据模型/API/架构/部署等）对应应更新的文档列表
-
-#### ta-test-spec
-
-- **功能**：trading_assistant 项目测试规范——lint 门 + test 门 + 类型守卫
-- **触发**：TA 项目的测试编写、提交前检查
-- **输入**：待测试的代码
-- **输出**：测试代码（Mock PrismaService、decimal.js 断言、禁止 any）
-
----
-
-## 八、Skill 间协作关系
+## 七、Skill 间协作关系
 
 ```mermaid
 graph TB
@@ -1067,18 +960,12 @@ graph TB
         HAR[harvest]
     end
 
-    subgraph "项目专属层"
-        TDX_SKILL[TDX: 5 个 skill]
-        TA_SKILL[TA: 6 个 skill]
-    end
-
     GRID -->|拷问| GRILL
     GRID -->|PRD| TPRD
     GRID -->|拆Issue| TISS
     TISS -->|提示| GBR
     GRID -->|编码| TDD
     GRID -->|编码| CREV
-    CREV -->|动态加载| TA_SKILL
     GRID -->|超大任务| WAYF
     WAYF -->|引用| GLC
     GRID -.->|全程约束| GGRD
@@ -1117,7 +1004,6 @@ graph TB
 | 链路 | 触发场景 | 涉及 skill |
 |------|---------|-----------|
 | **新功能开发全链路** | 用户："帮我实现 ETF 数据获取" | grid → grilling → to-prd → to-issues → git-branch → tdd → code-review → git-commit |
-| **code-review 动态子加载** | 编码 Task 完成 | code-review → finance-review + api-contract（仅 TA 项目） |
 | **剪藏消化输出链路** | 用户："消化这篇微信文章" | fabric → capture → classify → organize → distill |
 | **陌生领域学习链路** | 用户："我要学 GraphRAG" | learn → map → dig → verify → 更新地图（循环）→ harvest → 交接 fabric |
 | **写作管道路由** | 用户："帮我写一篇关于…的文章" | fabric → express → writing-fragments → beats → shape → edit-article |
@@ -1126,7 +1012,7 @@ graph TB
 
 ---
 
-## 九、故障排查
+## 八、故障排查
 
 ### Skill 未被加载
 
@@ -1137,7 +1023,7 @@ graph TB
 1. **确认 skill 已部署**：用 [[部署手册#五、验证清单|验证清单]] 检查对应路径下是否有 `SKILL.md`
 2. **检查 description 匹配**：skill 的 `description` 字段是否对应你的输入语义——尝试在对话中明确提及 skill 名或其触发关键词
 3. **检查编排器可见性**：`grid`、`fabric`、`learn` 不应设置 `disable-model-invocation`；若 skill 列表里看不到它们，检查是否被 `opencode/autoinvoke: false` 或 `permission.skill` 隐藏
-4. **检查部署层级**：Vault 专属 skill 在 TDX/TA 项目中不可用；全局 skill 在所有项目中可用
+4. **检查部署层级**：知识库专属 skill 只在 Vault 生效；全局 skill 在所有项目中可用
 
 ### 多个 Skill 描述冲突
 
@@ -1156,8 +1042,8 @@ graph TB
 ### 项目专属 Skill 不加载
 
 1. **确认 `AGENTS.md` 声明**：项目根目录 `AGENTS.md` 的 `skills:` 列表中是否包含了该 skill
-2. **确认工作目录**：OpenCode 当前工作目录必须是该项目目录——在 vault 下开发 TDX 项目时，需要手动切换到 TDX 项目目录
-3. **确认所属项目**：TDX skill 只在 TDX 项目可用，TA skill 只在 TA 项目可用
+2. **确认工作目录**：OpenCode 当前工作目录必须是该项目目录——在其他目录下开发项目时，需要先切换过去
+3. **确认所属项目**：项目专属 skill 只在安装它的项目目录可用，跨项目不可用
 
 ### 编排器加载了，但没按阶段走
 
@@ -1203,7 +1089,7 @@ graph TB
 
 ## 相关笔记
 
-- [[部署手册]] — 47 个 skill 的部署路径与验证清单
+- [[部署手册]] — 36 个 skill 的部署路径与验证清单
 - [[双脊椎Agent Skill体系设计]] — 架构总纲与设计原则
 - [[Grid编排器设计]] — Grid 阶段序列与内循环详解
 - [[Fabric编排器设计]] — Fabric CODE 阶段与织网机制

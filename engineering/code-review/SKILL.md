@@ -28,7 +28,7 @@ description: 双轴并行代码审查——Standards 审查 + Spec 审查，独�
 并行启动两个 sub-agent：
 
 **Standards 审查 agent**（加载项目专属审查 skill）：
-- 根据任务类型动态筛选应加载的审查 skill（如 `finance-review`、`api-contract`）
+- 根据任务类型动态筛选应加载的审查 skill（如项目自建的金融审查、契约校验 skill）
 - 检查：代码规范、命名、类型安全、金额计算合规
 - 向用户提示建议加载的 skill 列表并等确认
 
