@@ -264,7 +264,7 @@ ADR：   ADR-001…（独立编号，3 位，不复用）
 ```text
 docs/
 ├── 01-Requirements/   PRD-F<nn>-<功能名>.md
-├── 02-Architecture/   架构总览.md + design/
+├── 02-Architecture/   系统架构.md + design/
 ├── 05-ADR/            0000-ADR模板.md + ADR-<nnn>-<名>.md
 ├── 06-DevOps/         部署 / 环境 / CI
 ├── 07-MVP/            实施概览.md + 开发计划.md + 实现日志.md
