@@ -3,7 +3,7 @@ Author: 张谦
 tags: [技术/AI/Skills]
 关键词: [编排器路由, 操作指南, 工作流, 使用手册, Fabric, Grid, Learn, Skill协作]
 类型: 索引
-description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Learn 三线编排器工作流、36 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
+description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Learn 三线编排器工作流、37 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
 状态: 已归位
 创建: 2026-08-06 00:30:00
 修改: 2026-11-21 10:00:00
@@ -12,7 +12,7 @@ description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Le
 # Grid Skills 使用手册
 
 > [!abstract]
-> Grid0723/skills 体系包含 **36 个原子 skill**，按三线编排器（Grid + Fabric + Learn）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
+> Grid0723/skills 体系包含 **37 个原子 skill**，按三线编排器（Grid + Fabric + Learn）驱动工作流。本文档是操作级参考手册：前半部分以工作流为线索介绍编排器的路由决策，后半部分以 skill 为条目提供完整速查。
 
 ## 一、总览
 
@@ -56,14 +56,14 @@ $ grid
 
 ### 安装与更新
 
-#### 全局安装（17 个）
+#### 全局安装（18 个）
 
 ```bash
 npx skills@latest add Grid0723/skills
 # 不指定 agent；装到 ~/.agents/skills/
 ```
 
-装入：`shared(4) + git(4) + engineering(9)`。验证：
+装入：`shared(4) + git(4) + engineering(10)`。验证：
 
 ```powershell
 Test-Path ~/.agents/skills/grid/SKILL.md
@@ -92,7 +92,7 @@ npx skills@latest update
 更新后按顺序校验：
 
 1. `setup-grid` — 源仓库与运行副本 diff 是否为 0
-2. `evals/check-structure.ps1` — 36 个 skill 是否有结构失败
+2. `evals/check-structure.ps1` — 37 个 skill 是否有结构失败
 3. 重启会话，确认 skill 出现在可用列表
 4. **不要直接改运行副本**——下次安装会覆盖；改动只回写源仓库
 
@@ -115,7 +115,7 @@ npx skills@latest update
 ~~~markdown
 ## Skills
 
-> 17 个全局 skill，装在 `~/.agents/skills/`。安装：`npx skills@latest add Grid0723/skills`（不指定 agent，装到 `.agents/skills/`）。
+> 18 个全局 skill，装在 `~/.agents/skills/`。安装：`npx skills@latest add Grid0723/skills`（不指定 agent，装到 `.agents/skills/`）。
 
 ### 路由
 
@@ -140,7 +140,7 @@ npx skills@latest update
 | `git-branch` | 分支创建 + 生命周期 |
 | `git-push` | 推送与失败处理 |
 
-### Grid 域（9）
+### Grid 域（10）
 
 | Skill | 用途 |
 |---|---|
@@ -148,6 +148,7 @@ npx skills@latest update
 | `to-prd` | PRD 综合 |
 | `to-issues` | S-F-T 任务拆分 |
 | `implement` | Task 执行（单任务 / 阶段批量） |
+| `verification` | 功能地图 + 一键驱动验证 |
 | `code-review` | 双轴审查 |
 | `diagnosing-bugs` | 难 bug 诊断 |
 | `wayfinder` | 大型重构规划 |
@@ -299,13 +300,13 @@ docs/
 | 写一篇发出去的文章 | fabric → express → writing-* | 对外文章 |
 | 沉淀经验 | fabric → distill | 永久笔记（不走写作管道） |
 
-### 36 个 Skill 分类矩阵
+### 37 个 Skill 分类矩阵
 
 | 功能域                             | 数量  | 部署层级                    | 典型 skill                                                                         |
 | ------------------------------- | --- | ----------------------- | -------------------------------------------------------------------------------- |
 | **shared** — 全局共享 primitive     | 4   | 全局 `~/.agents/skills/`  | writing-great-skills, grilling, tdd, doc-architecture                            |
 | **git** — Git 工程工具              | 4   | 全局 `~/.agents/skills/`  | git-guardrails, git-commit, git-branch, git-push                                    |
-| **engineering** — Grid 脊椎       | 9   | 全局 `~/.agents/skills/`  | grid, to-prd, to-issues, implement, code-review, diagnosing-bugs, wayfinder, setup-grid, retro |
+| **engineering** — Grid 脊椎       | 10  | 全局 `~/.agents/skills/`  | grid, to-prd, to-issues, implement, verification, code-review, diagnosing-bugs, wayfinder, setup-grid, retro |
 | **knowledge** — Fabric 脊椎       | 8   | Vault `.agents/skills/` | fabric, capture, classify, organize, distill, express, connect, vault-lint        |
 | **learning** — Learn 脊椎         | 5   | Vault `.agents/skills/` | learn, map, dig, verify, harvest                                                 |
 | **writing** — 写作体系              | 4   | Vault `.agents/skills/` | writing-fragments, writing-beats, writing-shape, edit-article                    |
@@ -383,7 +384,7 @@ graph TD
 | **拷问** | `grilling` | 任务模糊需要具体化（已有项目计划时**不可跳过**，计划仅作输入素材） | 共识（无文件产出） |
 | **PRD** | `to-prd` | 新功能（Bug 修复/重构/配置变更跳过） | `docs/01-Requirements/PRD-xxx.md` |
 | **拆 Issue** | `to-issues` → `git-branch` | PRD 完成后（配置变更跳过） | `docs/07-MVP/开发计划.md`（含 `依赖:`）+ feature 分支 |
-| **编码内循环** | `tdd` → `code-review` → `git-commit` | 逐 Task 推进 | 代码 + 测试 + `docs/05-ADR/` 审查报告 |
+| **编码内循环** | `tdd` → `verification`（条件）→ `code-review` → `git-commit` | 逐 Task 推进 | 代码 + 测试 + 验证证据 + `docs/05-ADR/` 审查报告 |
 | **超大任务规划** | `wayfinder` → `git-branch` | 仅 DevOps 级大型重构/迁移 | 共享地图 + Ticket 列表 |
 
 > [!warning] 已有项目计划 ≠ 可跳过阶段
@@ -401,11 +402,14 @@ Grid 在路由和编码阶段自动扫描当前项目 `AGENTS.md` 中的 `skills
     → 写最小实现
       → 测试通过？
         → 否：回到实现
-        → 是：code-review（双轴并行审查）
-          → Standards 审查（加载项目专属审查 skill）
-          → Spec 审查（独立上下文）
-          → 通过：标记 -[x]，git-commit 提交
-          → 需修改：回到实现
+        → 是：有验证资产？
+          → 有：运行 scripts/verify.*，记录命令/退出码/失败项
+          → 无：标注「未建立验证资产」，不阻塞
+          → code-review（双轴并行审查）
+            → Standards 审查（加载项目专属审查 skill）
+            → Spec 审查（独立上下文）
+            → 通过：标记 -[x]，git-commit 提交
+            → 需修改：回到实现
 ```
 
 ### 全局约束
@@ -575,7 +579,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 
 ## 五、全局 Skill 速查
 
-> 部署于 `~/.agents/skills/`，对任意 OpenCode 项目可用。共 17 个。
+> 部署于 `~/.agents/skills/`，对任意 OpenCode 项目可用。共 18 个。
 
 ### 5.1 全局共享 primitive（shared）
 
@@ -686,8 +690,17 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **触发**："执行 Task"、"开始编码"、"实现 CF-S1-F2-T3"、"跑完 S1"
 - **输入**：开发计划中的 Task 原文（含 `依赖:`）、对应 PRD、相关 ADR
 - **输出**：代码 + 测试 + 一个 Task 一个 commit；计划标记 `[x]`；批量模式按 `依赖:` 计算 ready frontier
-- **协作**：被 Grid 编码阶段加载；调用 tdd → code-review → git-commit
+- **协作**：被 Grid 编码阶段加载；调用 tdd → verification（有资产时）→ code-review → git-commit
 - **参考**：references/execution-examples.md
+
+#### verification
+
+- **功能**：建立并运行验证资产——功能地图 + 一键驱动脚本，让 agent 自己证明改动有效
+- **触发**："建立验证手段"、"怎么证明这个功能能用"、"加个冒烟脚本"、"验证一下端到端"
+- **输入**：项目的功能入口、运行方式与前置数据
+- **输出**：`docs/08-Testing/功能地图.md` + `scripts/verify.*`；运行结果含命令、退出码与失败项
+- **协作**：被 `implement` 在 code-review 前调用（存在资产时）；结果作为 `已复现` 证据
+- **参考**：references/verification-assets.md
 
 #### diagnosing-bugs
 
@@ -945,6 +958,7 @@ graph TB
     subgraph "全局共享层"
         GRILL[grilling]
         TDD[tdd]
+        VER[verification]
         WGS[writing-great-skills]
         DOCA[doc-architecture]
         GGRD[git-guardrails]
@@ -974,6 +988,8 @@ graph TB
     GRID -->|拆Issue| TISS
     TISS -->|提示| GBR
     GRID -->|编码| TDD
+    TDD -->|有资产时| VER
+    VER -->|证据| CREV
     GRID -->|编码| CREV
     GRID -->|超大任务| WAYF
     WAYF -->|引用| GBR
@@ -1013,7 +1029,7 @@ graph TB
 
 | 链路 | 触发场景 | 涉及 skill |
 |------|---------|-----------|
-| **新功能开发全链路** | 用户："帮我实现 ETF 数据获取" | grid → grilling → to-prd → to-issues → git-branch → tdd → code-review → git-commit |
+| **新功能开发全链路** | 用户："帮我实现 ETF 数据获取" | grid → grilling → to-prd → to-issues → git-branch → tdd → verification（有资产时）→ code-review → git-commit |
 | **剪藏消化输出链路** | 用户："消化这篇微信文章" | fabric → capture → classify → organize → distill |
 | **陌生领域学习链路** | 用户："我要学 GraphRAG" | learn → map → dig → verify → 更新地图（循环）→ harvest → 交接 fabric |
 | **写作管道路由** | 用户："帮我写一篇关于…的文章" | fabric → express → writing-fragments → beats → shape → edit-article |
@@ -1099,7 +1115,7 @@ graph TB
 
 ## 相关笔记
 
-- [[部署手册]] — 36 个 skill 的部署路径与验证清单
+- [[部署手册]] — 37 个 skill 的部署路径与验证清单
 - [[双脊椎Agent Skill体系设计]] — 架构总纲与设计原则
 - [[Grid编排器设计]] — Grid 阶段序列与内循环详解
 - [[Fabric编排器设计]] — Fabric CODE 阶段与织网机制

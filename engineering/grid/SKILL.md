@@ -81,7 +81,7 @@ description: 软件开发生命周期编排器——仅在用户要做开发任�
 
 加载 `implement` skill，按 Task 执行：
 
-- 单任务（默认）：`implement <Task ID>` → 读原文 → 确认 seam → tdd → code-review → 一个 Task 一个 commit
+- 单任务（默认）：`implement <Task ID>` → 读原文 → 确认 seam → tdd → 验证（存在验证资产时）→ code-review → 一个 Task 一个 commit
 - 批量：`implement S<n>` → 建依赖图 → 按 ready frontier 执行 → 失败即停
 
 - 完成标准：开发计划中对应 Task 标记 `[x]`，每个 Task 一个 commit
@@ -105,7 +105,7 @@ description: 软件开发生命周期编排器——仅在用户要做开发任�
 | 拷问 | `grilling` |
 | PRD | `to-prd` |
 | 拆 Issue | `to-issues` → `git-branch` |
-| 编码 | `tdd` → `code-review` → `git-commit` |
+| 编码 | `tdd` → `verification`（条件）→ `code-review` → `git-commit` |
 | 超大任务规划 | `wayfinder` → `git-branch` |
 
 ## 项目技能扫描

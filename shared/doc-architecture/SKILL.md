@@ -47,6 +47,7 @@ docs/
 │   └── 计划/                 # 可选：单阶段任务 >10 个时拆
 │       └── S<n>-<阶段名>.md
 ├── 08-Testing/               # 按需
+│   ├── 功能地图.md
 │   ├── 测试手册.md
 │   ├── 测试记录.md
 │   └── S<n>-验收清单.md
@@ -176,7 +177,7 @@ S<n> · <阶段名>（进度 x/y）
 
 ### 08-Testing
 
-`测试手册.md`（用例）、`测试记录.md`（执行归档）、`S<n>-验收清单.md`（阶段验收）。
+`功能地图.md`（用户可触达功能 + 冒烟路径 + 驱动脚本入口）、`测试手册.md`（用例）、`测试记录.md`（执行归档）、`S<n>-验收清单.md`（阶段验收）。验证资产的生成与运行见 `verification`。
 
 ### CHANGELOG
 
@@ -210,6 +211,7 @@ Keep a Changelog + SemVer；写入校验见 `git-commit` 的 CHANGELOG 模式。
 | to-prd | PRD | `01-Requirements/PRD-F<nn>-<名>.md` |
 | to-issues | 开发计划 | `07-MVP/开发计划.md` |
 | 编码 → code-review | ADR | `05-ADR/ADR-<nnn>-<名>.md` |
+| verification | 功能地图 + 驱动脚本 | `08-Testing/功能地图.md` + `scripts/verify.*` |
 | implement | 实现日志 | `07-MVP/实现日志.md` |
 | project-maintain | 里程碑总结 | `07-MVP/实施概览.md` |
 

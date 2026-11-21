@@ -6,23 +6,27 @@
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-11-21
+
+### Added
+
+- **`engineering/verification`** — 端到端验证技能：建立「功能地图 + 一键驱动脚本」两份验证资产，让 agent 自己证明改动有效。核心路径 ≤10 条、退出码判定、失败定位到功能名；与 tdd 分工（逻辑正确性 vs 可运行性），输出作为 code-review 的 `已复现` 证据；附 Node / Python / PowerShell 三种脚本骨架
+- **`shared/doc-architecture`** — `08-Testing` 固定入口新增 `功能地图.md`；Grid 阶段产出表新增 verification 行
+- **`evals/cases.md` / `skills.sh.json`** — 新增 #16（建立验证资产）、#17（执行 Task 时跑验证）用例，并注册 verification
+
+### Changed
+
+- **`engineering/implement`** — 单任务流程新增第 4 步「端到端验证」（条件）：存在验证资产时必须跑一次并记录命令/退出码/失败项；不存在时标注「未建立验证资产」不阻塞；批量模式同步为 1–7 步
+- **`engineering/grid`** — 编码链路加入 `verification`（条件触发）
+- **README / 使用手册** — 37 个 skill、全局 18、engineering 10
+
+## [2.2.8] - 2026-11-21
+
 ### Added
 
 - **开发计划 `依赖:` 字段（blocking edges）** — Task 行末可选声明 `依赖: <Task ID>`，多个用英文逗号分隔；省略视为无依赖，存量计划无需改写；依赖不得成环
 - **`shared/doc-architecture`** — 开发计划格式与模板同步字段定义（`SKILL.md` + `references/templates/07-MVP/开发计划.md`）
-
-### Changed
-
-- **`engineering/to-issues`** — 不再要求"无硬性依赖"：优先切到互不阻塞，真实阻塞（迁移顺序、共享 schema、上游数据）写入 `依赖:`；两个拆解示例同步
-- **`engineering/implement`** — 批量模式改为读 `依赖:` 字段建图并计算 ready frontier，不再按 F 顺序推断；单任务模式校验依赖已完成；依赖缺失或成环时停下并回 `to-issues`
-- **`engineering/grid`** — 拆 Issue 阶段提示写入依赖字段
-- **使用手册** — to-issues / implement 条目与编号规则同步
-
-### Fixed
-
-- **`evals/cases.md`** — #14 启用（依赖字段与 frontier 顺序）
-
-## [2.2.8] - 2026-11-21
+- **`evals/cases.md`**：新增 #13（一次一问与确认门控）、#15（发现核实与证据分级）
 
 ### Changed
 
@@ -33,14 +37,15 @@
 - **`engineering/grid` 拷问阶段**：完成标准由"用户表示可以了"改为"用户确认共识摘要"；跳过拷问须说明判定依据
 - **`shared/README.md`**：grilling 一句话职责补充确认门控
 - **使用手册**：修正 skill 计数（全局 17、Vault 19）与协作图悬空节点（`GLC` → `git-branch`，`PI` → `project-lifecycle` / `project-maintain`）；Vault 侧副本整体同步，移除 2.2.6 已删除的 TDX / trading-assistant 项目专属章节
-
-### Added
-
-- **`evals/cases.md`**：新增 #13（一次一问与确认门控）、#15（发现核实与证据分级）；#14（依赖字段）标注为 P1 实现后启用
+- **`engineering/to-issues`** — 不再要求"无硬性依赖"：优先切到互不阻塞，真实阻塞（迁移顺序、共享 schema、上游数据）写入 `依赖:`；两个拆解示例同步
+- **`engineering/implement`** — 批量模式改为读 `依赖:` 字段建图并计算 ready frontier，不再按 F 顺序推断；单任务模式校验依赖已完成；依赖缺失或成环时停下并回 `to-issues`
+- **`engineering/grid` 拆 Issue 阶段** — 提示写入依赖字段
+- **使用手册** — to-issues / implement 条目与编号规则同步
 
 ### Fixed
 
 - **`grilling` 原「整个 session 不超过 2-3 个问题」与一次一问纪律冲突**：3 轮改为收敛出口（转草案驱动），不再作为问题数量上限
+- **`evals/cases.md`** — #14 启用（依赖字段与 frontier 顺序）
 
 ## [2.2.7] - 2026-11-19
 
