@@ -26,18 +26,20 @@ tags: []
 - [ ] Task-1: 定义 Schema——创建 etf_basic 表的 Prisma model
      验证: `prisma validate` 通过 + `prisma db push` 生效
 
-- [ ] Task-2: 编写 Cleaner——ETF 字段映射 + 数据清洗
+- [ ] Task-2: 编写 Cleaner——ETF 字段映射 + 数据清洗 — 依赖: Task-1
      验证: 用示例数据运行 dry_run，输出格式正确
 
-- [ ] Task-3: 编写 Fetcher——调用 get_trackzs_etf_info + 批量分片
+- [ ] Task-3: 编写 Fetcher——调用 get_trackzs_etf_info + 批量分片 — 依赖: Task-2
      验证: `tdx fetch --task etf-basic --dry-run -v` 输出数据预览
 
-- [ ] Task-4: 注册到 CLI + 调度器
+- [ ] Task-4: 注册到 CLI + 调度器 — 依赖: Task-3
      验证: `tdx init` 菜单中出现 etf-basic，`tdx fetch --task etf-basic` 端到端执行
 
-- [ ] Task-5: 集成测试 + 文档
+- [ ] Task-5: 集成测试 + 文档 — 依赖: Task-4
      验证: 实际获取 ETF 数据 + 数据库确认 + CHANGELOG 更新
 ```
+
+> 同一功能内的构建顺序用 `依赖:` 表达；每个 Task 仍要产出可验证增量（测试或预览），不要留到最后一个 Task 才第一次运行。
 
 ### 为何是 Tracer Bullet（垂直切片）？
 
@@ -67,10 +69,10 @@ Task D: CLI 集成        ← 只有到 D 才能验证是否能跑
 - [ ] Task-1: 编写最小复现测试——查询 000001.SZ 某一日的分钟 K 线，断言 09:30-15:00 的 volume 不全为 0
      验证: 测试在修复前失败
 
-- [ ] Task-2: 修复 Cleaner 中的 volume 字段映射
+- [ ] Task-2: 修复 Cleaner 中的 volume 字段映射 — 依赖: Task-1
      验证: 上一步的测试通过
 
-- [ ] Task-3: 回归测试——运行全部 kline 相关测试
+- [ ] Task-3: 回归测试——运行全部 kline 相关测试 — 依赖: Task-2
      验证: 无新失败
 ```
 

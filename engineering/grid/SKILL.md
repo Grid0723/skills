@@ -70,7 +70,7 @@ description: 软件开发生命周期编排器——仅在用户要做开发任�
 
 ### 4. 拆 Issue——引用 to-issues
 
-加载 `to-issues` skill，PRD → tracer bullet 垂直切片，写入 `docs/07-MVP/开发计划.md`。每个 Task 可独立演示和验证；编号格式 `<项目码>-S<阶段>-F<功能>-T<任务>`（一个 Task = 一个 commit）。
+加载 `to-issues` skill，PRD → tracer bullet 垂直切片，写入 `docs/07-MVP/开发计划.md`。每个 Task 可独立演示和验证；编号格式 `<项目码>-S<阶段>-F<功能>-T<任务>`（一个 Task = 一个 commit）；存在真实阻塞时在 Task 行末写 `依赖:`。
 
 拆解完成后自动提示调用 `git-branch`：
 > 建议创建分支 `feature/<项目码>-S<n>-F<n>`，是否执行？

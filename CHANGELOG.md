@@ -6,6 +6,24 @@
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-11-21
+
+### Added
+
+- **开发计划 `依赖:` 字段（blocking edges）** — Task 行末可选声明 `依赖: <Task ID>`，多个用英文逗号分隔；省略视为无依赖，存量计划无需改写；依赖不得成环
+- **`shared/doc-architecture`** — 开发计划格式与模板同步字段定义（`SKILL.md` + `references/templates/07-MVP/开发计划.md`）
+
+### Changed
+
+- **`engineering/to-issues`** — 不再要求"无硬性依赖"：优先切到互不阻塞，真实阻塞（迁移顺序、共享 schema、上游数据）写入 `依赖:`；两个拆解示例同步
+- **`engineering/implement`** — 批量模式改为读 `依赖:` 字段建图并计算 ready frontier，不再按 F 顺序推断；单任务模式校验依赖已完成；依赖缺失或成环时停下并回 `to-issues`
+- **`engineering/grid`** — 拆 Issue 阶段提示写入依赖字段
+- **使用手册** — to-issues / implement 条目与编号规则同步
+
+### Fixed
+
+- **`evals/cases.md`** — #14 启用（依赖字段与 frontier 顺序）
+
 ## [2.2.8] - 2026-11-21
 
 ### Changed

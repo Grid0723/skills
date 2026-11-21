@@ -259,6 +259,15 @@ skills:
 ADR：   ADR-001…（独立编号，3 位，不复用）
 ```
 
+**开发计划 Task 行**：
+
+```markdown
+- [ ] CF-S1-F1-T1 <描述> — Done when: <可验证判据>
+- [ ] CF-S1-F1-T2 <描述> — Done when: <可验证判据> — 依赖: CF-S1-F1-T1
+```
+
+`依赖:` 只在存在真实阻塞时写，值为 Task ID，多个用英文逗号分隔；省略视为无依赖，依赖不得成环。
+
 **代码仓库 docs 结构**（详见 `doc-architecture`）：
 
 ```text
@@ -373,7 +382,7 @@ graph TD
 | **路由** | — | 接收用户输入后立即执行 | 判定任务类型 + 推荐阶段序列 + 推荐项目 skill |
 | **拷问** | `grilling` | 任务模糊需要具体化（已有项目计划时**不可跳过**，计划仅作输入素材） | 共识（无文件产出） |
 | **PRD** | `to-prd` | 新功能（Bug 修复/重构/配置变更跳过） | `docs/01-Requirements/PRD-xxx.md` |
-| **拆 Issue** | `to-issues` → `git-branch` | PRD 完成后（配置变更跳过） | `docs/07-MVP/开发计划.md` + feature 分支 |
+| **拆 Issue** | `to-issues` → `git-branch` | PRD 完成后（配置变更跳过） | `docs/07-MVP/开发计划.md`（含 `依赖:`）+ feature 分支 |
 | **编码内循环** | `tdd` → `code-review` → `git-commit` | 逐 Task 推进 | 代码 + 测试 + `docs/05-ADR/` 审查报告 |
 | **超大任务规划** | `wayfinder` → `git-branch` | 仅 DevOps 级大型重构/迁移 | 共享地图 + Ticket 列表 |
 
@@ -667,7 +676,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 - **功能**：PRD 拆为 Tracer bullet 垂直切片——每个切片贯穿所有层，可独立演示
 - **触发**：PRD 审批通过后
 - **输入**：PRD 文档
-- **输出**：`docs/07-MVP/开发计划.md`，编号 `<项目码>-S<阶段>-F<功能>-T<任务>`，每 Task 带 `Done when`
+- **输出**：`docs/07-MVP/开发计划.md`，编号 `<项目码>-S<阶段>-F<功能>-T<任务>`，每 Task 带 `Done when`；真实阻塞在行末标 `依赖:`
 - **协作**：被 Grid 拆 Issue 阶段加载；完成后自动提示 `git-branch`
 - **参考**：references/tracer-bullet-examples.md
 
@@ -675,8 +684,8 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 
 - **功能**：执行开发计划中的 Task——单任务（默认）或阶段批量（显式 `S<n>`）
 - **触发**："执行 Task"、"开始编码"、"实现 CF-S1-F2-T3"、"跑完 S1"
-- **输入**：开发计划中的 Task 原文、对应 PRD、相关 ADR
-- **输出**：代码 + 测试 + 一个 Task 一个 commit；计划标记 `[x]`
+- **输入**：开发计划中的 Task 原文（含 `依赖:`）、对应 PRD、相关 ADR
+- **输出**：代码 + 测试 + 一个 Task 一个 commit；计划标记 `[x]`；批量模式按 `依赖:` 计算 ready frontier
 - **协作**：被 Grid 编码阶段加载；调用 tdd → code-review → git-commit
 - **参考**：references/execution-examples.md
 

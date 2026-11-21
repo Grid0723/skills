@@ -7,8 +7,8 @@
 
 implement：
 1. 读取 07-MVP/开发计划.md，确认原文：
-   - [ ] CF-S1-F2-T3 编辑菜单表单接线 — Done when: 表单提交后列表刷新
-2. 检查前置：CF-S1-F2-T1/T2 已完成 [x]
+   - [ ] CF-S1-F2-T3 编辑菜单表单接线 — Done when: 表单提交后列表刷新 — 依赖: CF-S1-F1-T2
+2. 检查依赖：CF-S1-F1-T2 已标记 [x]，无其他阻塞
 3. 检查分支：feature/CF-S1-F2 ✓
 4. 确认 seam：菜单表单 → `MenuForm.onSubmit`
 5. tdd：先写失败测试 → 实现 → 通过
@@ -23,9 +23,12 @@ implement：
 用户：跑完 S1
 
 implement：
-1. 读取 S1 下所有 F/T，展示执行顺序：
-   F1: T1 → T2
-   F2: T1 → T2 → T3
+1. 读取 S1 下所有 Task 与 `依赖:` 字段，按拓扑排序展示：
+   CF-S1-F1-T1（无依赖）
+   CF-S1-F2-T1（无依赖）
+   CF-S1-F1-T2（依赖 CF-S1-F1-T1）
+   CF-S1-F2-T2（依赖 CF-S1-F2-T1）
+   CF-S1-F2-T3（依赖 CF-S1-F2-T2）
 2. 依次执行，每个 Task 独立 commit
 3. 某 Task 失败 → 停止，报告：
    - 失败 Task：CF-S1-F2-T2
@@ -50,4 +53,5 @@ implement：
 | "继续" → 自动选下一个 Task | 没有编号，可能选错；必须先列清单确认 |
 | 一个 Task 产生 3 个 commit | 回滚粒度失效；合并为一个 |
 | 批量模式跳过失败 Task | 后续 Task 建立在坏基础上 |
+| 按 F 的书写顺序猜依赖 | 跨功能或迁移类任务会前序未完成就开跑；必须读 `依赖:` 字段 |
 | 不读计划原文凭记忆执行 | 编号、Done when、依赖都可能过时 |
