@@ -6,6 +6,26 @@
 
 ## [Unreleased]
 
+## [2.2.8] - 2026-11-21
+
+### Changed
+
+- **`shared/grilling` 行为护栏对齐 Matt Skills v1.1**：每轮只问一个问题（问题堆叠会降低回答质量）；新增 **Facts / Decisions** 二分，只有 Decisions 追问、Facts 自行查阅；新增**确认门控**——输出共识摘要并等待用户明确确认后才进入 PRD / 实现；3 轮不收敛改为草案驱动（用户要求深挖时不受 3 轮限制）
+- **`shared/grilling/references/examples.md` 重写**：场景 1、3 改为一次一问，新增「共识确认门控」与「用户要求跳过」边界；移除一次性抛出多个问题的示范
+- **`engineering/code-review` 新增第 3 步「核实发现」**：逐条打开被引用代码、查看调用方与测试、能复现就复现；标注证据等级（`已复现` / `已读代码确认` / `推测`），推测项丢弃；ADR 增加核实统计
+- **`code-review/references/review-templates.md`**：两份审查模板增加证据等级列，Sub-Agent 分派流程加入主 agent 核实步骤
+- **`engineering/grid` 拷问阶段**：完成标准由"用户表示可以了"改为"用户确认共识摘要"；跳过拷问须说明判定依据
+- **`shared/README.md`**：grilling 一句话职责补充确认门控
+- **使用手册**：修正 skill 计数（全局 17、Vault 19）与协作图悬空节点（`GLC` → `git-branch`，`PI` → `project-lifecycle` / `project-maintain`）；Vault 侧副本整体同步，移除 2.2.6 已删除的 TDX / trading-assistant 项目专属章节
+
+### Added
+
+- **`evals/cases.md`**：新增 #13（一次一问与确认门控）、#15（发现核实与证据分级）；#14（依赖字段）标注为 P1 实现后启用
+
+### Fixed
+
+- **`grilling` 原「整个 session 不超过 2-3 个问题」与一次一问纪律冲突**：3 轮改为收敛出口（转草案驱动），不再作为问题数量上限
+
 ## [2.2.7] - 2026-11-19
 
 ### Added

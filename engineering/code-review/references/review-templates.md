@@ -14,10 +14,10 @@
 ## 检查项
 
 ### 代码规范
-| 文件 | 行号 | 问题 | 严重度 |
-|------|------|------|--------|
-| cleaners/etf_cleaner.py | 23 | 变量名 `x` 无意义 | minor |
-| cleaners/etf_cleaner.py | 45 | 重复的类型转换逻辑未提取 | medium |
+| 文件 | 行号 | 问题 | 严重度 | 证据等级 |
+|------|------|------|--------|---------|
+| cleaners/etf_cleaner.py | 23 | 变量名 `x` 无意义 | minor | 已读代码确认 |
+| cleaners/etf_cleaner.py | 45 | 重复的类型转换逻辑未提取 | medium | 已读代码确认 |
 
 ### 命名
 | 文件 | 行号 | 问题 |
@@ -47,16 +47,16 @@
 
 ## Seam 逐项验证
 
-| Seam | 验证结果 | 证据 |
-|------|---------|------|
-| Cleaner 将原始字段映射为数据库列 | ✅ 通过 | `field_maps.py` 中注册了 `etf_basic` 字段分组，13 个字段均已映射 |
-| 空值处理符合约定 | ✅ 通过 | 规模字段 NULL → Decimal("0.00") |
-| 输出结构与 schema 一致 | ⚠️ 待确认 | schema 中多了 `management_fee` 列但 Cleaner 未映射——需补充或去掉 schema 列 |
+| Seam | 验证结果 | 证据 | 证据等级 |
+|------|---------|------|---------|
+| Cleaner 将原始字段映射为数据库列 | ✅ 通过 | `field_maps.py` 中注册了 `etf_basic` 字段分组，13 个字段均已映射 | 已读代码确认 |
+| 空值处理符合约定 | ✅ 通过 | 规模字段 NULL → Decimal("0.00") | 已读代码确认 |
+| 输出结构与 schema 一致 | ⚠️ 待确认 | schema 中多了 `management_fee` 列但 Cleaner 未映射——需补充或去掉 schema 列 | 已读代码确认 |
 
 ## 遗漏检查
 
-- 原始 PRD 中提到"跟踪指数信息"，但 Cleaner 未处理 `track_index_code` 字段映射
-- Task-1 的 Schema 中有 `management_fee` 列但 Task-2 未处理
+- 原始 PRD 中提到"跟踪指数信息"，但 Cleaner 未处理 `track_index_code` 字段映射（已读代码确认）
+- Task-1 的 Schema 中有 `management_fee` 列但 Task-2 未处理（已读代码确认）
 
 ## 总体评估
 - ⚠️ 需修改：1 个遗漏（`management_fee`）+ 1 个缺失（`track_index_code`）
@@ -79,7 +79,8 @@ Sub-agent 2（Spec 审查）:
   上下文: 当前任务涉及的全部文件 + 对应 PRD 的 seam 描述
   指令: 按 Spec 审查模板逐一验证每个 seam
 
-→ 两份报告产出 → 展示给用户（不合并、不重排）→ 用户决策
+→ 两份报告产出 → 主 agent 逐条核实（打开代码、看调用方与测试、能复现就复现）
+  → 标注证据等级，丢弃推测项 → 展示给用户（不合并、不重排）→ 用户决策
 ```
 
 ## 审查产出物
@@ -92,5 +93,6 @@ Sub-agent 2（Spec 审查）:
 - 审查日期: 2026-07-15
 - Standards: 通过（3 个 minor，不阻塞）
 - Spec: 需修改（management_fee 映射缺失）
+- 核实: 保留 5 条（已复现 1 / 已读代码 4），丢弃推测 2 条
 - 决议: 补全 management_fee 映射后合并
 ```

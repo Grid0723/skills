@@ -6,7 +6,7 @@ tags: [技术/AI/Skills]
 description: Grid0723/skills 体系的完整使用手册——含 Grid/Fabric/Learn 三线编排器工作流、36 个 skill 的触发条件与速查、skill 间协作关系图、故障排查。
 状态: 已归位
 创建: 2026-08-06 00:30:00
-修改: 2026-11-15 10:30:00
+修改: 2026-11-21 10:00:00
 ---
 
 # Grid Skills 使用手册
@@ -566,7 +566,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 
 ## 五、全局 Skill 速查
 
-> 部署于 `~/.agents/skills/`，对任意 OpenCode 项目可用。共 15 个。
+> 部署于 `~/.agents/skills/`，对任意 OpenCode 项目可用。共 17 个。
 
 ### 5.1 全局共享 primitive（shared）
 
@@ -581,12 +581,12 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 
 #### grilling
 
-- **功能**：一对一接力式面试——每次一个问题，把模糊想法具体化
+- **功能**：一对一接力式面试——每轮只问一个问题，把决策分支逐个问清；共识确认前不进入实现
 - **触发**：需求模糊、需要确认设计决策、Grid 拷问阶段
 - **输入**：上下文（代码/文档/对话历史）
-- **输出**：共识（无文件产出）
-- **协作**：被 Grid 编排器在拷问阶段加载；≥3 轮不收敛则建议跳 PRD
-- **参考**：references/examples.md — 4 个完整交互场景
+- **输出**：共识摘要（无文件产出）
+- **协作**：被 Grid 编排器在拷问阶段加载；Facts 自行查阅、只追问 Decisions；用户明确确认后才进入 to-prd / 实现；≥3 轮不收敛则建议跳 PRD
+- **参考**：references/examples.md — 一次一问、Facts 自查、草案驱动、确认门控、跳过拷问五个场景
 
 #### tdd
 
@@ -691,10 +691,10 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 
 #### code-review
 
-- **功能**：双轴并行代码审查——Standards 审查 + Spec 审查，独立 sub-agent 上下文，报告不合并
+- **功能**：双轴并行代码审查——Standards 审查 + Spec 审查，独立 sub-agent 上下文，报告不合并；发现逐条核实后才上报
 - **触发**：开发计划中 Task 完成、合并前、PR review 时
 - **输入**：已完成 Task 的代码变更
-- **输出**：Standards 审查报告 + Spec 审查报告 → `docs/05-ADR/`
+- **输出**：两份审查报告（每条发现带代码位置与证据等级，推测项丢弃）→ `docs/05-ADR/`
 - **协作**：被 Grid 编码内循环加载；Standards 审查可动态加载项目自建的审查 skill
 - **参考**：references/review-templates.md
 
@@ -729,7 +729,7 @@ Learn 与 Fabric 是**流水线前后段**，不是并列关系：
 
 ## 六、Vault 专属 Skill 速查
 
-> 部署于 `.agents/skills/`，仅在本 Obsidian Vault 中可用。共 21 个。
+> 部署于 `.agents/skills/`，仅在本 Obsidian Vault 中可用。共 19 个。
 
 ### 6.1 Fabric 脊椎（knowledge）
 
@@ -967,7 +967,7 @@ graph TB
     GRID -->|编码| TDD
     GRID -->|编码| CREV
     GRID -->|超大任务| WAYF
-    WAYF -->|引用| GLC
+    WAYF -->|引用| GBR
     GRID -.->|全程约束| GGRD
     GRID -.->|全程约束| GCMT
 
@@ -979,7 +979,8 @@ graph TB
     DIS -.->|嵌入检测| CON
     FAB -->|输出| EXP
     EXP -->|路由| WF
-    FAB -->|项目管理| PI
+    FAB -->|项目管理| PLC
+    FAB -->|项目管理| PMT
     FAB -->|手动触发| CON
 
     LEARN -->|建图| MAP
